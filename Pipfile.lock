@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "614bab4fa00e7ae56b461a0e04eda3cc7d0694c12e9e26df2972f61d0a2de074"
+            "sha256": "8004cf91be90df4e4490b1426441eaeb241094cfce689d0c836cb11267f5fab9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -26,6 +26,11 @@
                 "sha256:5b94b49521f6456670fdb30cd82a4eca9412788a93fa6dd6df72c94d5a8ff2d7"
             ],
             "version": "==7.0"
+        },
+        "govuk-jinja-components": {
+            "editable": true,
+            "git": "https://github.com/colmjude/govuk-jinja-components.git",
+            "ref": "0b8f521209e11cf1137e1fa4e92e3ac3711a1473"
         },
         "jinja2": {
             "hashes": [
