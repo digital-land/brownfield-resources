@@ -3,6 +3,7 @@
 {% from "validation-result-components/result-panel.html" import validationResultPanel %}
 {% from "validation-result-components/table-summary.html" import valTableSummary %}
 {% from "validation-result-components/header-playback-lists.html" import listComparedToStandard %}
+{% from "validation-result-components/errors-by-header.html" import renderErrorsByHeaders %}
 
 {% block content %}
 
@@ -51,6 +52,22 @@
 </div>
 {% endif %}
 
+{%- endif -%}<!-- end header summary -->
+
+{%- if not report.result.valid -%}
+<div id="data-issues-section" class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-l govuk-!-margin-top-9">Data errors</h2>
+        <p class="govuk-body">Data errors occur when the values are not in the expected format as laid out in the <a href="https://www.gov.uk/government/publications/brownfield-land-registers-data-standard/publish-your-brownfield-land-data" class="govuk-link">brownfield land standard</a>.</p>
+    
+        {#- subtract number of missing headers times number of rows from overall error count displayed here -#}
+        {% set number_of_errors = report.result['error-count'] %}
+        <p class="govuk-body">Your register has <span class="inline-error-text govuk-!-font-size-24">{{ number_of_errors }} {{ "error"|pluralise("", "s", number_of_errors) }} across {{ report.errors_by_column|length }} headers</span>.</p>
+
+        {{ renderErrorsByHeaders(report.errors_by_column) }}
+    
+    </div>
+</div>
 {%- endif -%}
 
 {% endblock %}
