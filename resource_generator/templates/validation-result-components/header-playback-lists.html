@@ -8,3 +8,14 @@
     {% endfor %}
 </ul>
 {% endmacro %}
+
+{% macro listDeprecatedHeaders(headers) %}
+<ul class="govuk-list field-list{{ ' field-list--columns' if result.deprecated_headers_found()|length > 4 else ' ' }}"></ul>
+    {%- for header in headers -%}
+    <li class="field-list__item">
+        {{ header }}
+        <span class="govuk-tag govuk-tag--warning">Deprecated</span>
+    </li>
+    {%- endfor -%}
+</ul>
+{% endmacro %}
