@@ -36,6 +36,21 @@
 
 {{ listComparedToStandard(report.meta_data.headers_expected, report.meta_data.headers_found) }}
 
+{% if report.meta_data.additional_headers|length > 0 %}
+<h3 class="govuk-heading-m">Additional headers</h3>
+<p class="govuk-body">There were headers that are not part of the standard.</p>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-half">
+    <ul class="govuk-list field-list">
+      {% for header in report.meta_data.additional_headers %}
+      <li class="field-list__item">{{ header }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endif %}
+
 {%- endif -%}
 
 {% endblock %}
