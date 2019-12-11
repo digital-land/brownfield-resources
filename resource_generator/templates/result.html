@@ -20,7 +20,8 @@
 
 {{-  valTableSummary({
         "file_type": report.meta_data.suffix,
-        "row_count": report.rows|length
+        "row_count": report.rows|length,
+        "invalid_row_count": report.meta_data.invalid_row_count
     })
 -}}
 
@@ -44,9 +45,12 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-half">
     <ul class="govuk-list field-list">
-      {% for header in report.meta_data.additional_headers %}
-      <li class="field-list__item">{{ header }}</li>
-      {% endfor %}
+        {%- for header in report.meta_data.additional_headers -%}
+        <li class="field-list__item">
+            {{ header }}
+            {%- if header in report.meta_data.headers_deprecated -%}<span class="govuk-tag govuk-tag--warning">Deprecated</span>{%- endif -%}
+        </li>
+        {%- endfor -%}
     </ul>
   </div>
 </div>
