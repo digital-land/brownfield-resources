@@ -25,6 +25,6 @@ register_filters(env)
 
 
 def render_html(data, static_folder):
-    test_template = env.get_template("test.html")
+    test_template = env.get_template("result.html")
     html = test_template.render(report=data, static_folder=static_folder)
     return html

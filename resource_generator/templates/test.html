@@ -1,8 +1,0 @@
-{% extends "dlf-base.html" %}
-
-{% block content %}
-    Report is valid? {{ report.result.valid }}
-    {% if not report.result.valid %}
-        {{ report.result['error-count'] }} {{ "Error"|pluralise('', 's', report.result['error-count']) }}
-    {% endif %}
-{% endblock %}

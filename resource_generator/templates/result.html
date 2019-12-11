@@ -1,0 +1,18 @@
+{% extends "dlf-base.html" %}
+
+{% from "validation-result-components/result-panel.html" import validationResultPanel %}
+
+{% block content %}
+
+<!-- show overall result -->
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+    {%- if report.result.valid -%}
+    {{ validationResultPanel(true) }}
+    {%- else -%}
+    {{ validationResultPanel(false, report.result['error-count']) }}
+    {%- endif -%}
+    </div>
+</div>
+
+{% endblock %}
