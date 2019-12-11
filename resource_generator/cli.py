@@ -1,3 +1,4 @@
+import os
 import sys
 import click
 
@@ -14,13 +15,19 @@ from resource_generator.generate import generate_from_file
     "--output", help="Path of the output file", required=False
 )
 def generate(file, static_folder, output):
+
+    tmp_dir = "tmp/"
+
     try:
         html = generate_from_file(file, static_folder)
         if output:
             with open(output, "w") as f:
                 print(html, file=f)
         else:
-            print(html)
+            base = os.path.basename(file)
+            output_file = tmp_dir + os.path.splitext(base)[0] + ".html"
+            with open(output_file, "w") as f:
+                print(html, file=f)
         sys.exit(0)
     except Exception as e:
         print(e, file=sys.stderr)
