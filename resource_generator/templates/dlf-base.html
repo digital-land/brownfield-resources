@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% from "govuk-jinja-components/phase-banner/macro.jinja" import govukPhaseBanner %}
+{% from "govuk-jinja-components/breadcrumbs/macro.jinja" import govukBreadcrumbs %}
+
+{% block head %}
+<link href="{{ static_folder }}/stylesheets/dl-frontend.css" rel="stylesheet" />
+<link href="{{ static_folder }}/stylesheets/brownfield.css" rel="stylesheet" />
+{% endblock %}
+
+{% block header %}
+	{{ govukHeader({
+	  "serviceName": "Resources"
+	}) }}
+{% endblock %}
+
+{% block beforeContent %}
+	{{ govukPhaseBanner({
+		"tag": {
+			"text": "prototype"
+		},
+		"html": 'This is a prototype. Please provide feedback to the <a href="mailto:DigitalLand@communities.gov.uk?subject=Feedback on brownfield land validator">Digital Land team</a>.'
+	}) }}
+{% endblock %}
+
+{% block content %}{% endblock %}
+
+{% block bodyEnd %}
+<script src="{{ static_folder }}/javascripts/govuk/govuk-frontend-3.0.0.min.js"></script>
+<script>
+	// initiate all GOVUK components
+	window.GOVUKFrontend.initAll();
+</script>
+{% endblock %}

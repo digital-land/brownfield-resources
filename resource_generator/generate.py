@@ -10,6 +10,6 @@ def read_file(file):
     return d
 
 
-def generate_from_file(file):
+def generate_from_file(file, static_folder):
     d = read_file(file)
-    return render_html(d)
+    return render_html(d, static_folder)
