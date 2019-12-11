@@ -10,9 +10,17 @@ from resource_generator.generate import generate_from_file
     default="/static",
     help="Set the path to the folder of static assets"
 )
-def generate(file, static_folder):
+@click.option(
+    "--output", help="Path of the output file", required=False
+)
+def generate(file, static_folder, output):
     try:
-        print(generate_from_file(file, static_folder))
+        html = generate_from_file(file, static_folder)
+        if output:
+            with open(output, "w") as f:
+                print(html, file=f)
+        else:
+            print(html)
         sys.exit(0)
     except Exception as e:
         print(e, file=sys.stderr)
