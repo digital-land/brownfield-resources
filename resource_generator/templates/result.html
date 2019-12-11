@@ -1,6 +1,7 @@
 {% extends "dlf-base.html" %}
 
 {% from "validation-result-components/result-panel.html" import validationResultPanel %}
+{% from "validation-result-components/table-summary.html" import valTableSummary %}
 
 {% block content %}
 
@@ -14,5 +15,11 @@
     {%- endif -%}
     </div>
 </div>
+
+{{-  valTableSummary({
+        "file_type": report.meta_data.suffix,
+        "row_count": report.rows|length
+    })
+-}}
 
 {% endblock %}
