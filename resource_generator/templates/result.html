@@ -2,6 +2,7 @@
 
 {% from "validation-result-components/result-panel.html" import validationResultPanel %}
 {% from "validation-result-components/table-summary.html" import valTableSummary %}
+{% from "validation-result-components/header-playback-lists.html" import listHeaderItem %}
 {% from "validation-result-components/header-playback-lists.html" import listComparedToStandard %}
 {% from "validation-result-components/errors-by-header.html" import renderErrorsByHeaders %}
 
@@ -46,10 +47,19 @@
   <div class="govuk-grid-column-one-half">
     <ul class="govuk-list field-list">
         {%- for header in report.meta_data.additional_headers -%}
-        <li class="field-list__item">
-            {{ header }}
-            {%- if header in report.meta_data.headers_deprecated -%}<span class="govuk-tag govuk-tag--warning">Deprecated</span>{%- endif -%}
-        </li>
+          {%- if header in report.meta_data.headers_deprecated -%}
+            {{- listHeaderItem({
+              "header": header,
+              "tag": "Deprecated",
+              "classes": "govuk-tag--warning"
+            }) -}}
+          {%- else -%}
+            {{- listHeaderItem({
+              "header": header,
+              "tag": "Unknown",
+              "classes": "govuk-tag--secondary"
+            }) -}}
+          {%- endif -%}
         {%- endfor -%}
     </ul>
   </div>

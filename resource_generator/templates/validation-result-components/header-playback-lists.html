@@ -9,13 +9,23 @@
 </ul>
 {% endmacro %}
 
+
+{% macro listHeaderItem(params) %}
+<li class="field-list__item">
+    {{ params.header }}
+    <span class="govuk-tag{% if params.classes %} {{ params.classes }}{% endif %}">{{ params.tag|default("Found") }}</span>
+</li>
+{% endmacro %}
+
+
 {% macro listDeprecatedHeaders(headers) %}
 <ul class="govuk-list field-list{{ ' field-list--columns' if result.deprecated_headers_found()|length > 4 else ' ' }}"></ul>
-    {%- for header in headers -%}
-    <li class="field-list__item">
-        {{ header }}
-        <span class="govuk-tag govuk-tag--warning">Deprecated</span>
-    </li>
-    {%- endfor -%}
+{%- for header in headers -%}
+    {{- listHeaderItem({
+        "header": header,
+        "tag": "Deprecated",
+        "classes": "govuk-tag--warning"
+    }) -}}
+{%- endfor -%}
 </ul>
 {% endmacro %}
