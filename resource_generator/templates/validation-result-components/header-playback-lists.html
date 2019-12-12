@@ -19,7 +19,7 @@
 
 
 {% macro listDeprecatedHeaders(headers) %}
-<ul class="govuk-list field-list{{ ' field-list--columns' if result.deprecated_headers_found()|length > 4 else ' ' }}"></ul>
+<ul class="govuk-list field-list{{ ' field-list--columns' if headers|length > 4 else ' ' }}">
 {%- for header in headers -%}
     {{- listHeaderItem({
         "header": header,
