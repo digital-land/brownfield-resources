@@ -11,3 +11,10 @@ Install dependencies
 Generate HTML with
 
     brownfield-resource-gen --file path/to/result.json
+
+Batch generate HTML resource pages with
+
+    brownfield-resource-gen
+
+Batch generating requires there to be .json result files in the `/data` directory. It will output the HTML files to `/tmp`.
+
