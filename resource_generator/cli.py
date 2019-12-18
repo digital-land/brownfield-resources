@@ -13,12 +13,20 @@ from resource_generator.generate import generate_from_file
     help="Set the path to the folder of static assets"
 )
 @click.option(
-    "--output", help="Path of the output file", required=False
+    "--output-file", help="Path of the output file", required=False
 )
-def generate(file, static_folder, output):
+@click.option(
+    "--output-dir", help="Directory to output HTML files", required=False
+)
+def generate(file, static_folder, output_file, output_dir):
+    # default output dir if not set
+    output_dir = make_valid_dir(output_dir) if output_dir else "tmp/"
 
     if file:
-        if generate_single_resource(file, static_folder, output):
+        # check if output file is known
+        if not output_file:
+            output_file = get_output_file(file, output_dir)
+        if generate_single_resource(file, static_folder, output_file):
             sys.exit(0)
         else:
             sys.exit(1)
@@ -30,8 +38,9 @@ def generate(file, static_folder, output):
         if len(data_files) > 0:
             for filename in data_files:
                 print(f"Generating resource page for...... {filename}")
-                if generate_single_resource(filename, static_folder, None):
-                    print("Successfully generated")
+                output_file = get_output_file(filename, output_dir)
+                if generate_single_resource(filename, static_folder, output_file):
+                    print(f"Successfully generated {output_file}")
                 else:
                     print("Unable to generate resource page")
         else:
@@ -39,19 +48,21 @@ def generate(file, static_folder, output):
             sys.exit(1)
 
 
+def make_valid_dir(d):
+    return os.path.join(d, "")
+
+
+def get_output_file(filename, output_dir):
+    base = os.path.basename(filename)
+    return output_dir + os.path.splitext(base)[0] + ".html"
+
+
 def generate_single_resource(filename, static_folder, output):
-    tmp_dir = "tmp/"
 
     try:
         html = generate_from_file(filename, static_folder)
-        if output:
-            with open(output, "w") as f:
-                print(html, file=f)
-        else:
-            base = os.path.basename(filename)
-            output_file = tmp_dir + os.path.splitext(base)[0] + ".html"
-            with open(output_file, "w") as f:
-                print(html, file=f)
+        with open(output, "w") as f:
+            print(html, file=f)
         return True
         #sys.exit(0)
     except Exception as e:
