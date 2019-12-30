@@ -1,4 +1,5 @@
 import jinja2
+import markdown
 
 from resource_generator.filters import pluralise
 
@@ -14,9 +15,15 @@ def register_templates():
     return jinja2.Environment(loader=multi_loader)
 
 
+def markdown_filter(env):
+    md = markdown.Markdown()
+    env.filters["markdown"] = lambda text: jinja2.Markup(md.convert(text))
+
+
 # register filters with jinja context
 def register_filters(env):
     env.filters["pluralise"] = pluralise
+    markdown_filter(env)
 
 
 # jinja setup

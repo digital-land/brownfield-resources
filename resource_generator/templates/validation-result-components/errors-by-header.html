@@ -3,7 +3,7 @@
     <h3 class="govuk-heading-m">{{ header }}</h3>
     {%- for msg in error.messages -%}
     <p class="no-margin">
-        {{ msg }} {# need to add markdown filter #}
+        {{ msg|markdown }}
     </p>
     {% endfor %}
     <p>We found errors across <span class="row-value">{{ error.rows|count }} {{ "row"|pluralise("", "s", error.rows|count) }}</span>.</p>
