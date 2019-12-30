@@ -7,6 +7,7 @@ from resource_generator.generate import generate_from_file
 
 @click.command()
 @click.option("--file", help="The path to the result json")
+@click.option("--input-dir", help="The path to directory containing json result files")
 @click.option(
     "--static-folder",
     default="/static",
@@ -18,7 +19,7 @@ from resource_generator.generate import generate_from_file
 @click.option(
     "--output-dir", help="Directory to output HTML files", required=False
 )
-def generate(file, static_folder, output_file, output_dir):
+def generate(file, input_dir, static_folder, output_file, output_dir):
     # default output dir if not set
     output_dir = make_valid_dir(output_dir) if output_dir else "tmp/"
 
@@ -31,10 +32,15 @@ def generate(file, static_folder, output_file, output_dir):
         else:
             sys.exit(1)
     else:
-        print("No file give. Attempting to batch generate from DIRECTORY.")
-        current_dir = os.getcwd()
-        print(f"Looking for data files in {current_dir}")
-        data_files = glob.glob(f"{current_dir}/data/*.json")
+        if input_dir and os.path.isdir(input_dir):
+            print(f"Looking for data files in {input_dir}")
+            data_files = glob.glob(f"{input_dir}/*.json")
+        else:
+            print("No file give. Attempting to batch generate from DIRECTORY.")
+            current_dir = os.getcwd()
+            print(f"Looking for data files in {current_dir}")
+            data_files = glob.glob(f"{current_dir}/data/*.json")
+
         if len(data_files) > 0:
             for filename in data_files:
                 print(f"Generating resource page for...... {filename}")
