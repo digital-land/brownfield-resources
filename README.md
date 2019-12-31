@@ -16,5 +16,11 @@ Batch generate HTML resource pages with
 
     brownfield-resource-gen
 
-Batch generating requires there to be .json result files in the `/data` directory. It will output the HTML files to `/tmp`.
+Batch generating requires there to be .json result files in the `/data` directory or a directory of your choosing. You can set the directory with
+
+    brownfield-resource-gen --input-dir /path/to/input/dir
+
+It will output the HTML files to `/tmp` or a directory you define with
+
+    brownfield-resource-gen --input-dir /path/to/input/dir --output-dir /path/to/output/dir
 
