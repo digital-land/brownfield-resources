@@ -33,8 +33,9 @@ class CollectionIndex:
         return list(set(self.mapping[resource_hash]))
 
     def extract_metadata(self, resource_hash):
-        d = {}
         keys = self.get_keys_for_resource(resource_hash)
         collection_entry = self.get_key(keys[0])
-        d['organisation'] = list(collection_entry['organisation'].keys())[0]
-        return d
+        return {
+            'organisation': list(collection_entry['organisation'].keys())[0],
+            'row_count': self.get_resource(resource_hash)['row-count']
+        }
