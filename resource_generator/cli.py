@@ -4,6 +4,9 @@ import glob
 import click
 
 from resource_generator.generate import generate_from_file
+from resource_generator.collection import CollectionIndex
+
+collection_ind = CollectionIndex()
 
 @click.command()
 @click.option("--file", help="The path to the result json")
@@ -66,7 +69,7 @@ def get_output_file(filename, output_dir):
 def generate_single_resource(filename, static_folder, output):
 
     try:
-        html = generate_from_file(filename, static_folder)
+        html = generate_from_file(filename, static_folder, collection_ind)
         with open(output, "w") as f:
             print(html, file=f)
         return True
