@@ -29,8 +29,17 @@ class CollectionIndex:
                     else:
                         self.mapping[resource_hash].append(k)
 
+    def create_key_to_resources_mapping(self):
+        self.k_to_r_mapping = {}
+        for k in self.index['key']:
+            self.k_to_r_mapping[k] = self.get_resources_for_key(k)
+
     def get_keys_for_resource(self, resource_hash):
         return list(set(self.mapping[resource_hash]))
+
+    def get_resources_for_key(self, key_hash):
+        log = self.get_key_log(key_hash)
+        return list(set([log[l]['resource'] for l in log if 'resource' in log[l]]))
 
     def extract_metadata(self, resource_hash):
         keys = self.get_keys_for_resource(resource_hash)
@@ -52,5 +61,8 @@ class CollectionIndex:
         return sorted(log, reverse=True)[0]
 
     def mapping_count(self):
-        for r in self.mapping:
-            print(f"{r} maps to {len(self.get_keys_for_resource(r))} keys")
+        #for r in self.mapping:
+            #print(f"{r} maps to {len(self.get_keys_for_resource(r))} keys")
+        self.create_key_to_resources_mapping()
+        for k in self.index['key']:
+            print(f"Key:{k} has resources [{self.k_to_r_mapping[k]}]")
