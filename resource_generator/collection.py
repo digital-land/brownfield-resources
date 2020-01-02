@@ -39,3 +39,18 @@ class CollectionIndex:
             'organisation': list(collection_entry['organisation'].keys())[0],
             'row_count': self.get_resource(resource_hash)['row-count']
         }
+
+    def get_key_log(self, key_hash):
+        return self.get_key(key_hash)['log']
+
+    def date_key_first_collected(self, key_hash):
+        log = self.get_key_log(key_hash)
+        return sorted(log)[0]
+
+    def date_key_last_collected(self, key_hash):
+        log = self.get_key_log(key_hash)
+        return sorted(log, reverse=True)[0]
+
+    def mapping_count(self):
+        for r in self.mapping:
+            print(f"{r} maps to {len(self.get_keys_for_resource(r))} keys")
