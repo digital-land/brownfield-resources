@@ -49,6 +49,7 @@ class CollectionIndex:
         keys = self.get_keys_for_resource(resource_hash)
         collection_entry = self.get_key(keys[0])
         return {
+            'hash': resource_hash,
             'organisation': list(collection_entry['organisation'].keys())[0],
             'row_count': self.get_resource(resource_hash)['row-count']
         }
