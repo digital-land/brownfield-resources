@@ -1,0 +1,11 @@
+{% extends "dlf-base.html" %}
+
+{% block content %}
+<h1 class="govuk-heading-xl">Resources</h1>
+
+<ul class="govuk-list govuk-list--bullet">
+    {% for r in resources  %}
+        <li><a href="{{ r }}.html">{{ r }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}
