@@ -1,12 +1,15 @@
 import json
 import urllib.request
 
+from collections import defaultdict
+
 class CollectionIndex:
     
     def __init__(self):
         self.index_url = "https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/collection/index.json"
         response = urllib.request.urlopen(self.index_url)
         self.index = json.loads(response.read())
+        self.mappings = {}
         self.create_mapping()
 
     def get_key(self, key_hash):
@@ -17,25 +20,26 @@ class CollectionIndex:
 
     def create_mapping(self):
         self.mapping = {}
-        # loop through keys
+        self.create_key_to_resources_mapping()
+        self.create_resouce_to_keys_mapping()
+
+    def create_resouce_to_keys_mapping(self):
+        self.mappings['resource'] = defaultdict(set)
         for k in self.index['key']:
             # loop through each log entry
             for entry in self.index['key'][k]['log']:
                 # look for resource
                 if 'resource' in self.index['key'][k]['log'][entry]:
                     resource_hash = self.index['key'][k]['log'][entry]['resource']
-                    if not resource_hash in self.mapping:
-                        self.mapping[resource_hash] = [k]
-                    else:
-                        self.mapping[resource_hash].append(k)
+                    self.mappings['resource'][resource_hash].add(k)
 
     def create_key_to_resources_mapping(self):
-        self.k_to_r_mapping = {}
+        self.mappings['key'] = {}
         for k in self.index['key']:
-            self.k_to_r_mapping[k] = self.get_resources_for_key(k)
+            self.mappings['key'][k] = self.get_resources_for_key(k)
 
     def get_keys_for_resource(self, resource_hash):
-        return list(set(self.mapping[resource_hash]))
+        return list(self.mappings['resource'][resource_hash])
 
     def get_resources_for_key(self, key_hash):
         log = self.get_key_log(key_hash)
@@ -61,8 +65,8 @@ class CollectionIndex:
         return sorted(log, reverse=True)[0]
 
     def mapping_count(self):
-        #for r in self.mapping:
-            #print(f"{r} maps to {len(self.get_keys_for_resource(r))} keys")
-        self.create_key_to_resources_mapping()
-        for k in self.index['key']:
-            print(f"Key:{k} has resources [{self.k_to_r_mapping[k]}]")
+        for r in self.mappings['resource']:
+            print(f"{r} maps to {len(self.get_keys_for_resource(r))} keys")
+        #self.create_key_to_resources_mapping()
+        #for k in self.index['key']:
+            #print(f"Key:{k} has resources [{self.mappings['key'][k]}]")
