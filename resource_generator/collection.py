@@ -65,9 +65,18 @@ class CollectionIndex:
         log = self.get_key_log(key_hash)
         return sorted(log, reverse=True)[0]
 
-    def mapping_count(self):
+    def print_resource_mapping(self):
         for r in self.mappings['resource']:
-            print(f"{r} maps to {len(self.get_keys_for_resource(r))} keys")
-        #self.create_key_to_resources_mapping()
-        #for k in self.index['key']:
-            #print(f"Key:{k} has resources [{self.mappings['key'][k]}]")
+            if len(self.get_keys_for_resource(r)) > 1:
+                #print(f"{r} maps to {len(self.get_keys_for_resource(r))} keys")
+                print(f"Resource: {r}")
+                for k in self.get_keys_for_resource(r):
+                    print(f"-- key: {self.index['key'][k]['url']} first {self.date_key_first_collected(k)} last {self.date_key_last_collected(k)}")
+
+    def print_key_mapping(self):
+        for k in self.index['key']:
+            print(f"Key:{k} has resources [{self.mappings['key'][k]}]")
+
+    def print_organisations(self):
+        for k in self.index['key']:
+            print(f"Key: {k} associated with orgs [{self.index['key'][k]['organisation'].keys()}]")
