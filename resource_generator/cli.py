@@ -13,7 +13,7 @@ collection_ind = CollectionIndex()
 @click.option("--input-dir", help="The path to directory containing json result files")
 @click.option(
     "--static-folder",
-    default="/static",
+    default="https://brownfield-sites-validator.herokuapp.com/static",
     help="Set the path to the folder of static assets"
 )
 @click.option(
