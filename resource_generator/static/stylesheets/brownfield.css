@@ -8108,3 +8108,7 @@ a:focus {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.contains-url {
+  word-break: break-all;
+}

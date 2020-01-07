@@ -57,6 +57,9 @@ class CollectionIndex:
     def get_key_log(self, key_hash):
         return self.get_key(key_hash)['log']
 
+    def get_key_url(self, key_hash):
+        return self.get_key(key_hash)['url']
+
     def date_key_first_collected(self, key_hash):
         log = self.get_key_log(key_hash)
         return sorted(log)[0]
