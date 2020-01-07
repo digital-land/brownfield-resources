@@ -6,6 +6,26 @@
 {% from "validation-result-components/header-playback-lists.html" import listComparedToStandard %}
 {% from "validation-result-components/errors-by-header.html" import renderErrorsByHeaders %}
 
+{% block beforeContent %}
+{{ super() }}
+
+{{ govukBreadcrumbs({
+  "items": [
+    {
+      "text": "Digital Land",
+      "href": "/"
+    },
+    {
+      "text": "Resource",
+      "href": "/resource"
+    },
+    {
+      "text": resource_metadata.hash
+    }
+  ]
+}) }}
+{% endblock %}
+
 {% block content %}
 
 <span class="govuk-caption-xl">Resource</span>
