@@ -1,5 +1,21 @@
 {% extends "dlf-base.html" %}
 
+{%- block beforeContent -%}
+    {{ super() }}
+
+    {{- govukBreadcrumbs({
+    "items": [
+        {
+        "text": "Digital Land",
+        "href": "/"
+        },
+        {
+        "text": "Resources"
+        }
+    ]
+    }) -}}
+{%- endblock -%}
+
 {% block content %}
 <h1 class="govuk-heading-xl">Resources</h1>
 
