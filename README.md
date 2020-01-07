@@ -24,3 +24,5 @@ It will output the HTML files to `/tmp` or a directory you define with
 
     brownfield-resource-gen --input-dir /path/to/input/dir --output-dir /path/to/output/dir
 
+To generate all the brownfield resource pages found at [digital-land/resource](https://digital-land.github.io/resource) you will first need to check out the [brownfield-land-collection](https://github.com/digital-land/brownfield-land-collection) repo. Then the `--input-dir` should point to the `validation` dir in this repo.
+
