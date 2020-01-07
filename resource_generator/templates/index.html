@@ -19,6 +19,25 @@
 {% block content %}
 <h1 class="govuk-heading-xl">Resources</h1>
 
+<hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter">
+        <div class="data">
+            <span class="data-item govuk-body govuk-!-font-size-48 govuk-!-font-weight-bold">{{ ind.mappings['resource']|length }}</span>
+            <br /><span class="data-item govuk-body-l">Resources</span>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-quarter">
+        <div class="data">
+            <span class="data-item govuk-body govuk-!-font-size-48 govuk-!-font-weight-bold">{{ ind.mappings['key']|length }}</span>
+            <br /><span class="data-item govuk-body-l">Links</span>
+        </div>
+    </div>
+</div>
+
+<hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
 <ul class="govuk-list">
     {% for r in ind.mappings['resource'].keys()  %}
         <li>
