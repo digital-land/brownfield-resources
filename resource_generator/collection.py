@@ -1,7 +1,8 @@
 import json
+import datetime
 import urllib.request
 
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 class CollectionIndex:
     
@@ -22,7 +23,7 @@ class CollectionIndex:
         self.mapping = {}
         self.create_key_to_resources_mapping()
         self.create_resouce_to_keys_mapping()
-        self.mapping['organisation'] = {}
+        self.map_keys_to_organisations()
 
 
     def create_resouce_to_keys_mapping(self):
@@ -72,6 +73,7 @@ class CollectionIndex:
 
 
     def map_keys_to_organisations(self):
+        self.mapping['organisation'] = {}
         idx = self.index
         for k in self.index['key']:
             for org in self.index['key'][k]["organisation"]:
@@ -96,3 +98,22 @@ class CollectionIndex:
     def print_organisations(self):
         for k in self.index['key']:
             print(f"Key: {k} associated with orgs [{self.index['key'][k]['organisation'].keys()}]")
+
+
+    def if_fetched_on_date(self, log, datestr):
+        for d in log:
+            if d == datestr:
+                return True
+
+    def print_today_summary(self):
+        today = datetime.datetime.today().date().strftime('%Y-%m-%d')
+        fetched_today = 0
+        status_codes = []
+        for k in self.index['key']:
+            if self.if_fetched_on_date(self.index['key'][k]['log'], today):
+                fetched_today = fetched_today + 1
+                if 'status' in self.index['key'][k]['log'][today].keys():
+                    status_codes.append(self.index['key'][k]['log'][today]['status'])
+                #print(f"{self.index['key'][k]['url']} was fetched today")
+        print(f"Attempted to fetch from {fetched_today} URLs")
+        print(Counter(status_codes))
