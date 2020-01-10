@@ -22,6 +22,8 @@ class CollectionIndex:
         self.mapping = {}
         self.create_key_to_resources_mapping()
         self.create_resouce_to_keys_mapping()
+        self.mapping['organisation'] = {}
+
 
     def create_resouce_to_keys_mapping(self):
         self.mappings['resource'] = defaultdict(set)
@@ -68,6 +70,15 @@ class CollectionIndex:
         log = self.get_key_log(key_hash)
         return sorted(log, reverse=True)[0]
 
+
+    def map_keys_to_organisations(self):
+        idx = self.index
+        for k in self.index['key']:
+            for org in self.index['key'][k]["organisation"]:
+                self.mapping["organisation"].setdefault(org, {"key": []})
+                self.mapping["organisation"][org]["key"].append(k)
+
+
     def print_resource_mapping(self):
         for r in self.mappings['resource']:
             if len(self.get_keys_for_resource(r)) > 1:
@@ -78,7 +89,9 @@ class CollectionIndex:
 
     def print_key_mapping(self):
         for k in self.index['key']:
-            print(f"Key:{k} has resources [{self.mappings['key'][k]}]")
+            if len(self.mappings['key'][k]) > 1:
+                print(f"Key:{self.index['key'][k]['url']} has resources [{self.mappings['key'][k]}]")
+            #print(f"Key:{k} has resources [{self.mappings['key'][k]}]")
 
     def print_organisations(self):
         for k in self.index['key']:
