@@ -146,3 +146,20 @@ class CollectionIndex:
     def generate_today_summary(self):
         today = datetime.datetime.today().date().strftime('%Y-%m-%d')
         return self.print_day_summary(today)
+
+
+    def resource_logged_for_day(self, log, daystr):
+        if daystr in log and 'resource' in log[daystr]:
+            return True
+        return False
+
+
+    def new_resources(self, daystr):
+        changes = {}
+        for link in self.index['key']:
+            log = self.index['key'][link]['log']
+            if self.if_fetched_on_date(log, daystr):
+                if self.resource_logged_for_day(log, daystr) and self.resource_logged_for_day(log, previous_day(daystr)):
+                    if log[daystr]['resource'] != log[previous_day(daystr)]['resource']:
+                        changes[link] = (log[previous_day(daystr)]['resource'], log[daystr]['resource'])
+        return changes
