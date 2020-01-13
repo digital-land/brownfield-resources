@@ -4,6 +4,13 @@ import urllib.request
 
 from collections import defaultdict, Counter
 
+
+def previous_day(daystr):
+    d = datetime.datetime.strptime(daystr, '%Y-%m-%d')
+    pd = d - datetime.timedelta(days=1)
+    return pd.strftime('%Y-%m-%d')
+
+
 class CollectionIndex:
     
     def __init__(self):
@@ -46,7 +53,13 @@ class CollectionIndex:
 
     def get_resources_for_key(self, key_hash):
         log = self.get_key_log(key_hash)
-        return list(set([log[l]['resource'] for l in log if 'resource' in log[l]]))
+        resources = {}
+        for item in log:
+            if 'resource' in log[item].keys():
+                resources.setdefault(log[item]['resource'], {"logged_on": []})
+                resources[log[item]['resource']]["logged_on"].append(item)
+        return resources
+        #return list(set([log[l]['resource'] for l in log if 'resource' in log[l]]))
 
     def extract_metadata(self, resource_hash):
         keys = self.get_keys_for_resource(resource_hash)
@@ -92,8 +105,14 @@ class CollectionIndex:
     def print_key_mapping(self):
         for k in self.index['key']:
             if len(self.mappings['key'][k]) > 1:
-                print(f"Key:{self.index['key'][k]['url']} has resources [{self.mappings['key'][k]}]")
-            #print(f"Key:{k} has resources [{self.mappings['key'][k]}]")
+                print(f"Key:{self.index['key'][k]['url']}")
+                for res in self.mappings['key'][k].keys():
+                    log_dates = self.mappings['key'][k][res]['logged_on']
+                    log_dates.sort()
+                    print(f"---- {res} first seen {log_dates[:1]} and last seen {log_dates[-1:]}")
+                    #print(f"---- {res} logged_on {self.mappings['key'][k][res]['logged_on']}")
+                    #print(f"Key:{self.index['key'][k]['url']} has resources [{self.mappings['key'][k]}]")
+                    #print(f"Key:{k} has resources [{self.mappings['key'][k]}]")
 
     def print_organisations(self):
         for k in self.index['key']:
@@ -105,15 +124,22 @@ class CollectionIndex:
             if d == datestr:
                 return True
 
-    def print_today_summary(self):
-        today = datetime.datetime.today().date().strftime('%Y-%m-%d')
-        fetched_today = 0
+    def print_day_summary(self, daystr):
+        fetched_on_day = 0
         status_codes = []
         for k in self.index['key']:
-            if self.if_fetched_on_date(self.index['key'][k]['log'], today):
-                fetched_today = fetched_today + 1
-                if 'status' in self.index['key'][k]['log'][today].keys():
-                    status_codes.append(self.index['key'][k]['log'][today]['status'])
+            if self.if_fetched_on_date(self.index['key'][k]['log'], daystr):
+                fetched_on_day = fetched_on_day + 1
+                if 'status' in self.index['key'][k]['log'][daystr].keys():
+                    status_codes.append(self.index['key'][k]['log'][daystr]['status'])
+                else:
+                    status_codes.append(self.index['key'][k]['log'][daystr]['exception'])
+                    #print(f"No status for {k}:")
+                    #print(f"----- {self.index['key'][k]['log'][daystr]}")
                 #print(f"{self.index['key'][k]['url']} was fetched today")
-        print(f"Attempted to fetch from {fetched_today} URLs")
+        print(f"Attempted to fetch from {fetched_on_day} URLs")
         print(Counter(status_codes))
+
+    def print_today_summary(self):
+        today = datetime.datetime.today().date().strftime('%Y-%m-%d')
+        self.print_day_summary(today)
