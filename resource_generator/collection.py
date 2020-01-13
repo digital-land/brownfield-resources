@@ -124,22 +124,25 @@ class CollectionIndex:
             if d == datestr:
                 return True
 
-    def print_day_summary(self, daystr):
+    def generate_day_summary(self, daystr):
         fetched_on_day = 0
-        status_codes = []
+        status_index = {}
+
         for k in self.index['key']:
             if self.if_fetched_on_date(self.index['key'][k]['log'], daystr):
                 fetched_on_day = fetched_on_day + 1
                 if 'status' in self.index['key'][k]['log'][daystr].keys():
-                    status_codes.append(self.index['key'][k]['log'][daystr]['status'])
+                    status = self.index['key'][k]['log'][daystr]['status']
                 else:
-                    status_codes.append(self.index['key'][k]['log'][daystr]['exception'])
-                    #print(f"No status for {k}:")
-                    #print(f"----- {self.index['key'][k]['log'][daystr]}")
-                #print(f"{self.index['key'][k]['url']} was fetched today")
-        print(f"Attempted to fetch from {fetched_on_day} URLs")
-        print(Counter(status_codes))
+                    status = self.index['key'][k]['log'][daystr]['exception']
+                status_index.setdefault(status, {"key": []})
+                status_index[status]["key"].append(k)
 
-    def print_today_summary(self):
+        return {
+            "fetch_attempts": fetched_on_day,
+            "statuses": status_index
+        }
+
+    def generate_today_summary(self):
         today = datetime.datetime.today().date().strftime('%Y-%m-%d')
-        self.print_day_summary(today)
+        return self.print_day_summary(today)
