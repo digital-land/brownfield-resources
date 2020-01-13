@@ -86,12 +86,12 @@ class CollectionIndex:
 
 
     def map_keys_to_organisations(self):
-        self.mapping['organisation'] = {}
+        self.mappings['organisation'] = {}
         idx = self.index
         for k in self.index['key']:
             for org in self.index['key'][k]["organisation"]:
-                self.mapping["organisation"].setdefault(org, {"key": []})
-                self.mapping["organisation"][org]["key"].append(k)
+                self.mappings["organisation"].setdefault(org, {"key": []})
+                self.mappings["organisation"][org]["key"].append(k)
 
 
     def print_resource_mapping(self):
