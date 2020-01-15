@@ -94,6 +94,19 @@ class CollectionIndex:
                 self.mappings["organisation"][org]["key"].append(k)
 
 
+    def get_orgs_with_x_links(self, x=1, active=False):
+        return [org for org in self.mappings['organisation'] if len(self.mappings['organisation'][org]['key']) > x]
+
+
+    def orgs_by_no_links(self):
+        counts = {}
+        for org in self.mappings['organisation']:
+            no_of_links = len(self.mappings['organisation'][org]['key'])
+            counts.setdefault(no_of_links, {"organisation": []})
+            counts[no_of_links]["organisation"].append(org)
+        return counts
+
+
     def print_resource_mapping(self):
         for r in self.mappings['resource']:
             if len(self.get_keys_for_resource(r)) > 1:
