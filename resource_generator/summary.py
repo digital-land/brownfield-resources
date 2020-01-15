@@ -20,6 +20,15 @@ def readable_day_summary(summary):
             print(f'* {ind.get_key(k)["url"]}')
 
 
+def readable_new_resources(lst):
+    print(f'\nResources', '\n---------')
+    print(f'The resource at the end of {len(lst.keys())} link has changed.\n')
+    print(f'Links that have changed:')
+    for link in lst.keys():
+        print(f'* {ind.get_key(link)["url"]}')
+        print(f'\told resource: {lst[link][0]}')
+        print(f'\tnew resource: {lst[link][1]}')
+
 
 def print_day_summary(daystr="today"):
 
@@ -28,4 +37,8 @@ def print_day_summary(daystr="today"):
 
     print(f'On {daystr} the collector:', "\n===========================\n")
 
+    # print summary of what collector did
     readable_day_summary(ind.generate_day_summary(daystr))
+
+    # print list of new resources
+    readable_new_resources(ind.new_resources(daystr))
