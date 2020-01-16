@@ -122,10 +122,17 @@ class CollectionIndex:
         dates = self.concat_all_dates_resource_logged(resource_hash)
         return sorted(dates)[0]
 
+    def date_resource_first_collected_from_key(self, resource_hash, key_hash):
+        dates = self.mappings['resource'][resource_hash][key_hash]['logged_on']
+        return sorted(dates)[0]
+
     def date_resource_last_collected(self, resource_hash):
         dates = self.concat_all_dates_resource_logged(resource_hash)
         return sorted(dates, reverse=True)[0]
 
+    def date_resource_last_collected_from_key(self, resource_hash, key_hash):
+        dates = self.mappings['resource'][resource_hash][key_hash]['logged_on']
+        return sorted(dates, reverse=True)[0]
 
     def map_keys_to_organisations(self):
         self.mappings['organisation'] = {}
@@ -159,7 +166,7 @@ class CollectionIndex:
                 #print(f"{r} maps to {len(self.get_keys_for_resource(r))} keys")
                 print(f"Resource: {r}")
                 for k in self.get_keys_for_resource(r):
-                    print(f"-- key: {self.index['key'][k]['url']} first {self.date_key_first_collected(k)} last {self.date_key_last_collected(k)}")
+                    print(f"-- key: {self.index['key'][k]['url']} first {self.date_resource_first_collected_from_key(r, k)} last {self.date_resource_last_collected_from_key(r, k)}")
 
     def print_key_mapping(self):
         for k in self.index['key']:
