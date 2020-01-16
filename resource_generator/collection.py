@@ -149,7 +149,7 @@ class CollectionIndex:
                 self.mappings["organisation"][org]["key"].append(k)
 
 
-    def get_orgs_with_x_links(self, x=1, active=False):
+    def orgs_with_more_than_x_links(self, x=1, active=False):
         return [org for org in self.mappings['organisation'] if len(self.mappings['organisation'][org]['key']) > x]
 
 
@@ -165,6 +165,16 @@ class CollectionIndex:
             counts[no_of_links]["organisation"].append(org)
         return counts
 
+
+    def key_lifespan(self, key_hash):
+        print(key_hash)
+        f = self.date_key_first_collected(key_hash)
+        l = self.date_key_last_collected(key_hash)
+        return days_between(f, l)
+
+    def keys_by_age(self, reverse=False):
+        timespans = [(k, self.key_lifespan(k)) for k in self.mappings['key'] if len(self.get_key_log(k)) > 0]
+        return sorted(timespans, key=lambda tup: tup[1], reverse=reverse)
 
     def print_resource_mapping(self):
         for r in self.mappings['resource']:
