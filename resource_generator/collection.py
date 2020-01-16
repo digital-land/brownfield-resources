@@ -61,6 +61,16 @@ class CollectionIndex:
         return resources
         #return list(set([log[l]['resource'] for l in log if 'resource' in log[l]]))
 
+
+    def resource_types(self):
+        types = {}
+        for resource_hash in self.index['resource']:
+            resource = self.get_resource(resource_hash)
+            types.setdefault(resource['media-type'], {"resource": []})
+            types[resource['media-type']]["resource"].append(resource_hash)
+        return types
+
+
     def extract_metadata(self, resource_hash):
         keys = self.get_keys_for_resource(resource_hash)
         collection_entry = self.get_key(keys[0])
