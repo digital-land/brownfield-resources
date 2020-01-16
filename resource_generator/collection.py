@@ -10,6 +10,12 @@ def previous_day(daystr):
     pd = d - datetime.timedelta(days=1)
     return pd.strftime('%Y-%m-%d')
 
+def days_between(day1, day2):
+    d1 = datetime.datetime.strptime(day1, '%Y-%m-%d')
+    d2 = datetime.datetime.strptime(day2, '%Y-%m-%d')
+    # abs makes sure an absolute number is returned e.g. a +ve number
+    return abs((d1-d2).days)
+
 
 class CollectionIndex:
     
