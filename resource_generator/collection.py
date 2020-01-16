@@ -61,7 +61,11 @@ class CollectionIndex:
         return resources
         #return list(set([log[l]['resource'] for l in log if 'resource' in log[l]]))
 
-
+    
+    # returns dict
+    #   {
+    #       'type': {'resource': [res_hash, res_hash, res_hash]}
+    #   }
     def resource_types(self):
         types = {}
         for resource_hash in self.index['resource']:
@@ -108,6 +112,10 @@ class CollectionIndex:
         return [org for org in self.mappings['organisation'] if len(self.mappings['organisation'][org]['key']) > x]
 
 
+    # returns dict
+    #   {
+    #       'count': {'organisation': [org, org, org]}
+    #   }
     def orgs_by_no_links(self):
         counts = {}
         for org in self.mappings['organisation']:
