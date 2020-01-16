@@ -34,14 +34,27 @@ class CollectionIndex:
 
 
     def create_resouce_to_keys_mapping(self):
-        self.mappings['resource'] = defaultdict(set)
+        # works out which keys a resource appears in
+        resources = defaultdict(set)
         for k in self.index['key']:
             # loop through each log entry
             for entry in self.index['key'][k]['log']:
                 # look for resource
                 if 'resource' in self.index['key'][k]['log'][entry]:
                     resource_hash = self.index['key'][k]['log'][entry]['resource']
-                    self.mappings['resource'][resource_hash].add(k)
+                    resources[resource_hash].add(k)
+
+
+        # index keys for a resource with the dates it was logged
+        self.mappings['resource'] = {}
+        for resource_hash in resources:
+            self.mappings['resource'][resource_hash] = {}
+            for key in resources[resource_hash]:
+                log = self.index['key'][key]['log']
+                dates = [d for d in log if 'resource' in log[d] and log[d]['resource'] == resource_hash]
+                self.mappings['resource'][resource_hash].setdefault(key, {"logged_on": []})
+                self.mappings['resource'][resource_hash][key]['logged_on'] = dates
+
 
     def create_key_to_resources_mapping(self):
         self.mappings['key'] = {}
