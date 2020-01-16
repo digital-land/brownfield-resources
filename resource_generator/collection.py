@@ -167,13 +167,21 @@ class CollectionIndex:
 
 
     def key_lifespan(self, key_hash):
-        print(key_hash)
         f = self.date_key_first_collected(key_hash)
         l = self.date_key_last_collected(key_hash)
         return days_between(f, l)
 
     def keys_by_age(self, reverse=False):
         timespans = [(k, self.key_lifespan(k)) for k in self.mappings['key'] if len(self.get_key_log(k)) > 0]
+        return sorted(timespans, key=lambda tup: tup[1], reverse=reverse)
+
+    def resource_lifespan(self, resource_hash):
+        f = self.date_resource_first_collected(resource_hash)
+        l = self.date_resource_last_collected(resource_hash)
+        return days_between(f, l) + 1
+
+    def resources_by_age(self, reverse=False):
+        timespans = [(k, self.resource_lifespan(k)) for k in self.mappings['resource']]
         return sorted(timespans, key=lambda tup: tup[1], reverse=reverse)
 
     def print_resource_mapping(self):
