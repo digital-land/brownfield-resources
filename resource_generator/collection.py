@@ -111,6 +111,21 @@ class CollectionIndex:
         log = self.get_key_log(key_hash)
         return sorted(log, reverse=True)[0]
 
+    def concat_all_dates_resource_logged(self, resource_hash):
+        resource = self.mappings['resource'][resource_hash]
+        dates = []
+        for k in resource:
+            dates = dates + resource[k]['logged_on']
+        return list(set(dates))
+
+    def date_resource_first_collected(self, resource_hash):
+        dates = self.concat_all_dates_resource_logged(resource_hash)
+        return sorted(dates)[0]
+
+    def date_resource_last_collected(self, resource_hash):
+        dates = self.concat_all_dates_resource_logged(resource_hash)
+        return sorted(dates, reverse=True)[0]
+
 
     def map_keys_to_organisations(self):
         self.mappings['organisation'] = {}
