@@ -16,6 +16,46 @@ def days_between(day1, day2):
     # abs makes sure an absolute number is returned e.g. a +ve number
     return abs((d1-d2).days)
 
+def date_x_days_before(daystr, x):
+    d = datetime.datetime.strptime(daystr, '%Y-%m-%d')
+    pd = d - datetime.timedelta(days=x)
+    return pd.strftime('%Y-%m-%d')
+
+def days_since_first_monday_of_month(month_str):
+    day_number = datetime.datetime.today().weekday()
+    today = datetime.datetime.today().date().strftime('%Y-%m-%d')
+    between = days_between(month_str, today)
+    remainder = (between - day_number) % 7
+    # +1 is needed to include today
+    return (between - remainder) + 1
+
+def create_week_blocks(num_days):
+    weeks = {}
+    day_num = 0
+    week_num = 1
+    today_str = datetime.datetime.today().date().strftime('%Y-%m-%d')
+    for d in range(num_days):
+        if day_num == 0:
+            weeks.setdefault(str(week_num), [])
+        days_ago = num_days - (d+1)
+        weeks[str(week_num)].append(date_x_days_before(today_str, days_ago))
+        if day_num == 6:
+            day_num = 0
+            week_num = week_num + 1
+        else:
+            day_num = day_num + 1
+    return weeks
+
+def heat_map_data(startdate):
+    days_since_start = days_since_first_monday_of_month(startdate)
+    weeks = create_week_blocks(days_since_start)
+
+    ind = CollectionIndex()
+
+    for w in weeks:
+        weeks[w] = [(d, len(ind.new_resources(d))) for d in weeks[w]]
+    return weeks
+
 
 class CollectionIndex:
     

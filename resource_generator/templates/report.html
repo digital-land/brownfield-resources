@@ -1,0 +1,54 @@
+{% extends "dlf-base.html" %}
+
+{%- block beforeContent -%}
+    {{ super() }}
+
+    {{- govukBreadcrumbs({
+    "items": [
+        {
+        "text": "Digital Land",
+        "href": "/"
+        },
+        {
+        "text": "Resources"
+        }
+    ]
+    }) -}}
+{%- endblock -%}
+
+{% block content %}
+<h1 class="govuk-heading-xl">Brownfield collector report</h1>
+
+<hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+{% macro heatMap(weeks) %}
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="828" height="128" class="js-calendar-graph-svg">
+    <g transform="translate(10, 20)">
+      {% for w in weeks %}
+        {% set x_pos = (loop.index - 1) * 16 %}
+        <g transform="translate({{ x_pos }}, 0)">
+            {% for d in weeks[w] %}
+            {% set y_pos = (loop.index - 1) * 15 %}
+            <rect class="day" width="12" height="12" x="16" y="{{ y_pos }}" fill="{{ d[1]|countColour }}" data-count="{{d[1]}}" data-date="{{d[0]}}">
+                <title>{{ d[0] }}: {{ d[1] }} new resources</title>
+            </rect>
+            {% endfor %}
+        </g>
+      {% endfor %}
+        <text text-anchor="start" class="wday" dx="-10" dy="10">Mon</text>
+        <text text-anchor="start" class="wday" dx="-10" dy="25" style="display: none;">Tue</text>
+        <text text-anchor="start" class="wday" dx="-10" dy="41">Wed</text>
+        <text text-anchor="start" class="wday" dx="-10" dy="56" style="display: none;">Thu</text>
+        <text text-anchor="start" class="wday" dx="-10" dy="71">Fri</text>
+        <text text-anchor="start" class="wday" dx="-10" dy="85" style="display: none;">Sat</text>
+        <text text-anchor="start" class="wday" dx="-10" dy="101">Sun</text>
+    </g>
+</svg>
+{% endmacro %}
+
+<h2 class="govuk-heading-l">New resource frequency</h2>
+
+{{ heatMap(heat_map) }}
+
+{% endblock %}

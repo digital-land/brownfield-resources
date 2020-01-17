@@ -6,3 +6,16 @@ def pluralise(str, str_off, str_on, count):
         return str[:strip_count]+str_on
     else:
         return str
+
+
+# takes a count and works out what colour heat map should show
+# To do: make response dynamic
+def colour_for_count(count):
+    if count == 0:
+        return "#ebedf0"
+    elif count == 1:
+        return "#6fa4d1"
+    elif count == 2:
+        return "#468ac4"
+    elif count > 2:
+        return "#1d70b8"
