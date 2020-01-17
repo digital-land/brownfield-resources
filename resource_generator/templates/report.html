@@ -19,6 +19,11 @@
 {% block content %}
 <h1 class="govuk-heading-xl">Brownfield collector report</h1>
 
+<h2 class="govuk-heading-l">Summary</h2>
+<p class="govuk-body">Since our collector start running regularly it has collected brownfield land data from <span class="govuk-!-font-size-24 govuk-!-font-weight-bold">{{ mappings['organisation']|length }} Organisations</span>.</p>
+<p class="govuk-body">We have found brownfield data behind <span class="govuk-!-font-size-24 govuk-!-font-weight-bold">{{ mappings['key']|length }} Urls</span>.</p>
+<p class="govuk-body">And there have been <span class="govuk-!-font-size-24 govuk-!-font-weight-bold">{{ mappings['resource']|length }} different resources</span>, where a resource is either a new or updated brownfield site register.</p>
+
 <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
 
 {% macro heatMap(weeks) %}

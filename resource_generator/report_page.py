@@ -25,4 +25,4 @@ report_template = env.get_template("report.html")
 weeks = heat_map_data('2019-11-01')
 
 with open("tmp/report.html", "w") as f:
-    f.write(report_template.render(static_folder=static_folder, heat_map=weeks))
+    f.write(report_template.render(static_folder=static_folder, mappings=ind.mappings, heat_map=weeks))
