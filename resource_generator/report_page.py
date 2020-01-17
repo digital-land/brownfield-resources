@@ -16,6 +16,8 @@ def register_filters(env):
 # set up mappings
 ind = CollectionIndex()
 
+orgs_by_links = ind.orgs_by_no_links()
+
 # jinja setup
 env = register_templates()
 register_filters(env)
@@ -25,4 +27,9 @@ report_template = env.get_template("report.html")
 weeks = heat_map_data('2019-11-01')
 
 with open("tmp/report.html", "w") as f:
-    f.write(report_template.render(static_folder=static_folder, mappings=ind.mappings, heat_map=weeks))
+    f.write(report_template.render(
+        static_folder=static_folder,
+        mappings=ind.mappings,
+        orgs_by_links=orgs_by_links,
+        heat_map=weeks)
+    )
