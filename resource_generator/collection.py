@@ -203,9 +203,6 @@ class CollectionIndex:
             no_of_links = len(self.mappings['organisation'][org]['key'])
             counts.setdefault(no_of_links, {"organisation": []})
             counts[no_of_links]["organisation"].append(org)
-        print(sorted(counts.items()))
-        for k in sorted(counts.keys()):
-            print(k)
         return OrderedDict(sorted(counts.items()))
 
     def org_link_counts(self):
