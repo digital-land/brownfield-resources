@@ -218,6 +218,15 @@ class CollectionIndex:
         return [(c, len(counts[c]['organisation'])) for c in counts]
 
 
+    def orgs_by_resources(self):
+        unordered = [(org, len(self.get_resources_for_org(org))) for org in self.mappings['organisation']]
+        return sorted(unordered, key=lambda x: x[1])
+
+
+    def org_with_most_resources(self):
+        return self.orgs_by_resources()[-1]
+
+
     def key_lifespan(self, key_hash):
         f = self.date_key_first_collected(key_hash)
         l = self.date_key_last_collected(key_hash)
