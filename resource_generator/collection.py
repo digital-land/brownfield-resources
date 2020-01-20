@@ -120,7 +120,15 @@ class CollectionIndex:
         return resources
         #return list(set([log[l]['resource'] for l in log if 'resource' in log[l]]))
 
-    
+
+    # returns array of resource hashes associated with organisation
+    def get_resources_for_org(self, org_id):
+        resources = []
+        for k in self.mappings['organisation'][org_id]['key']:
+            resources = resources + list(self.get_resources_for_key(k).keys())
+        return list(set(resources))
+
+
     # returns dict
     #   {
     #       'type': {'resource': [res_hash, res_hash, res_hash]}
