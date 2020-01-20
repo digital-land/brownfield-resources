@@ -19,3 +19,8 @@ def colour_for_count(count):
         return "#468ac4"
     elif count > 2:
         return "#1d70b8"
+
+
+def org_dl_url(org_id):
+    url_base = "https://digital-land.github.io/organisation/"
+    return url_base + org_id.replace(":", "/")

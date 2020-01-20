@@ -47,8 +47,24 @@
     </div>
 </div>
 {% endfor %}
-      
-            
+
+{% set org_id = orgs_by_links[10]['organisation'][0] %}
+<p class="govuk-body"><span class="govuk-!-font-weight-bold"><a href="{{ orgs_by_links[10]['organisation'][0]|dl_url }}">{{ orgs_by_links[10]['organisation'][0] }}</a></span> is the local planning authority with brownfield data behind the most urls.</p>
+
+<details class="govuk-details" data-module="govuk-details">
+    <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">
+            See {{ org_id }}'s {{ ind.mappings['organisation'][org_id]['key']|length }} urls
+        </span>
+    </summary>
+    <div class="govuk-details__text">
+        <ul class="govuk-list govuk-list--number">
+        {% for k in ind.mappings['organisation'][org_id]['key'] %}
+            <li><a href="{{ ind.get_key_url(k) }}">{{ ind.get_key_url(k) }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+</details>
 
 {% macro heatMap(weeks) %}
 <?xml version="1.0" encoding="UTF-8"?>
@@ -76,8 +92,11 @@
 </svg>
 {% endmacro %}
 
-<h2 class="govuk-heading-m">New resource frequency</h2>
+<h2 class="govuk-heading-m">How often are new or updated registers published?</h2>
 
+<p class="govuk-body">Since 1st November 2019 there has on average been <span class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ (resource_count['new_resource_count'] / resource_count['days'])|round(2) }}</span> new brownfield site resources per day.</p>
+
+<h3 class="govuk-heading-s">Frequency breakdown</h3>
 {{ heatMap(heat_map) }}
 
 {% endblock %}
