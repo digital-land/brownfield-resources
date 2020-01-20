@@ -17,12 +17,13 @@
 {%- endblock -%}
 
 {% block content %}
-<h1 class="govuk-heading-xl">Brownfield collector report</h1>
+<h1 class="govuk-heading-xl govuk-!-margin-bottom-2">Brownfield collector report</h1>
+<p class="govuk-body govuk-!-font-size-16 govuk-!-margin-bottom-7">Last updated {{ today.date().strftime('%d %B %Y') }}</p>
 
 <h2 class="govuk-heading-l">Summary</h2>
-<p class="govuk-body">Since our collector start running regularly it has collected brownfield land data from <span class="govuk-!-font-size-24 govuk-!-font-weight-bold">{{ mappings['organisation']|length }} Organisations</span>.</p>
-<p class="govuk-body">We have found brownfield data behind <span class="govuk-!-font-size-24 govuk-!-font-weight-bold">{{ mappings['key']|length }} Urls</span>.</p>
-<p class="govuk-body">And there have been <span class="govuk-!-font-size-24 govuk-!-font-weight-bold">{{ mappings['resource']|length }} different resources</span>, where a resource is either a new or updated brownfield site register.</p>
+<p class="govuk-body">Since our collector start running regularly it has collected brownfield land data from <span class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ mappings['organisation']|length }} Organisations</span>.</p>
+<p class="govuk-body">We have found brownfield data behind <span class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ mappings['key']|length }} Urls</span>.</p>
+<p class="govuk-body">And there have been <span class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ mappings['resource']|length }} different resources</span>, where a resource is either a new or updated brownfield site register.</p>
 
 <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
 
