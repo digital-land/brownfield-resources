@@ -21,6 +21,6 @@ def colour_for_count(count):
         return "#1d70b8"
 
 
-def org_dl_url(org_id):
+def curie_org_url(org_id):
     url_base = "https://digital-land.github.io/organisation/"
     return url_base + org_id.replace(":", "/")

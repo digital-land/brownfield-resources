@@ -1,7 +1,7 @@
 import jinja2
 import markdown
 
-from resource_generator.filters import pluralise, org_dl_url
+from resource_generator.filters import pluralise, curie_org_url
 
 
 # set up paths to where the templates are
@@ -23,7 +23,7 @@ def markdown_filter(env):
 # register filters with jinja context
 def register_filters(env):
     env.filters["pluralise"] = pluralise
-    env.filters["dl_url"] = org_dl_url
+    env.filters["curie_url"] = curie_org_url
     markdown_filter(env)
 
 

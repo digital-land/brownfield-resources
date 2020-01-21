@@ -18,7 +18,7 @@
             <td class="govuk-table__cell govuk-table__cell--numeric">
             {%- if params.organisation|length > 1 %}
                 {%- for org in params.organisation -%}
-                <a class="govuk-link" href="{{ org|dl_url }}">{{ org }}</a><br />
+                <a class="govuk-link" href="{{ org|curie_url }}">{{ org }}</a><br />
                 {%- endfor -%}
             {% endif -%}
             </td>

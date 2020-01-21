@@ -49,7 +49,7 @@
 {% endfor %}
 
 {% set org_id = orgs_by_links[10]['organisation'][0] %}
-<p class="govuk-body"><span class="govuk-!-font-weight-bold"><a href="{{ orgs_by_links[10]['organisation'][0]|dl_url }}">{{ orgs_by_links[10]['organisation'][0] }}</a></span> is the local planning authority with brownfield data behind the most urls.</p>
+<p class="govuk-body"><span class="govuk-!-font-weight-bold"><a href="{{ orgs_by_links[10]['organisation'][0]|curie_url }}">{{ orgs_by_links[10]['organisation'][0] }}</a></span> is the local planning authority with brownfield data behind the most urls.</p>
 
 <details class="govuk-details" data-module="govuk-details">
     <summary class="govuk-details__summary">

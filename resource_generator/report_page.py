@@ -6,14 +6,14 @@ import datetime
 from collection import CollectionIndex, heat_map_data, previous_day
 from render import register_templates
 
-from filters import colour_for_count, org_dl_url
+from filters import colour_for_count, curie_org_url
 
 static_folder = "https://digital-land-design.herokuapp.com/static"
 
 # register filters with jinja context
 def register_filters(env):
     env.filters["countColour"] = colour_for_count
-    env.filters["dl_url"] = org_dl_url
+    env.filters["curie_url"] = curie_org_url
 
 
 # set up mappings
@@ -43,7 +43,6 @@ def avg_new_resources_per_day(start_date):
         'days': num_days,
         'new_resource_count': new_resource_count
     }
-
 
 collection_start = "2019-11-01"
 resource_count = avg_new_resources_per_day(collection_start)
