@@ -226,6 +226,13 @@ class CollectionIndex:
     def org_with_most_resources(self):
         return self.orgs_by_resources()[-1]
 
+    def resources_by_no_keys(self):
+        counts = {}
+        for r in self.mappings['resource']:
+            no_of_links = len(self.mappings['resource'][r])
+            counts.setdefault(no_of_links, {"resource": []})
+            counts[no_of_links]["resource"].append(r)
+        return OrderedDict(sorted(counts.items()))
 
     def key_lifespan(self, key_hash):
         f = self.date_key_first_collected(key_hash)
