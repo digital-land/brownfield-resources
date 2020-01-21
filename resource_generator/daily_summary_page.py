@@ -4,10 +4,10 @@ import sys
 import jinja2
 import datetime
 
-from collection import CollectionIndex, heat_map_data, previous_day
-from render import register_templates
+from resource_generator.collection import CollectionIndex, heat_map_data, previous_day
+from resource_generator.render import register_templates
 
-from filters import pluralise, curie_org_url
+from resource_generator.filters import pluralise, curie_org_url
 
 static_folder = "https://digital-land-design.herokuapp.com/static"
 

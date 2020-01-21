@@ -32,14 +32,16 @@
     {% endfor %}
 </ul>
 
-{% if summary["statuses"]["404"]["key"]|length > 0 %}
-<h2 class="govuk-heading-m">Links 404-ing are:</h2>
-<ul class="govuk-list govuk-list--bullet">
-{% for k in summary["statuses"]["404"]["key"] %}
-    <li><a href="{{ ind.get_key_url(k) }}" class="govuk-link">{{ ind.get_key_url(k) }}</a></li>
-{% endfor %}
-</ul>
-{% endif %}
+{%- if "404" in summary["statuses"].keys() -%}
+    {% if summary["statuses"]["404"]["key"]|length > 0 %}
+    <h2 class="govuk-heading-m">Links 404-ing are:</h2>
+    <ul class="govuk-list govuk-list--bullet">
+    {% for k in summary["statuses"]["404"]["key"] %}
+        <li><a href="{{ ind.get_key_url(k) }}" class="govuk-link">{{ ind.get_key_url(k) }}</a></li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+{%- endif -%}
 
 <h2 class="govuk-heading-l">Resources</h2>
 {% if new_resources.keys()|length > 0 %}
