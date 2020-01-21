@@ -26,3 +26,24 @@ It will output the HTML files to `/tmp` or a directory you define with
 
 To generate all the brownfield resource pages found at [digital-land/resource](https://digital-land.github.io/resource) you will first need to check out the [brownfield-land-collection](https://github.com/digital-land/brownfield-land-collection) repo. Then the `--input-dir` should point to the `validation` dir in this repo.
 
+### Additional uses
+
+Scripts in this repo can be used to generate other pages.
+
+To generate an `index.html` page for the resource pages, run
+
+    python resource_generator/index.py
+
+To generate a `report.html` page (contains stats on what the collector does), run
+
+    python resource_generator/report_page.py
+
+To generate daily summary log pages, run
+
+    python resource_generator/daily_summary_page.py <day_str>
+
+where `day_str` is the day you wish the log page to cover, e.g. `2020-01-21`. This creates the pages in `tmp/log`.
+
+### Issues
+
+`daily_summary_page.py` for **2019-12-24**, need to investigate
