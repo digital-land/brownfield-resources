@@ -148,7 +148,9 @@ class CollectionIndex:
         return {
             'hash': resource_hash,
             'organisation': list(collection_entry['organisation'].keys())[0],
-            'row_count': self.get_resource(resource_hash)['row-count']
+            'row_count': self.get_resource(resource_hash)['row-count'],
+            'media_type': self.get_resource(resource_hash)['media-type'],
+            'valid': self.get_resource(resource_hash)['valid'],
         }
 
     def get_key_log(self, key_hash):

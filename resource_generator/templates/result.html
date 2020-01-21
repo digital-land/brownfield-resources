@@ -2,6 +2,7 @@
 
 {% from "validation-result-components/result-panel.html" import validationResultPanel %}
 {% from "validation-result-components/table-summary.html" import valTableSummary %}
+{% from "dl-partials/dl-resource-summary.html" import resourceTableSummary %}
 {% from "validation-result-components/header-playback-lists.html" import listHeaderItem %}
 {% from "validation-result-components/header-playback-lists.html" import listComparedToStandard %}
 {% from "validation-result-components/errors-by-header.html" import renderErrorsByHeaders %}
@@ -31,8 +32,18 @@
 <span class="govuk-caption-xl">Resource</span>
 <h1 class="govuk-heading-xl truncate-text govuk-!-margin-bottom-1">{{ resource_metadata.hash }}</h1>
 
-<p class="govuk-body"><span class="govuk-!-font-weight-bold">Type:</span> Brownfield register</p>
+<p class="govuk-body"><span class="govuk-!-font-weight-bold">Dataset:</span> Brownfield land</p>
+
+{{- resourceTableSummary({
+  "media_type": resource_metadata.media_type,
+  "valid": resource_metadata.valid,
+  "organisation": resource_metadata.organisation
+})
+-}}
+
 <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+<h2 class="govuk-heading-xl govuk-!-margin-top-6">Validation result</h2>
 
 <!-- show overall result -->
 <div class="govuk-grid-row">
