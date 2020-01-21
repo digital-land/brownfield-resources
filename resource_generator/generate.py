@@ -16,4 +16,4 @@ def generate_from_file(file, static_folder, collection_index):
     d = read_file(file)
     d['file_hash'] = extract_file_name(file)
     resource_metadata = collection_index.extract_metadata(d['file_hash'])
-    return render_html(d, resource_metadata, static_folder)
+    return render_html(d, resource_metadata, static_folder, collection_index)

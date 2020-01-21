@@ -32,7 +32,12 @@ env = register_templates()
 register_filters(env)
 
 
-def render_html(data, resource_metadata, static_folder):
+def render_html(data, resource_metadata, static_folder, collection_index):
     resource_template = env.get_template("result.html")
-    html = resource_template.render(report=data, static_folder=static_folder, resource_metadata=resource_metadata)
+    html = resource_template.render(
+            report=data,
+            static_folder=static_folder,
+            resource_metadata=resource_metadata,
+            ind=collection_index
+        )
     return html

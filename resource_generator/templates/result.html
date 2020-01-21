@@ -41,6 +41,22 @@
 })
 -}}
 
+<h3 class="govuk-heading-m">Where is this resource from?</h3>
+<dl class="govuk-summary-list govuk-summary-list--no-bottom-border">
+    {% for k in ind.mappings['resource'][resource_metadata.hash] %}
+    <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">URL</dt>
+        <dd class="govuk-summary-list__value">
+            <a href="{{ ind.get_key_url(k) }}" class="govuk-link">{{ ind.get_key_url(k) }}</a>
+            <div>
+                <span><span class="govuk-!-font-weight-bold">First collected:</span> {{ ind.date_key_first_collected(k) }}</span>
+                <span><span class="govuk-!-font-weight-bold">Last collected:</span> {{ ind.date_key_last_collected(k) }}</span>
+            </div>
+        </dd>
+    </div>
+    {% endfor %}
+</dl>
+
 <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
 
 <h2 class="govuk-heading-xl govuk-!-margin-top-6">Validation result</h2>
