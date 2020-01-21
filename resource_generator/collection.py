@@ -141,13 +141,21 @@ class CollectionIndex:
             types[resource['media-type']]["resource"].append(resource_hash)
         return types
 
+    # returns dict of org ids for a given resource hash
+    def get_orgs_for_resource(self, resource_hash):
+        keys = self.get_keys_for_resource(resource_hash)
+        orgs = []
+        for k in keys:
+            orgs = orgs + list(self.index['key'][k]['organisation'].keys())
+        return set(orgs)
+
+
 
     def extract_metadata(self, resource_hash):
-        keys = self.get_keys_for_resource(resource_hash)
-        collection_entry = self.get_key(keys[0])
+        orgs = self.get_orgs_for_resource(resource_hash)
         return {
             'hash': resource_hash,
-            'organisation': list(collection_entry['organisation'].keys())[0],
+            'organisation': list(orgs),
             'row_count': self.get_resource(resource_hash)['row-count'],
             'media_type': self.get_resource(resource_hash)['media-type'],
             'valid': self.get_resource(resource_hash)['valid'],
@@ -274,9 +282,10 @@ class CollectionIndex:
                     #print(f"Key:{self.index['key'][k]['url']} has resources [{self.mappings['key'][k]}]")
                     #print(f"Key:{k} has resources [{self.mappings['key'][k]}]")
 
-    def print_organisations(self):
+    def print_organisations(self, count=1):
         for k in self.index['key']:
-            print(f"Key: {k} associated with orgs [{self.index['key'][k]['organisation'].keys()}]")
+            if len(self.index['key'][k]['organisation'].keys()) > (count - 1):
+                print(f"Key: {k} associated with orgs [{self.index['key'][k]['organisation'].keys()}]")
 
 
     def if_fetched_on_date(self, log, datestr):

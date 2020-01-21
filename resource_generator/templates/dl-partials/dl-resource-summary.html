@@ -14,8 +14,14 @@
 
           <!-- publishing organisation -->
           <tr class="govuk-table__row">
-            <th class="govuk-table__header" scope="row">Publishing organisation</th>
-            <td class="govuk-table__cell govuk-table__cell--numeric">{{ params.organisation|default("not available") }}</td>
+            <th class="govuk-table__header" scope="row">{{"Publishing organisation"|pluralise("", "s", params.organisation|length)}}</th>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+            {%- if params.organisation|length > 1 %}
+                {%- for org in params.organisation -%}
+                <a class="govuk-link" href="{{ org|dl_url }}">{{ org }}</a><br />
+                {%- endfor -%}
+            {% endif -%}
+            </td>
           </tr>
 
           <!-- valid resource -->
