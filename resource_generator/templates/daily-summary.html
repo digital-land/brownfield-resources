@@ -28,7 +28,7 @@
 <h2 class="govuk-heading-m">Statuses</h2>
 <ul class="govuk-list">
     {% for status in summary['statuses'] %}
-    <li>{{ summary['statuses'][status]|length }} {{status}}</li>
+    <li>{{ summary['statuses'][status]['key']|length }} {{status}}</li>
     {% endfor %}
 </ul>
 
