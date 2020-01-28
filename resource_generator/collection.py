@@ -165,6 +165,10 @@ class CollectionIndex:
         media_types = [self.index['resource'][r]['media-type'] for r in self.index['resource']]
         return Counter(media_types)
 
+    def validation_count(self):
+        counts = [self.index['resource'][r]['valid'] for r in self.index['resource']]
+        return Counter(counts)
+
     def get_key_log(self, key_hash):
         return self.get_key(key_hash)['log']
 
