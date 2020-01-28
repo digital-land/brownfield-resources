@@ -25,6 +25,10 @@ orgs_by_links = ind.orgs_by_no_links()
 env = register_templates()
 register_filters(env)
 
+global_params = {
+    'url_base': 'https://digital-land.github.io/resource/'
+}
+
 report_template = env.get_template("report.html")
 
 weeks = heat_map_data('2019-07-01')
@@ -50,6 +54,7 @@ resource_count = avg_new_resources_per_day(collection_start)
 
 with open("tmp/report.html", "w") as f:
     f.write(report_template.render(
+        globals=global_params,
         static_folder=static_folder,
         ind=ind,
         mappings=ind.mappings,
