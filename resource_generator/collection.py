@@ -150,6 +150,9 @@ class CollectionIndex:
         return set(orgs)
 
 
+    def get_orgs_for_key(self, key_hash):
+        return list(self.index['key'][key_hash]['organisation'].keys())
+
 
     def extract_metadata(self, resource_hash):
         orgs = self.get_orgs_for_resource(resource_hash)
@@ -163,11 +166,11 @@ class CollectionIndex:
 
     def count_media_types(self):
         media_types = [self.index['resource'][r]['media-type'] for r in self.index['resource']]
-        return Counter(media_types)
+        return dict(Counter(media_types))
 
     def validation_count(self):
         counts = [self.index['resource'][r]['valid'] for r in self.index['resource']]
-        return Counter(counts)
+        return dict(Counter(counts))
 
     def get_key_log(self, key_hash):
         return self.get_key(key_hash)['log']
@@ -277,6 +280,10 @@ class CollectionIndex:
                 print(f"Resource: {r}")
                 for k in self.get_keys_for_resource(r):
                     print(f"-- key: {self.index['key'][k]['url']} first {self.date_resource_first_collected_from_key(r, k)} last {self.date_resource_last_collected_from_key(r, k)}")
+
+    def keys_by_no_resources(self):
+        num_resources = [(k, len(self.mappings['key'][k])) for k in self.index['key']]
+        return sorted(num_resources, key=lambda tup: tup[1])
 
     def print_key_mapping(self):
         for k in self.index['key']:

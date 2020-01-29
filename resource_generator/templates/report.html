@@ -103,4 +103,59 @@
 <h3 class="govuk-heading-s">Frequency breakdown</h3>
 {{ heatMap(heat_map) }}
 
+{% set most_changed = ind.keys_by_no_resources()[-1] %}
+
+<p class="govuk-body">
+    
+    {%- for org in ind.get_orgs_for_key(most_changed[0]) -%}
+        <span class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ org }}</span>
+        {{ "," if not loop.last }}
+    {%- endfor -%}
+    {%- if ind.get_orgs_for_key(most_changed[0])|length > 1 -%}
+        are the organisations
+    {%- else -%}
+        is the organisation
+    {%- endif %} with <a class="govuk-link" href="ind.get_key_url(most_changed[0])" target="_blank">the url</a> that has been updated or changed the most. It has been updated or changed <span class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ most_changed[1] }} times</span>.</p>
+
+{% macro horizontalBar(params) %}
+<div class="govuk-grid-row contribution-category-row {% if params.classes %}{{params.classes}}{% endif %}">
+    <div class="govuk-grid-column-one-quarter">
+        <h4 class="govuk-heading-s chart-bar__label">{{ params.label }}</h4>
+    </div>
+    <div class="govuk-grid-column-three-quarters chart-bar">
+        {% set bar_width = '{:.0%}'.format(params.value / params.total) %}
+        <div class="chart-bar__part" style="width: {{ '1px' if bar_width == '0%' and params.value > 0 else bar_width }};"></div>
+        <span class="govuk-!-font-weight-bold data-item chart-bar__value">{{ params.value }}</span>
+    </div>
+</div>
+{% endmacro %}
+
+<h3 class="govuk-heading-s">Resource media type</h3>
+{% set media_type_counts = ind.count_media_types() %}
+{% for typ in media_type_counts.keys() %}
+    {% set bar_label = typ if typ != "" else "No media type" %}
+    {{- horizontalBar({
+        "label": bar_label,
+        "value": media_type_counts[typ],
+        "total": mappings['resource']|length
+    }) -}}
+{% endfor %}
+
+
+<h3 class="govuk-heading-s">How many resources are valid?</h3>
+<div class="govuk-grid-row">
+    {% set validation_counts = ind.validation_count() %}
+    {%- for label, val in validation_counts.items() -%}
+    <div class="govuk-grid-column-one-half">
+        <p>
+            <span class="govuk-body govuk-!-font-size-48 govuk-!-font-weight-bold">{{ val }}</span><br>
+            <span class="govuk-body-l">{{ label }}</span>
+        </p>
+    </div>
+    {%- endfor -%}
+</div>
+
+
+
+
 {% endblock %}
