@@ -28,22 +28,24 @@
 
 <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
 
+<h2 class="govuk-heading-l">Urls to fetch from</h2>
 
 <h3 class="govuk-heading-m">How many urls do organisations use?</h3>
 
 {% set num_orgs_mt_1_url = mappings['organisation']|length - orgs_by_links[1]['organisation']|length %}
 <p class="govuk-body"><span class="govuk-!-font-size-24 govuk-!-font-weight-bold">{{ '{:.0%}'.format(num_orgs_mt_1_url / mappings['organisation']|length) }}</span> of organisations have brownfield data behind more than 1 url.</p>
 
-
+<div class="govuk-!-margin-bottom-9">
 {% for count in orgs_by_links %}
-
 {%- set bar_label = count|string + " urls" if count > 1 else "1 url" -%}
 {{- horizontalBar({
     "label": bar_label,
     "value": orgs_by_links[count]['organisation']|length,
-    "total": mappings['organisation']|length
+    "total": mappings['organisation']|length,
+    "classes": "chart-bar--light-blue"
 }) -}}
 {% endfor %}
+</div>
 
 {% set org_id = orgs_by_links[10]['organisation'][0] %}
 <p class="govuk-body"><span class="govuk-!-font-weight-bold"><a href="{{ orgs_by_links[10]['organisation'][0]|curie_url }}">{{ orgs_by_links[10]['organisation'][0] }}</a></span> is the local planning authority with brownfield data behind the most urls.</p>
@@ -62,6 +64,10 @@
         </ul>
     </div>
 </details>
+
+<hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+<h2 class="govuk-heading-l">Resources collected</h2>
 
 {% macro heatMap(weeks) %}
 <?xml version="1.0" encoding="UTF-8"?>
@@ -97,8 +103,10 @@
 
 <p class="govuk-body">Since 1st November 2019 there has on average been <span class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ (resource_count['new_resource_count'] / resource_count['days'])|round(2) }}</span> new brownfield site resources per day.</p>
 
-<h3 class="govuk-heading-s">Frequency breakdown</h3>
+<h3 class="govuk-heading-s">New resource history</h3>
+<div class="govuk-!-margin-bottom-6">
 {{ heatMap(heat_map) }}
+</div>
 
 {% set most_changed = ind.keys_by_no_resources()[-1] %}
 
@@ -115,8 +123,13 @@
     {%- endif %} with <a class="govuk-link" href="ind.get_key_url(most_changed[0])" target="_blank">the url</a> that has been updated or changed the most. It has been updated or changed <span class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ most_changed[1] }} times</span>.</p>
 
 
-<h3 class="govuk-heading-s">Resource media type</h3>
+<h3 class="govuk-heading-m govuk-!-margin-top-9">Resource media-types</h3>
 {% set media_type_counts = ind.count_media_types() %}
+<p class="govuk-body">The guidance on publishing the brownfield registers specifies that they should be in csv format.
+    <span class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ '{:.0%}'.format(media_type_counts["text/csv"] / mappings['resource']|length) }}</span> of the registered that have been collected are in the correct format. A few different file types have been collected.
+</p>
+
+<div class="govuk-!-margin-bottom-9">
 {% for typ in media_type_counts.keys() %}
     {%- set bar_label = typ if typ != "" else "No media type" %}
     {%- set label_class = "chart-bar__label--long chart-bar__label--small-text" if "officedocument.spreadsheetml.sheet" in typ else "chart-bar__label--small-text" -%}
@@ -128,9 +141,11 @@
         "classes": "chart-bar--light-blue"
     }) -}}
 {% endfor %}
+</div>
 
 
-<h3 class="govuk-heading-s">How many resources are valid?</h3>
+<h3 class="govuk-heading-m">How many resources are valid?</h3>
+<p class="govuk-body">After being collected a resource is run through a validator. This checks the data against the brownfield site data standard and reports back on any problems with the data.</p>
 <div class="govuk-grid-row">
     {% set validation_counts = ind.validation_count() %}
     {%- for label, val in validation_counts.items() -%}
@@ -141,6 +156,9 @@
         </p>
     </div>
     {%- endfor -%}
+</div>
+<div class="govuk-inset-text">
+    The current iteration of the validator is not very forgiving. There are some simple fixes that can be applied automatically. Once applied the number of valid resources should increase substantally.
 </div>
 
 
