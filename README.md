@@ -47,3 +47,13 @@ where `day_str` is the day you wish the log page to cover, e.g. `2020-01-21`. Th
 ### Issues
 
 `daily_summary_page.py` for **2019-12-24**, need to investigate
+
+### Steps to run daily
+
+* checkout latest from [the collector](https://github.com/digital-land/brownfield-land-collection)
+* generate resource pages with `brownfield-resource-gen`
+* generate index pages with `python resource_generator/index.py`
+* generate latest report page with `python resource_generator/report.py`
+* generate any outstanding daily log pages e.g. `python resource_generator/daily_summary_page.py 2020-01-2`
+* copy generated files into **/docs** directory of [resource repo](https://github.com/digital-land/resource)
+* commit **resource repo**
