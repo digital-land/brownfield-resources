@@ -12,6 +12,7 @@ setuptools = "*"
 brownfield-resource-generator = {editable = true,path = "."}
 govuk-jinja-components = {editable = true,git = "https://github.com/colmjude/govuk-jinja-components.git"}
 markdown = "*"
+python-dateutil = "*"
 
 [requires]
 python_version = ">=3.6"

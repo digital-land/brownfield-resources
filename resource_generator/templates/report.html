@@ -70,8 +70,9 @@
 <h2 class="govuk-heading-l">Resources collected</h2>
 
 {% macro heatMap(weeks) %}
+{% set svg_width = (weeks|length * 16) + 32 %}
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="828" height="128" class="js-calendar-graph-svg" 
+<svg width="{{svg_width}}" height="128" class="js-calendar-graph-svg" 
     xmlns="http://www.w3.org/2000/svg" 
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <g transform="translate(10, 20)">

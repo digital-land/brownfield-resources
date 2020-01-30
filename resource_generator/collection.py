@@ -1,6 +1,7 @@
 import json
 import datetime
 import urllib.request
+import dateutil.relativedelta
 
 from collections import defaultdict, Counter, OrderedDict
 
@@ -21,13 +22,36 @@ def date_x_days_before(daystr, x):
     pd = d - datetime.timedelta(days=x)
     return pd.strftime('%Y-%m-%d')
 
-def days_since_first_monday_of_month(month_str):
+# e.g. 2019-01-01
+def days_since_first_monday_of_month(start_month_str):
     day_number = datetime.datetime.today().weekday()
     today = datetime.datetime.today().date().strftime('%Y-%m-%d')
-    between = days_between(month_str, today)
+    between = days_between(start_month_str, today)
     remainder = (between - day_number) % 7
-    # +1 is needed to include today
-    return (between - remainder) + 1
+    return (between - remainder)
+
+
+def first_day_of_month(date):
+    return date.date().strftime('%Y-%m') + "-01"
+
+# e.g. 2019-01-01
+def first_monday_of_month(date_str):
+    today = datetime.datetime.today()
+    days_ago = days_since_first_monday_of_month(date_str)
+    return (today - datetime.timedelta(days=days_ago)).date().strftime('%Y-%m-%d')
+
+
+def first_monday_months_ago(months):
+    today = datetime.datetime.today()
+    x_months_ago = today + dateutil.relativedelta.relativedelta(months=-months)
+    days_ago = days_since_first_monday_of_month(first_day_of_month(x_months_ago))
+    return (today - datetime.timedelta(days=days_ago)).date().strftime('%Y-%m-%d')
+
+
+# use first_monday_months_ago(12)
+def date_first_monday_a_year_ago():
+    return first_monday_months_ago(12)
+
 
 def create_week_blocks(num_days):
     weeks = {}
@@ -46,9 +70,12 @@ def create_week_blocks(num_days):
             day_num = day_num + 1
     return weeks
 
-def heat_map_data(startdate):
-    days_since_start = days_since_first_monday_of_month(startdate)
-    weeks = create_week_blocks(days_since_start)
+def heat_map_data(enddate):
+    months = 11 # equates to 11 months plus the current one
+
+    days_since_start = days_between(first_monday_months_ago(11), enddate)
+    # add 1 to include today
+    weeks = create_week_blocks(days_since_start + 1)
 
     ind = CollectionIndex()
 

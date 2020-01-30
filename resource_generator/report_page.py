@@ -31,7 +31,9 @@ global_params = {
 
 report_template = env.get_template("report.html")
 
-weeks = heat_map_data('2019-07-01')
+# finish heat map on today
+today_str = datetime.datetime.today().date().strftime('%Y-%m-%d')
+weeks = heat_map_data(today_str)
 
 def avg_new_resources_per_day(start_date):
     num_days = 0
