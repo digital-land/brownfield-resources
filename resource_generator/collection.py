@@ -87,7 +87,7 @@ def heat_map_data(enddate):
 class CollectionIndex:
     
     def __init__(self):
-        self.index_url = "https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/collection/index.json"
+        self.index_url = "https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/index/index.json"
         response = urllib.request.urlopen(self.index_url)
         self.index = json.loads(response.read())
         self.mappings = {}
