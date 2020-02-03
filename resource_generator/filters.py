@@ -14,11 +14,13 @@ def colour_for_count(count):
     if count == 0:
         return "#ebedf0"
     elif count == 1:
-        return "#6fa4d1"
+        return "#bdd5ea"
     elif count == 2:
+        return "#6fa4d1"
+    elif count > 2 and count < 5:
         return "#468ac4"
-    elif count > 2:
-        return "#1d70b8"
+    elif count > 4:
+        return "#165286"
 
 
 def curie_org_url(org_id):
