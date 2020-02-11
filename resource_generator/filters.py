@@ -1,5 +1,8 @@
+import datetime
 
 # takes a string, chars to strip off, chars to add, the count
+
+
 def pluralise(str, str_off, str_on, count):
     strip_count = -1*len(str_off) if len(str_off) > 0 else len(str)
     if count > 1:
@@ -26,3 +29,8 @@ def colour_for_count(count):
 def curie_org_url(org_id):
     url_base = "https://digital-land.github.io/organisation/"
     return url_base + org_id.replace(":", "/")
+
+
+def readable_date(date_str):
+    d = datetime.datetime.strptime(date_str, '%Y-%m-%d')
+    return d.strftime('%d %B %Y')
