@@ -236,6 +236,18 @@ class CollectionIndex:
         dates = self.mappings['resource'][resource_hash][key_hash]['logged_on']
         return sorted(dates, reverse=True)[0]
 
+    def key_resource_last_collected_from(self, resource_hash):
+        k = None
+        for key in self.mappings['resource'][resource_hash].keys():
+            if k is not None:
+                last_date_from_key = self.date_resource_last_collected_from_key(resource_hash, key)
+                last_date_from_k = self.date_resource_last_collected_from_key(resource_hash, k)
+                if last_date_from_key > last_date_from_k:
+                    k = key
+            else:
+                k = key
+        return k
+
     def map_keys_to_organisations(self):
         self.mappings['organisation'] = {}
         idx = self.index
