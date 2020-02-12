@@ -11,11 +11,13 @@ def previous_day(daystr):
     pd = d - datetime.timedelta(days=1)
     return pd.strftime('%Y-%m-%d')
 
+
 def days_between(day1, day2):
     d1 = datetime.datetime.strptime(day1, '%Y-%m-%d')
     d2 = datetime.datetime.strptime(day2, '%Y-%m-%d')
     # abs makes sure an absolute number is returned e.g. a +ve number
     return abs((d1-d2).days)
+
 
 def date_x_days_before(daystr, x):
     d = datetime.datetime.strptime(daystr, '%Y-%m-%d')
@@ -23,6 +25,8 @@ def date_x_days_before(daystr, x):
     return pd.strftime('%Y-%m-%d')
 
 # e.g. 2019-01-01
+
+
 def days_since_first_monday_of_month(start_month_str):
     day_number = datetime.datetime.today().weekday()
     today = datetime.datetime.today().date().strftime('%Y-%m-%d')
@@ -35,6 +39,8 @@ def first_day_of_month(date):
     return date.date().strftime('%Y-%m') + "-01"
 
 # e.g. 2019-01-01
+
+
 def first_monday_of_month(date_str):
     today = datetime.datetime.today()
     days_ago = days_since_first_monday_of_month(date_str)
@@ -70,8 +76,9 @@ def create_week_blocks(num_days):
             day_num = day_num + 1
     return weeks
 
+
 def heat_map_data(enddate):
-    months = 11 # equates to 11 months plus the current one
+    months = 11  # equates to 11 months plus the current one
 
     days_since_start = days_between(first_monday_months_ago(11), enddate)
     # add 1 to include today
@@ -85,7 +92,7 @@ def heat_map_data(enddate):
 
 
 class CollectionIndex:
-    
+
     def __init__(self):
         self.index_url = "https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/index/index.json"
         response = urllib.request.urlopen(self.index_url)
@@ -105,7 +112,6 @@ class CollectionIndex:
         self.create_resouce_to_keys_mapping()
         self.map_keys_to_organisations()
 
-
     def create_resouce_to_keys_mapping(self):
         # works out which keys a resource appears in
         resources = defaultdict(set)
@@ -117,7 +123,6 @@ class CollectionIndex:
                     resource_hash = self.index['key'][k]['log'][entry]['resource']
                     resources[resource_hash].add(k)
 
-
         # index keys for a resource with the dates it was logged
         self.mappings['resource'] = {}
         for resource_hash in resources:
@@ -127,7 +132,6 @@ class CollectionIndex:
                 dates = [d for d in log if 'resource' in log[d] and log[d]['resource'] == resource_hash]
                 self.mappings['resource'][resource_hash].setdefault(key, {"logged_on": []})
                 self.mappings['resource'][resource_hash][key]['logged_on'] = dates
-
 
     def create_key_to_resources_mapping(self):
         self.mappings['key'] = {}
@@ -145,21 +149,21 @@ class CollectionIndex:
                 resources.setdefault(log[item]['resource'], {"logged_on": []})
                 resources[log[item]['resource']]["logged_on"].append(item)
         return resources
-        #return list(set([log[l]['resource'] for l in log if 'resource' in log[l]]))
-
+        # return list(set([log[l]['resource'] for l in log if 'resource' in log[l]]))
 
     # returns array of resource hashes associated with organisation
+
     def get_resources_for_org(self, org_id):
         resources = []
         for k in self.mappings['organisation'][org_id]['key']:
             resources = resources + list(self.get_resources_for_key(k).keys())
         return list(set(resources))
 
-
     # returns dict
     #   {
     #       'type': {'resource': [res_hash, res_hash, res_hash]}
     #   }
+
     def resource_types(self):
         types = {}
         for resource_hash in self.index['resource']:
@@ -176,10 +180,8 @@ class CollectionIndex:
             orgs = orgs + list(self.index['key'][k]['organisation'].keys())
         return set(orgs)
 
-
     def get_orgs_for_key(self, key_hash):
         return list(self.index['key'][key_hash]['organisation'].keys())
-
 
     def extract_metadata(self, resource_hash):
         orgs = self.get_orgs_for_resource(resource_hash)
@@ -204,6 +206,10 @@ class CollectionIndex:
 
     def get_key_url(self, key_hash):
         return self.get_key(key_hash)['url']
+
+    def get_key_doc_url(self, key_hash):
+        key = self.get_key(key_hash)
+        return [key['organisation'][org]['documentation-url'] for org in key['organisation'].keys()]
 
     def date_key_first_collected(self, key_hash):
         log = self.get_key_log(key_hash)
@@ -256,15 +262,14 @@ class CollectionIndex:
                 self.mappings["organisation"].setdefault(org, {"key": []})
                 self.mappings["organisation"][org]["key"].append(k)
 
-
     def orgs_with_more_than_x_links(self, x=1, active=False):
         return [org for org in self.mappings['organisation'] if len(self.mappings['organisation'][org]['key']) > x]
-
 
     # returns dict
     #   {
     #       'count': {'organisation': [org, org, org]}
     #   }
+
     def orgs_by_no_links(self):
         counts = {}
         for org in self.mappings['organisation']:
@@ -277,11 +282,9 @@ class CollectionIndex:
         counts = self.orgs_by_no_links()
         return [(c, len(counts[c]['organisation'])) for c in counts]
 
-
     def orgs_by_resources(self):
         unordered = [(org, len(self.get_resources_for_org(org))) for org in self.mappings['organisation']]
         return sorted(unordered, key=lambda x: x[1])
-
 
     def org_with_most_resources(self):
         return self.orgs_by_resources()[-1]
@@ -318,7 +321,8 @@ class CollectionIndex:
                 #print(f"{r} maps to {len(self.get_keys_for_resource(r))} keys")
                 print(f"Resource: {r}")
                 for k in self.get_keys_for_resource(r):
-                    print(f"-- key: {self.index['key'][k]['url']} first {self.date_resource_first_collected_from_key(r, k)} last {self.date_resource_last_collected_from_key(r, k)}")
+                    print(
+                        f"-- key: {self.index['key'][k]['url']} first {self.date_resource_first_collected_from_key(r, k)} last {self.date_resource_last_collected_from_key(r, k)}")
 
     def keys_by_no_resources(self):
         num_resources = [(k, len(self.mappings['key'][k])) for k in self.index['key']]
@@ -340,7 +344,6 @@ class CollectionIndex:
         for k in self.index['key']:
             if len(self.index['key'][k]['organisation'].keys()) > (count - 1):
                 print(f"Key: {k} associated with orgs [{self.index['key'][k]['organisation'].keys()}]")
-
 
     def if_fetched_on_date(self, log, datestr):
         for d in log:
@@ -370,12 +373,10 @@ class CollectionIndex:
         today = datetime.datetime.today().date().strftime('%Y-%m-%d')
         return self.print_day_summary(today)
 
-
     def resource_logged_for_day(self, log, daystr):
         if daystr in log and 'resource' in log[daystr]:
             return True
         return False
-
 
     def new_resources(self, daystr):
         changes = {}
