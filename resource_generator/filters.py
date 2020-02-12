@@ -1,8 +1,16 @@
 import datetime
 
+from resource_generator.organisation_mapper import OrganisationMapping
+org_mapping = OrganisationMapping()
+
+
+def map_org_code_to_name(id):
+    if org_mapping.get_organisation_name(id) is not None:
+        return org_mapping.get_organisation_name(id)
+    return id
+
+
 # takes a string, chars to strip off, chars to add, the count
-
-
 def pluralise(str, str_off, str_on, count):
     strip_count = -1*len(str_off) if len(str_off) > 0 else len(str)
     if count > 1:
