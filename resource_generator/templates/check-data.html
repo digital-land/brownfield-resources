@@ -69,8 +69,11 @@
         <h2 class="govuk-heading-l">About the data</h2>
         <p class="govuk-body">There are a total of <span
                 class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ summary.total }} brownfield
-                sites</span>, totalling <span
-                class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ summary.hectares }}
+                sites</span> including <span
+                class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ summary.end_dates }} with an
+                end-date</span>.</p>
+        <p class="govuk-body">These sites total <span
+                class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{'%0.2f' % summary.hectares|float}}
                 hectares</span> of land.</p>
         <p class="govuk-body">This has the potential to provide between <span
                 class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ summary.min_dwellings }} and
