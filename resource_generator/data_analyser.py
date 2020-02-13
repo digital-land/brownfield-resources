@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from numbers import Number
+
 
 class DataAnalyser():
 
@@ -11,6 +13,9 @@ class DataAnalyser():
         permission_types = [x["PermissionType"] for x in self.data]
         return permission_types.count("permission in principle")
 
+    def end_date_count(self):
+        return len([x['EndDate'] for x in self.data if x['EndDate'] is not None])
+
     def row_count(self):
         return len(self.data)
 
@@ -21,11 +26,12 @@ class DataAnalyser():
         return sum([x['NetDwellingsRangeFrom'] for x in self.data if isinstance(x['NetDwellingsRangeFrom'], int)])
 
     def total_hectares(self):
-        return sum([x['Hectares'] for x in self.data if isinstance(x['Hectares'], int)])
+        return sum([x['Hectares'] for x in self.data if isinstance(x['Hectares'], Number)])
 
     def summary(self):
         return {
             "total": self.row_count(),
+            "end_dates": self.end_date_count(),
             "hectares": self.total_hectares(),
             "max_dwellings": self.sum_max_dwellings(),
             "min_dwellings": self.sum_min_dwellings(),
