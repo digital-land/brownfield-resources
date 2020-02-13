@@ -15,13 +15,13 @@ class DataAnalyser():
         return len(self.data)
 
     def sum_max_dwellings(self):
-        return sum([x['NetDwellingsRangeTo'] for x in self.data])
+        return sum([x['NetDwellingsRangeTo'] for x in self.data if isinstance(x['NetDwellingsRangeTo'], int)])
 
     def sum_min_dwellings(self):
-        return sum([x['NetDwellingsRangeFrom'] for x in self.data])
+        return sum([x['NetDwellingsRangeFrom'] for x in self.data if isinstance(x['NetDwellingsRangeFrom'], int)])
 
     def total_hectares(self):
-        return sum([x['Hectares'] for x in self.data])
+        return sum([x['Hectares'] for x in self.data if isinstance(x['Hectares'], int)])
 
     def summary(self):
         return {
