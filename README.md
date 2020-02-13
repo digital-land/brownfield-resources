@@ -4,7 +4,7 @@ Takes report json from the brownfield validator as input and generates an HTML p
 
 ### To use
 
-Install dependencies
+Install dependencies (we'd recommend working in a **virtualenv**)
 
     pipenv install
 
@@ -49,6 +49,7 @@ To generate view data pages, run
     python resource_generator/check_data_page.py <resource_hash>
 
 where `resource_hash` is the id of a collected resource. E.g. `77da1087f91eafee42797dbaa9bebef573d2eb759b39d9db130c99d34cbe4ec4`
+This will put the generated page in `/tmp/checker/` directory. This needs to exist.
 
 ### Issues
 
