@@ -86,7 +86,15 @@
 
 <h3 class="govuk-heading-m">Records</h3>
 
-<p class="govuk-body">There are <strong>{{ data|length }}</strong> records in this brownfield register.</p>
+<p class="govuk-body">There are <strong>{{ data|length }}</strong> records after harmonising this brownfield register.
+</p>
+<p class="govuk-body">Download the data: <a
+        href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/harmonised/{{ resource_hash }}.csv"
+        download="{{resource_hash}}_harmonised.csv">harmonised</a>
+    (as below), <a
+        href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/collection/resource/{{ resource_hash }}"
+        download="{{resource_hash}}_original">original</a>
+</p>
 <div class="data-table__wrapper">
     <div class="data-table-left-shadow"></div>
     <div class="wide-table">
