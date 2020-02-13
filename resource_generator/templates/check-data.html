@@ -75,9 +75,11 @@
         <p class="govuk-body">These sites total <span
                 class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{'%0.2f' % summary.hectares|float}}
                 hectares</span> of land.</p>
-        <p class="govuk-body">This has the potential to provide between <span
-                class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ summary.min_dwellings }} and
-                {{ summary.max_dwellings }} dwellings</span>.</p>
+        <p class="govuk-body">This has the potential to provide between a <span
+                class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">minimum of
+                {{ summary.min_dwellings }}</span> and
+            <span class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text"> a maximum of
+                {{ summary.max_dwellings }}</span> dwellings.</p>
         <p class="govuk-body">There are <span
                 class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ summary["permission_in_principle"] }}
                 sites</span> that have permission in princple.</p>
