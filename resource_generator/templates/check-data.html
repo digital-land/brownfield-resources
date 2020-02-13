@@ -206,7 +206,10 @@
             } else if (key === 'name') {
                 return
             } else {
-                append = data[key]
+                append = data[key];
+                if (append == null) {
+                    append = "";
+                }
             }
 
             datastring = datastring + '<strong>' + key + '</strong>: ' + append + '<br>'
