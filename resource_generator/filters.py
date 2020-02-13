@@ -1,3 +1,14 @@
+import datetime
+
+from resource_generator.organisation_mapper import OrganisationMapping
+org_mapping = OrganisationMapping()
+
+
+def map_org_code_to_name(id):
+    if org_mapping.get_organisation_name(id) is not None:
+        return org_mapping.get_organisation_name(id)
+    return id
+
 
 # takes a string, chars to strip off, chars to add, the count
 def pluralise(str, str_off, str_on, count):
@@ -26,3 +37,8 @@ def colour_for_count(count):
 def curie_org_url(org_id):
     url_base = "https://digital-land.github.io/organisation/"
     return url_base + org_id.replace(":", "/")
+
+
+def readable_date(date_str):
+    d = datetime.datetime.strptime(date_str, '%Y-%m-%d')
+    return d.strftime('%d %B %Y')
