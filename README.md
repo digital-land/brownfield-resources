@@ -44,16 +44,22 @@ To generate daily summary log pages, run
 
 where `day_str` is the day you wish the log page to cover, e.g. `2020-01-21`. This creates the pages in `tmp/log`.
 
+To generate view data pages, run
+
+    python resource_generator/check_data_page.py <resource_hash>
+
+where `resource_hash` is the id of a collected resource. E.g. `77da1087f91eafee42797dbaa9bebef573d2eb759b39d9db130c99d34cbe4ec4`
+
 ### Issues
 
 `daily_summary_page.py` for **2019-12-24**, need to investigate
 
 ### Steps to run daily
 
-* checkout latest from [the collector](https://github.com/digital-land/brownfield-land-collection)
-* generate resource pages with `brownfield-resource-gen`
-* generate index pages with `python resource_generator/index.py`
-* generate latest report page with `python resource_generator/report.py`
-* generate any outstanding daily log pages e.g. `python resource_generator/daily_summary_page.py 2020-01-2`
-* copy generated files into **/docs** directory of [resource repo](https://github.com/digital-land/resource)
-* commit **resource repo**
+- checkout latest from [the collector](https://github.com/digital-land/brownfield-land-collection)
+- generate resource pages with `brownfield-resource-gen`
+- generate index pages with `python resource_generator/index.py`
+- generate latest report page with `python resource_generator/report.py`
+- generate any outstanding daily log pages e.g. `python resource_generator/daily_summary_page.py 2020-01-2`
+- copy generated files into **/docs** directory of [resource repo](https://github.com/digital-land/resource)
+- commit **resource repo**

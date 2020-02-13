@@ -18,6 +18,9 @@ class Renderer:
         ])
         return jinja2.Environment(loader=multi_loader)
 
+    def register_filter(self, name, func):
+        self.env.filters[name] = func
+
     def get_template(self, template_name):
         return self.env.get_template(template_name)
 

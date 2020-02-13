@@ -1,0 +1,231 @@
+{% extends "leaflet-base.html" %}
+
+{%- block beforeContent -%}
+{{ super() }}
+
+{{- govukBreadcrumbs({
+    "items": [
+        {
+        "text": "Digital Land",
+        "href": "/"
+        },
+        {
+        "text": "Resources"
+        }
+    ]
+    }) -}}
+{%- endblock -%}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-xl">Brownfield land</span>
+        <h1 class="govuk-heading-xl">View resource</h1>
+        <p class="govuk-body-l">Data extracted from a brownfield land data resource collected by the digital land
+            platform.</p>
+    </div>
+</div>
+
+<div class="metadata-panel">
+    <dl class="def-list--basic">
+        <dt>Collected from:</dt>
+        <dd>
+            <a href="{{ ind.get_key_url(key_last_collected_from) }}">{{ ind.get_key_url(key_last_collected_from) }}</a>
+        </dd>
+    </dl>
+    <a href="{{ ind.get_key_doc_url(key_last_collected_from)[0] }}">See documentation page</a>
+</div>
+<div class="publishing-metadata govuk-!-margin-bottom-9">
+    Published {{ ind.date_resource_first_collected(resource_hash)|readable_date }}
+    <br />
+    <dl class="def-list--basic">
+        <dt>From:</dt>
+        {%- for org in ind.get_orgs_for_resource(resource_hash) -%}
+        <dd>
+            <a href="{{ org }}">{{ org|map_org_code_to_name }}</a>
+            {%- if not loop.last -%}
+            ,
+            {%- endif -%}
+        </dd>
+        {%- endfor -%}
+    </dl>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-l">Details</h2>
+        <p class="govuk-body">After being collected the resource is processed. The processing attempts to clean up the
+            brownfield data contained in the resource. It removes things that do not look like data and corrects any
+            data points it can recognise and that look like they need converted in to the required format.</p>
+        <p class="govuk-body">You can read more about <a href="#">how the digital land platform processes the data</a>.
+        </p>
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-l">About the data</h2>
+        <p class="govuk-body">There are a total of <span
+                class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ summary.total }} brownfield
+                sites</span>, totalling <span
+                class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ summary.hectares }}
+                hectares</span> of land.</p>
+        <p class="govuk-body">This has the potential to provide between <span
+                class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ summary.min_dwellings }} and
+                {{ summary.max_dwellings }} dwellings</span>.</p>
+        <p class="govuk-body">There are <span
+                class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ summary["permission_in_principle"] }}
+                sites</span> that have permission in princple.</p>
+    </div>
+</div>
+
+<h3 class="govuk-heading-m govuk-!-margin-top-6">Site locations</h3>
+<div id="map" class="govuk-!-margin-bottom-9" style="width: 100%; height: 640px;"></div>
+
+<h3 class="govuk-heading-m">Records</h3>
+
+<p class="govuk-body">There are <strong>{{ data|length }}</strong> records in this brownfield register.</p>
+<div class="data-table__wrapper">
+    <div class="data-table-left-shadow"></div>
+    <div class="wide-table">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th scope="col">SiteReference</th>
+                    <th scope="col">GeoX</th>
+                    <th scope="col">GeoY</th>
+                    <th scope="col">Hectares</th>
+                    <th scope="col">FirstAddedDate</th>
+                    <th scope="col">LastUpdatedDate</th>
+                    <th scope="col">NetDwellingsRangeFrom</th>
+                    <th scope="col">NetDwellingsRangeTo</th>
+                    <th scope="col">Deliverable</th>
+                    <th scope="col">HazardousSubstances</th>
+                    <th scope="col">OrganisationURI</th>
+                    <th scope="col">OwnershipStatus</th>
+                    <th scope="col">PermissionDate</th>
+                    <th scope="col">PermissionType</th>
+                    <th scope="col">PlanningHistory</th>
+                    <th scope="col">PlanningStatus</th>
+                    <th scope="col">SiteNameAddress</th>
+                    <th scope="col">SiteplanURL</th>
+                    <th scope="col">EndDate</th>
+                    <th scope="col">Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    <td>{{ "" if row["SiteReference"] == None else row["SiteReference"] }}</td>
+                    <td>{{ "" if row["GeoX"] == None else row["GeoX"] }}</td>
+                    <td>{{ "" if row["GeoY"] == None else row["GeoY"] }}</td>
+                    <td>{{ "" if row["Hectares"] == None else row["Hectares"] }}</td>
+                    <td>{{ "" if row["FirstAddedDate"] == None else row["FirstAddedDate"] }}</td>
+                    <td>{{ "" if row["LastUpdatedDate"] == None else row["LastUpdatedDate"] }}</td>
+                    <td>{{ "" if row["NetDwellingsRangeFrom"] == None else row["NetDwellingsRangeFrom"] }}</td>
+                    <td>{{ "" if row["NetDwellingsRangeTo"] == None else row["NetDwellingsRangeTo"] }}</td>
+                    <td>{{ "" if row["Deliverable"] == None else row["Deliverable"] }}</td>
+                    <td>{{ "" if row["HazardousSubstances"] == None else row["HazardousSubstances"] }}</td>
+                    <td>{{ "" if row["OrganisationURI"] == None else row["OrganisationURI"] }}</td>
+                    <td>{{ "" if row["OwnershipStatus"] == None else row["OwnershipStatus"] }}</td>
+                    <td>{{ "" if row["PermissionDate"] == None else row["PermissionDate"] }}</td>
+                    <td>{{ "" if row["PermissionType"] == None else row["PermissionType"] }}</td>
+                    <td>{{ "" if row["PlanningHistory"] == None else row["PlanningHistory"] }}</td>
+                    <td>{{ "" if row["PlanningStatus"] == None else row["PlanningStatus"] }}</td>
+                    <td>{{ "" if row["SiteNameAddress"] == None else row["SiteNameAddress"] }}</td>
+                    <td>{{ "" if row["SiteplanURL"] == None else row["SiteplanURL"] }}</td>
+                    <td class="bfs-notes-field" style="min-width: 200px; white-space: normal;">
+                        {% if row["Notes"] == None %}
+                        {% else %}
+                        <details>
+                            <summary>See notes</summary>
+                            <div>{{ row["Notes"] }}</div>
+                        </details>
+                        {% endif %}
+                    </td>
+                    <td>{{ "" if row["EndDate"] == None else row["EndDate"] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="data-table-right-shadow"></div>
+</div>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<div class="feedback-panel">
+    <h3 class="feedback-panel__heading">Is there a problem with this data?</h3>
+    <p>If you have spotted an issue with the data or have a question email the digital land team on
+        <a href="mailto:email@email.com">email@email.com</a>.</p>
+</div>
+
+{% endblock %}
+
+{% block bodyEnd %}
+{{ super() }}
+<script>
+    const bfs_data = {{ data | tojson }};
+    const bbox = {{ bbox | tojson }};
+
+    const brownfieldSiteStyle = {
+        color: "#745729",
+        fillColor: "#745729",
+        fillOpacity: 0.5
+    };
+
+    const brownfield = L.layerGroup();
+
+    function createPopup(data) {
+        var datastring = data['SiteNameAddress'].length ? (data['SiteNameAddress'] + '<hr>') : ''
+
+        Object.keys(data).forEach(function (key) {
+            var append = ''
+
+            if (key === 'Resource') {
+                append = '<a href="https://digital-land.github.io/resource/' + data[key] + '">Full resource</a>'
+            } else if (key === 'SiteplanURL') {
+                append = '<a href="' + data[key] + '">View siteplan</a>'
+            } else if (key === 'Organisation') {
+                append = '<a href="https://digital-land.github.io/organisation/' + data[key].replace(':', '/') + '">' + data.name + '</a>'
+            } else if (key === 'name') {
+                return
+            } else {
+                append = data[key]
+            }
+
+            datastring = datastring + '<strong>' + key + '</strong>: ' + append + '<br>'
+        })
+
+        return datastring
+    }
+
+    function siteSize(hectares) {
+        if (isNaN(hectares)) {
+            return 100;
+        } else {
+            return (Math.sqrt((hectares * 10000) / Math.PI))
+        }
+    }
+
+    bfs_data.forEach(row => {
+        if (row['GeoY'] && row['GeoX']) {
+            console.log("Row has coords");
+            var size = siteSize(row['Hectares']);
+            brownfieldSiteStyle.radius = size.toFixed(2);
+            L.circle([row['GeoY'], row['GeoX']], brownfieldSiteStyle).addTo(brownfield).bindPopup(createPopup(row));
+        }
+    })
+
+    const base = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        id: 'base',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    })
+
+    const map = L.map('map', { preferCanvas: true, renderer: L.canvas({ padding: 0.5 }), layers: [base, brownfield] })
+        .fitBounds([[bbox[2], bbox[0]], [bbox[3], bbox[1]]]);
+
+</script>
+{% endblock %}
