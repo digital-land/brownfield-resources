@@ -22,25 +22,25 @@
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-xl">Brownfield land</span>
         <h1 class="govuk-heading-xl">View resource</h1>
-        <p class="govuk-body-l">Data extracted from a brownfield land data resource collected by the digital land
-            platform.</p>
+        <p class="govuk-body-l" >This data on this page was collected from <a href="{{ ind.get_key_doc_url(key_last_collected_from)[0] }}">this location</a> on {{ ind.date_resource_first_collected(resource_hash)|readable_date }}.</p>
+        <p class="govuk-body-l">View and check the data. If you find any errors, please follow the instructions on this page.</p>
     </div>
 </div>
 
 <div class="metadata-panel">
     <dl class="def-list--basic">
-        <dt>Collected from:</dt>
+        <dt>URL of the register:</dt>
         <dd>
             <a href="{{ ind.get_key_url(key_last_collected_from) }}">{{ ind.get_key_url(key_last_collected_from) }}</a>
         </dd>
     </dl>
-    <a href="{{ ind.get_key_doc_url(key_last_collected_from)[0] }}">See documentation page</a>
+    <a href="{{ ind.get_key_doc_url(key_last_collected_from)[0] }}">View the web page the register is linked from.</a>
 </div>
 <div class="publishing-metadata govuk-!-margin-bottom-9">
-    Published {{ ind.date_resource_first_collected(resource_hash)|readable_date }}
+    Register published: {{ ind.date_resource_first_collected(resource_hash)|readable_date }}
     <br />
     <dl class="def-list--basic">
-        <dt>From:</dt>
+        <dt>Organisation(s):</dt>
         {%- for org in ind.get_orgs_for_resource(resource_hash) -%}
         <dd>
             <a href="{{ org }}">{{ org|map_org_code_to_name }}</a>
@@ -54,11 +54,9 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h2 class="govuk-heading-l">Details</h2>
-        <p class="govuk-body">After being collected the resource is processed. The processing attempts to clean up the
-            brownfield data contained in the resource. It removes things that do not look like data and corrects any
-            data points it can recognise and that look like they need converted in to the required format.</p>
-        <p class="govuk-body">You can read more about <a href="#">how the digital land platform processes the data</a>.
+        <h2 class="govuk-heading-l">How we've processed this data</h2>
+        <p class="govuk-body">The data shown on this page has gone through our pipeline process. The Digital Land pipeline collects the data, then fixes common errors that do not meet the data standard.</p>
+        <p class="govuk-body">Find out more about <a href="https://github.com/digital-land/brownfield-land-collection/blob/master/README.md">our pipeline process.</a>
         </p>
         <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
     </div>
@@ -67,22 +65,22 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h2 class="govuk-heading-l">About the data</h2>
-        <p class="govuk-body">There are a total of <span
+        <p class="govuk-body">This resource has reported a total of <span
                 class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ summary.total }} brownfield
-                sites</span> including <span
-                class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ summary.end_dates }} with an
-                end-date</span>.</p>
-        <p class="govuk-body">These sites total <span
+                sites.</span> 
+        <p class="govuk-body"><span
+                class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ summary.end_dates }} sites</span> have an end date and are no longer considered brownfield land.</p>
+        <p class="govuk-body">There are <span
                 class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{'%0.2f' % summary.hectares|float}}
-                hectares</span> of land.</p>
-        <p class="govuk-body">This has the potential to provide between a <span
-                class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">minimum of
+                hectares</span> of land (excluding those with an end date).</p>
+         <p class="govuk-body">This land has the potential to provide between <span
+                class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">a minimum of
                 {{ summary.min_dwellings }}</span> and
             <span class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text"> a maximum of
-                {{ summary.max_dwellings }}</span> dwellings.</p>
-        <p class="govuk-body">There are <span
+                {{ summary.max_dwellings }}</span> dwellings.</p>               
+        <p class="govuk-body"><span
                 class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ summary["permission_in_principle"] }}
-                sites</span> that have permission in princple.</p>
+                sites</span> have permission in princple.</p>
     </div>
 </div>
 
@@ -91,7 +89,7 @@
 
 <h3 class="govuk-heading-m">Records</h3>
 
-<p class="govuk-body">There are <strong>{{ data|length }}</strong> records after harmonising this brownfield register.
+<p class="govuk-body">The table below shows the detail for each of the <strong>{{ data|length }}</strong> sites from the processed data.
 </p>
 <p class="govuk-body">Download the data: <a
         href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/harmonised/{{ resource_hash }}.csv"
@@ -168,6 +166,30 @@
 </div>
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-l">Download the data</h2>
+        
+        <p class="govuk-body">If you are responsible for publishing the brownfield data on this page and need to fix any errors, we suggest that you download the processed data and apply those fixes there before uploading the new register to your website.</p>
+
+        <div class="govuk-inset-text">
+            If you have amended the data you can <a href="">check your changes</a> before re-publishing on your website</div>
+        
+    
+    <button class="govuk-button" data-module="govuk-button">
+        Download the processed data
+    </button>
+
+    <p class="govuk-body">Download the <a
+        href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/collection/resource/{{ resource_hash }}"
+        download="{{resource_hash}}_original">original</a> data.</p>
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    </div>
+    
+</div>
+
+
 
 <div class="feedback-panel">
     <h3 class="feedback-panel__heading">Is there a problem with this data?</h3>
