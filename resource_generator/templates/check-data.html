@@ -100,7 +100,7 @@
         href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/collection/resource/{{ resource_hash }}"
         download="{{resource_hash}}_original">original</a>
 </p>
-<div class="data-table__wrapper">
+<div class="data-table__wrapper" data-module="data-table">
     <div class="data-table-left-shadow"></div>
     <div class="wide-table">
         <table class="data-table">
@@ -179,6 +179,14 @@
 
 {% block bodyEnd %}
 {{ super() }}
+<script src="{{ static_folder }}/javascripts/dl-frontend.js"></script>
+<script>
+    // Initialise data tables component
+    var $data_tables = document.querySelectorAll('[data-module="data-table"]')
+    $data_tables.forEach(data_table => {
+        new window.DLFrontend.ScrollableTables(data_table).init()
+    })
+</script>
 <script>
     const bfs_data = {{ data | tojson }};
     const bbox = {{ bbox | tojson }};
