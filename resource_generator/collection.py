@@ -209,7 +209,11 @@ class CollectionIndex:
 
     def get_key_doc_url(self, key_hash):
         key = self.get_key(key_hash)
-        return [key['organisation'][org]['documentation-url'] for org in key['organisation'].keys()]
+        urls = []
+        for org in key['organisation'].keys():
+            if 'documentation-url' in key['organisation'][org].keys():
+                urls.append(key['organisation'][org]['documentation-url'])
+        return urls
 
     def date_key_first_collected(self, key_hash):
         log = self.get_key_log(key_hash)
