@@ -21,6 +21,7 @@ def url_for_issues(resource_hash):
 
 
 def fetch_csv(url):
+    print(f"...... collecting harmonised data from {url}")
     data = pd.read_csv(url, sep=",")
     # strip spaces introduced to values
     data_frame_trimmed = data.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
@@ -38,7 +39,6 @@ def increase_bounding_box(bbox, kms):
     lat_diff = kms * (360/earth_circumf_km)
     # calculate the longitude difference
     lat_in_rads = radians(bbox[2])
-    print("bounding box of data: ", bbox)
     line_of_long = cos(lat_in_rads) * earth_circumf_km
     long_diff = kms * (360/line_of_long)
     return (
@@ -74,6 +74,30 @@ renderer.register_filter("readable_date", readable_date)
 renderer.register_filter("map_org_code_to_name", map_org_code_to_name)
 
 
+def print_failed_list(failed):
+    print("Resources that failed to build are:")
+    for r in failed:
+        print(r)
+
+
+# generates a page for all the resources in the index
+def generate_all_check_data_pages():
+    created_successfully = []
+    failed = []
+    for resource_hash in ind.mappings['resource']:
+        if generate_check_data_page(resource_hash):
+            created_successfully.append(resource_hash)
+        else:
+            failed.append(resource_hash)
+
+    # print the results
+    print("===================================")
+    print(f"{len(created_successfully)} pages created, {len(failed)} pages failed")
+    print("===================================")
+    print_failed_list(failed)
+
+
+# generate a page for a given resource
 def generate_check_data_page(resource_hash):
     key_last_collected_from = ind.key_resource_last_collected_from(resource_hash)
     # fetch resource we are interested in
@@ -83,22 +107,34 @@ def generate_check_data_page(resource_hash):
     analyser = DataAnalyser(json_data)
 
     # render the page
-    renderer.render_page(
-        "check-data.html",
-        f"tmp/checker/{resource_hash}.html",
-        data=json_data,
-        summary=analyser.summary(),
-        resource_hash=resource_hash,
-        key_last_collected_from=key_last_collected_from,
-        ind=ind,
-        bbox=increase_bounding_box(bounding_box(data), 1))
+    try:
+        renderer.render_page(
+            "check-data.html",
+            f"tmp/checker/{resource_hash}.html",
+            data=json_data,
+            summary=analyser.summary(),
+            resource_hash=resource_hash,
+            key_last_collected_from=key_last_collected_from,
+            ind=ind,
+            bbox=increase_bounding_box(bounding_box(data), 1))
+        print(f"SUCCESS: {resource_hash}")
+        return True
+    except Exception as e:
+        print(f"Failed for: {resource_hash}")
+        print(repr(e))
+        return False
 
 
 if __name__ == '__main__':
+    # default resource hash
     resource_hash = "060e59f0475aa7d6fc8404bd325939d41442117775feed63fbd7ad1de5af8ac5"
     if len(sys.argv) > 1:
-        resource_hash = sys.argv[1]
-        print(f"Generate check data page for resource: {sys.argv[1]}")
+        if sys.argv[1] == "--all":
+            generate_all_check_data_pages()
+            sys.exit(0)
+        else:
+            resource_hash = sys.argv[1]
+            print(f"Generate check data page for resource: {sys.argv[1]}")
     else:
         print(f"Generate check data page for default resource: {resource_hash}")
     generate_check_data_page(resource_hash)
