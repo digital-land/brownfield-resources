@@ -110,7 +110,7 @@ def generate_check_data_page(resource_hash):
     try:
         renderer.render_page(
             "check-data.html",
-            f"tmp/checker/{resource_hash}.html",
+            f"{resource_hash}/index.html",
             data=json_data,
             summary=analyser.summary(),
             resource_hash=resource_hash,

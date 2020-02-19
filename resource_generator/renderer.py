@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
 
+import os
 import jinja2
+
+
+dist_dir = "tmp/"
+
+
+def mkdir_p(filename):
+    path = os.path.join(dist_dir, filename)
+    dir_path = os.path.dirname(path)
+    os.makedirs(dir_path, exist_ok=True)
+    return path
 
 
 class Renderer:
@@ -24,9 +35,11 @@ class Renderer:
     def get_template(self, template_name):
         return self.env.get_template(template_name)
 
-    def render_page(self, template, output, **kwargs):
+    def render_page(self, template, output_file, **kwargs):
         page_template = self.get_template(template)
-        with open(output, "w") as f:
+        path = mkdir_p(output_file)
+        print(f"Path to created file: {path}")
+        with open(path, "w") as f:
             f.write(page_template.render(
                 static_folder=self.static_folder,
                 **kwargs)
