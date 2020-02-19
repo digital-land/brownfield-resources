@@ -81,11 +81,11 @@ def print_failed_list(failed):
 
 
 # generates a page for all the resources in the index
-def generate_all_check_data_pages():
+def generate_all_playback_data_pages():
     created_successfully = []
     failed = []
     for resource_hash in ind.mappings['resource']:
-        if generate_check_data_page(resource_hash):
+        if generate_playback_data_page(resource_hash):
             created_successfully.append(resource_hash)
         else:
             failed.append(resource_hash)
@@ -98,7 +98,7 @@ def generate_all_check_data_pages():
 
 
 # generate a page for a given resource
-def generate_check_data_page(resource_hash):
+def generate_playback_data_page(resource_hash):
     key_last_collected_from = ind.key_resource_last_collected_from(resource_hash)
     # fetch resource we are interested in
     data = fetch_csv(url_for_harmonised(resource_hash))
@@ -130,11 +130,11 @@ if __name__ == '__main__':
     resource_hash = "060e59f0475aa7d6fc8404bd325939d41442117775feed63fbd7ad1de5af8ac5"
     if len(sys.argv) > 1:
         if sys.argv[1] == "--all":
-            generate_all_check_data_pages()
+            generate_all_playback_data_pages()
             sys.exit(0)
         else:
             resource_hash = sys.argv[1]
             print(f"Generate check data page for resource: {sys.argv[1]}")
     else:
         print(f"Generate check data page for default resource: {resource_hash}")
-    generate_check_data_page(resource_hash)
+    generate_playback_data_page(resource_hash)
