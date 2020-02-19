@@ -26,7 +26,7 @@ collection_ind = CollectionIndex()
 )
 def generate(file, input_dir, static_folder, output_file, output_dir):
     # default output dir if not set
-    output_dir = make_valid_dir(output_dir) if output_dir else "tmp/"
+    output_dir = make_valid_dir(output_dir) if output_dir else "tmp/resource/"
 
     if file:
         # check if output file is known

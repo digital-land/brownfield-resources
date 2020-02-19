@@ -12,7 +12,7 @@ class Renderer:
         self.static_folder = static_folder
         self.env = self.register_templates()
         # TO DO: make this configurable
-        self.dist_dir = "tmp/"
+        self.dist_dir = "tmp/resource/"
 
     def register_templates(self):
         multi_loader = jinja2.ChoiceLoader([

@@ -10,7 +10,11 @@
         "href": "/"
         },
         {
-        "text": "Resources"
+        "text": "Resource",
+        "href": "/resource"
+        },
+        {
+        "text": resource_hash|truncate(11,true)
         }
     ]
     }) -}}
@@ -64,6 +68,18 @@
         <p class="govuk-body">You can read more about <a href="#">how the digital land platform processes the data</a>.
         </p>
         <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    </div>
+    <div class="govuk-grid-column-one-third">
+        <aside class="app-related-items app-related-items--small" role="complementary">
+            <h2 class="govuk-heading-m" id="subsection-title">
+                Related content
+            </h2>
+            <nav role="navigation" aria-labelledby="subsection-title">
+                <ul class="govuk-list govuk-!-font-size-16">
+                    <li><a href="/resource/{{resource_hash}}/validation-result.html">Validation result</a></li>
+                </ul>
+            </nav>
+        </aside>
     </div>
 </div>
 
