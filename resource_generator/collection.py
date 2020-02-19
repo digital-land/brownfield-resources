@@ -290,6 +290,16 @@ class CollectionIndex:
         unordered = [(org, len(self.get_resources_for_org(org))) for org in self.mappings['organisation']]
         return sorted(unordered, key=lambda x: x[1])
 
+    def orgs_per_resource_count(self):
+        counts = {}
+        orgs_by_num_res = self.orgs_by_resources()
+        for tup in orgs_by_num_res:
+            count = tup[1]
+            counts.setdefault(count, {"organisation": []})
+            counts[count]["organisation"].append(tup[0])
+        return counts
+
+
     def org_with_most_resources(self):
         return self.orgs_by_resources()[-1]
 
