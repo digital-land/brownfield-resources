@@ -3,15 +3,7 @@
 import os
 import jinja2
 
-
-dist_dir = "tmp/"
-
-
-def mkdir_p(filename):
-    path = os.path.join(dist_dir, filename)
-    dir_path = os.path.dirname(path)
-    os.makedirs(dir_path, exist_ok=True)
-    return path
+from resource_generator.utils import mkdir_p
 
 
 class Renderer:
@@ -19,6 +11,8 @@ class Renderer:
     def __init__(self, static_folder):
         self.static_folder = static_folder
         self.env = self.register_templates()
+        # TO DO: make this configurable
+        self.dist_dir = "tmp/"
 
     def register_templates(self):
         multi_loader = jinja2.ChoiceLoader([
@@ -37,7 +31,7 @@ class Renderer:
 
     def render_page(self, template, output_file, **kwargs):
         page_template = self.get_template(template)
-        path = mkdir_p(output_file)
+        path = mkdir_p(output_file, self.dist_dir)
         print(f"Path to created file: {path}")
         with open(path, "w") as f:
             f.write(page_template.render(

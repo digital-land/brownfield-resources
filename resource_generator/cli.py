@@ -5,8 +5,10 @@ import click
 
 from resource_generator.generate import generate_from_file
 from resource_generator.collection import CollectionIndex
+from resource_generator.utils import mkdir_p
 
 collection_ind = CollectionIndex()
+
 
 @click.command()
 @click.option("--file", help="The path to the result json")
@@ -63,20 +65,22 @@ def make_valid_dir(d):
 
 def get_output_file(filename, output_dir):
     base = os.path.basename(filename)
-    return output_dir + os.path.splitext(base)[0] + ".html"
+    return os.path.join(output_dir, os.path.splitext(base)[0], "validation-result.html")
 
 
 def generate_single_resource(filename, static_folder, output):
 
     try:
         html = generate_from_file(filename, static_folder, collection_ind)
+        # create any directories that don't exist
+        mkdir_p(output)
         with open(output, "w") as f:
             print(html, file=f)
         return True
-        #sys.exit(0)
+        # sys.exit(0)
     except Exception as e:
         print(e, file=sys.stderr)
-        #sys.exit(1)
+        # sys.exit(1)
         return False
 
 
