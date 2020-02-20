@@ -101,9 +101,9 @@
                 hectares</span> of land.</p>
         <p class="govuk-body">This has the potential to provide between a <span
                 class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">minimum of
-                {{ summary.min_dwellings }}</span> and
+                {{ summary.min_dwellings|int }}</span> and
             <span class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text"> a maximum of
-                {{ summary.max_dwellings }}</span> dwellings.</p>
+                {{ summary.max_dwellings|int }}</span> dwellings.</p>
         <p class="govuk-body">There are <span
                 class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ summary["permission_in_principle"] }}
                 sites</span> that have permission in principle.</p>
