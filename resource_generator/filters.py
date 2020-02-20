@@ -42,3 +42,11 @@ def curie_org_url(org_id):
 def readable_date(date_str):
     d = datetime.datetime.strptime(date_str, '%Y-%m-%d')
     return d.strftime('%d %B %Y')
+
+
+def check_for_multiple(str):
+    if "¦" in str:
+        return str.split("¦")
+    elif "|" in str:
+        return str.split("|")
+    return str

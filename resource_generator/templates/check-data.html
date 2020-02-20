@@ -169,7 +169,16 @@
                     <td>{{ "" if row["OwnershipStatus"] == None else row["OwnershipStatus"] }}</td>
                     <td>{{ "" if row["PermissionDate"] == None else row["PermissionDate"] }}</td>
                     <td>{{ "" if row["PermissionType"] == None else row["PermissionType"] }}</td>
-                    <td>{{ "" if row["PlanningHistory"] == None else row["PlanningHistory"] }}</td>
+                    <td>{%- if row["PlanningHistory"] %}
+                        {% set urls = row["PlanningHistory"]|check_for_multiple %}
+                            {%- if urls is iterable and urls is not string %}
+                                {%- for url in urls %}
+                                    {{ url }}<br />
+                                {%- endfor %}
+                            {% else %}
+                                {{ urls }}
+                            {% endif %}
+                        {% endif %}</td>
                     <td>{{ "" if row["PlanningStatus"] == None else row["PlanningStatus"] }}</td>
                     <td>{{ "" if row["SiteNameAddress"] == None else row["SiteNameAddress"] }}</td>
                     <td>{{ "" if row["SiteplanURL"] == None else row["SiteplanURL"] }}</td>
