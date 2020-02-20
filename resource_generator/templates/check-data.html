@@ -156,8 +156,22 @@
                 {% for row in data %}
                 <tr>
                     <td>{{ "" if row["SiteReference"] == None else row["SiteReference"] }}</td>
-                    <td>{{ "" if row["GeoX"] == None else row["GeoX"] }}</td>
-                    <td>{{ "" if row["GeoY"] == None else row["GeoY"] }}</td>
+                    {% if row["GeoX"] == None -%}
+                    <td class="data-table__missing">
+                        <span class="data-table__missing__label">Missing</span>
+                    {%- else %}
+                    <td>
+                        {{ row["GeoX"] }}
+                    {%- endif %}
+                    </td>
+                    {% if row["GeoY"] == None -%}
+                    <td class="data-table__missing">
+                        <span class="data-table__missing__label">Missing</span>
+                    {%- else %}
+                    <td>
+                        {{ row["GeoY"] }}
+                    {%- endif %}
+                    </td>
                     <td>{{ "" if row["Hectares"] == None else row["Hectares"] }}</td>
                     <td>{{ "" if row["FirstAddedDate"] == None else row["FirstAddedDate"] }}</td>
                     <td>{{ "" if row["LastUpdatedDate"] == None else row["LastUpdatedDate"] }}</td>
