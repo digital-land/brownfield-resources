@@ -8,11 +8,11 @@ from resource_generator.utils import mkdir_p
 
 class Renderer:
 
-    def __init__(self, static_folder):
+    def __init__(self, static_folder, dist_dir="tmp/resource/"):
         self.static_folder = static_folder
         self.env = self.register_templates()
         # TO DO: make this configurable
-        self.dist_dir = "tmp/resource/"
+        self.dist_dir = dist_dir
 
     def register_templates(self):
         multi_loader = jinja2.ChoiceLoader([
