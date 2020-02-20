@@ -37,7 +37,7 @@ dataset/brownfield-land/organisation/local-authority-eng%3ANNO/check.html
 {% block content %}
 <span class="govuk-caption-xl">Brownfield land</span>
 <h1 class="govuk-heading-xl">Check your data</h1>
-<p class="govuk-body">Check that the brownfield land data we have collected from your organisation is accurate and up to
+<p class="govuk-body">Check that the brownfield land data we have collected from {{ organisation|map_org_code_to_name }} is accurate and up to
     date.</p>
 
 <h2 class="govuk-heading-m">Latest version</h2>
@@ -53,17 +53,17 @@ dataset/brownfield-land/organisation/local-authority-eng%3ANNO/check.html
 
 <p class="govuk-body">Do this and that.</p>
 
-<p class="govuk-body">Try it in the [check your data service].</p>
+<p class="govuk-body">Try it in the [check your data service]</p>
 
+{% if other_resources|length > 0 %}
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 <h2 class="govuk-heading-m">Other related versions</h2>
-{% if other_resources|length > 0 %}
 <ul class="govuk-list govuk-list--bullet">
     {% for r in other_resources %}
     <li>
         <a href="/resource/{{ r['resource'] }}">Version collected between {{ r['start_date'] }} and
-            {{ r['last_collected'] }}.</a>
+            {{ r['last_collected'] }}</a>
     </li>
     {% endfor %}
 </ul>
