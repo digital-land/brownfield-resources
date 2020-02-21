@@ -41,7 +41,7 @@
 <ul class="govuk-list">
     {% for r in ind.mappings['resource'].keys()  %}
         <li>
-            <h3 class="govuk-heading-m" style="word-break: break-all;"><a href="{{ r }}.html">{{ r }}</a></h3>
+            <h3 class="govuk-heading-m" style="word-break: break-all;"><a href="{{ r }}">{{ r }}</a></h3>
             <dl class="govuk-summary-list">
                 {% for k in ind.mappings['resource'][r] %}
                 <div class="govuk-summary-list__row">
