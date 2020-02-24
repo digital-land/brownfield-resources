@@ -7,7 +7,7 @@ setup(
     url="https://github.com/digital-land/brownfield-resources",
     license="MIT",
     install_requires=["click",
-                      "jinja2",
+                      "jinja2"
                       ],
     classifiers=[
         "Development Status :: 3 - Alpha",
