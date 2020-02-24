@@ -124,20 +124,21 @@
         href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/collection/resource/{{ resource_hash }}"
         download="{{resource_hash}}_original">original</a>
 </p>
+
 <div class="data-table__wrapper" data-module="data-table">
     <div class="data-table-left-shadow"></div>
     <div class="wide-table">
         <table class="data-table">
             <thead>
                 <tr>
-                    <th scope="col">SiteReference</th>
+                    <th scope="col" aria-sort="none">SiteReference</th>
                     <th scope="col">GeoX</th>
                     <th scope="col">GeoY</th>
-                    <th scope="col">Hectares</th>
+                    <th scope="col" aria-sort="none">Hectares</th>
+                    <th scope="col" aria-sort="none">NetDwellingsRangeFrom</th>
+                    <th scope="col" aria-sort="none">NetDwellingsRangeTo</th>
                     <th scope="col">FirstAddedDate</th>
                     <th scope="col">LastUpdatedDate</th>
-                    <th scope="col">NetDwellingsRangeFrom</th>
-                    <th scope="col">NetDwellingsRangeTo</th>
                     <th scope="col">Deliverable</th>
                     <th scope="col">HazardousSubstances</th>
                     <th scope="col">OrganisationURI</th>
@@ -153,9 +154,9 @@
                 </tr>
             </thead>
             <tbody>
-                {% for row in data %}
+                {%- for row in data -%}
                 <tr>
-                    <td>{{ "" if row["SiteReference"] == None else row["SiteReference"] }}</td>
+                    <td data-sort-value="{{ '' if row['SiteReference'] == None else row['SiteReference'] }}">{{ "" if row["SiteReference"] == None else row["SiteReference"] }}</td>
                     {% if row["GeoX"] == None -%}
                     <td class="data-table__missing">
                         <span class="data-table__missing__label">Missing</span>
@@ -172,11 +173,11 @@
                         {{ row["GeoY"] }}
                     {%- endif %}
                     </td>
-                    <td>{{ "" if row["Hectares"] == None else row["Hectares"] }}</td>
+                    <td data-sort-value="{{ 0 if row['Hectares'] == None else row['Hectares'] }}">{{ "" if row["Hectares"] == None else row["Hectares"] }}</td>
+                    <td data-sort-value="{{ 0 if row['NetDwellingsRangeFrom'] == None else row['NetDwellingsRangeFrom'] }}">{{ "" if row["NetDwellingsRangeFrom"] == None else row["NetDwellingsRangeFrom"] }}</td>
+                    <td data-sort-value="{{ 0 if row['NetDwellingsRangeTo'] == None else row['NetDwellingsRangeTo'] }}">{{ "" if row["NetDwellingsRangeTo"] == None else row["NetDwellingsRangeTo"] }}</td>
                     <td>{{ "" if row["FirstAddedDate"] == None else row["FirstAddedDate"] }}</td>
                     <td>{{ "" if row["LastUpdatedDate"] == None else row["LastUpdatedDate"] }}</td>
-                    <td>{{ "" if row["NetDwellingsRangeFrom"] == None else row["NetDwellingsRangeFrom"] }}</td>
-                    <td>{{ "" if row["NetDwellingsRangeTo"] == None else row["NetDwellingsRangeTo"] }}</td>
                     <td>{{ "" if row["Deliverable"] == None else row["Deliverable"] }}</td>
                     <td>{{ "" if row["HazardousSubstances"] == None else row["HazardousSubstances"] }}</td>
                     <td>{{ "" if row["OrganisationURI"] == None else row["OrganisationURI"] }}</td>
@@ -224,7 +225,9 @@
 
 {% endblock %}
 
+{% set includeJQuery = "true" %}
 {% block bodyEnd %}
+<script src="{{ static_folder }}/javascripts/vendor/MOJFrontend.SortableTable.js"></script>
 {{ super() }}
 <script src="{{ static_folder }}/javascripts/dl-frontend.js"></script>
 <script>
@@ -234,6 +237,19 @@
         new window.DLFrontend.ScrollableTables(data_table).init()
     })
 </script>
+
+<script>
+(function($) {
+    $(function() {
+        var sTable = new MOJFrontend.SortableTable({
+            table: $('table')[0],
+            statusVisible: true,
+            tableWrapperSelector: ".data-table__wrapper"
+        });
+    });
+}(jQuery));
+</script>
+
 <script>
     const bfs_data = {{ data | tojson }};
     var bbox = {{ bbox | tojson }};
