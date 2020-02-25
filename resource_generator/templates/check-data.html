@@ -136,7 +136,7 @@
         {%- endif -%}
 </p>
 
-<div class="data-table__wrapper" data-module="data-table">
+<div class="data-table__wrapper" data-module="data-table data-linkable-table">
     <div class="data-table-left-shadow"></div>
     <div class="wide-table">
         <table class="data-table">
@@ -258,6 +258,13 @@
         });
     });
 }(jQuery));
+</script>
+
+<script>
+var $linkable_tables = document.querySelectorAll('[data-module*="data-linkable-table"]')
+$linkable_tables.forEach(linkable_table => {
+    new window.DLFrontend.LinkableTable(linkable_table).init()
+});
 </script>
 
 <script>
