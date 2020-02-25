@@ -9,7 +9,12 @@ from math import cos, radians
 from resource_generator.renderer import Renderer
 from resource_generator.data_analyser import DataAnalyser
 from resource_generator.collection import CollectionIndex
-from resource_generator.filters import readable_date, map_org_code_to_name, check_for_multiple, pluralise
+from resource_generator.filters import (
+    readable_date,
+    map_org_code_to_name,
+    check_for_multiple,
+    pluralise,
+    map_media_type)
 
 
 def url_for_harmonised(resource_hash):
@@ -75,6 +80,7 @@ renderer.register_filter("readable_date", readable_date)
 renderer.register_filter("map_org_code_to_name", map_org_code_to_name)
 renderer.register_filter("check_for_multiple", check_for_multiple)
 renderer.register_filter("pluralise", pluralise)
+renderer.register_filter("map_media_type", map_media_type)
 
 
 def print_failed_list(failed):

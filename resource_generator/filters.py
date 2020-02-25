@@ -50,3 +50,16 @@ def check_for_multiple(str):
     elif "|" in str:
         return str.split("|")
     return str
+
+
+def map_media_type(str):
+    if str == 'text/csv':
+        return 'csv'
+    if str == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+        return 'Excel'
+    if str == 'application/pdf':
+        return 'pdf'
+    if str == 'application/vnd.ms-excel':
+        return 'Excel pre 2007'
+    # for '' or 'inode/x-empty'
+    return 'No file type'

@@ -122,12 +122,16 @@
 
 <p class="govuk-body">There are <strong>{{ data|length }}</strong> records after harmonising this brownfield register.
 </p>
+{%- set original_media_type = ind.get_resource(resource_hash)['media-type']|map_media_type -%}
 <p class="govuk-body">Download the data: <a
         href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/harmonised/{{ resource_hash }}.csv"
         download="{{resource_hash}}_harmonised.csv">harmonised</a>
     (as below), <a
         href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/collection/resource/{{ resource_hash }}"
-        download="{{resource_hash}}_original">original</a>
+        download="{{resource_hash}}_original">original</a> ({{ original_media_type }}){%- if not original_media_type == 'csv' -%}
+        , <a href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/converted/{{ resource_hash }}"
+        download="{{resource_hash}}_converted">converted</a> (csv)
+        {%- endif -%}
 </p>
 
 <div class="data-table__wrapper" data-module="data-table">
