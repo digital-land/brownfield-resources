@@ -141,6 +141,7 @@
             <thead>
                 <tr>
                     <th scope="col" aria-sort="none">SiteReference</th>
+                    <th scope="col">SiteNameAddress</th>
                     <th scope="col">GeoX</th>
                     <th scope="col">GeoY</th>
                     <th scope="col" aria-sort="none">Hectares</th>
@@ -156,7 +157,6 @@
                     <th scope="col">PermissionType</th>
                     <th scope="col">PlanningHistory</th>
                     <th scope="col">PlanningStatus</th>
-                    <th scope="col">SiteNameAddress</th>
                     <th scope="col">SiteplanURL</th>
                     <th scope="col">Notes</th>
                     <th scope="col">EndDate</th>
@@ -166,6 +166,7 @@
                 {%- for row in data -%}
                 <tr>
                     <td data-sort-value="{{ '' if row['SiteReference'] == None else row['SiteReference'] }}">{{ "" if row["SiteReference"] == None else row["SiteReference"] }}</td>
+                    <td>{{ "" if row["SiteNameAddress"] == None else row["SiteNameAddress"] }}</td>
                     {% if row["GeoX"] == None -%}
                     <td class="data-table__missing">
                         <span class="data-table__missing__label">Missing</span>
@@ -204,7 +205,6 @@
                             {% endif %}
                         {% endif %}</td>
                     <td>{{ "" if row["PlanningStatus"] == None else row["PlanningStatus"] }}</td>
-                    <td>{{ "" if row["SiteNameAddress"] == None else row["SiteNameAddress"] }}</td>
                     <td>{{ "" if row["SiteplanURL"] == None else row["SiteplanURL"] }}</td>
                     <td class="bfs-notes-field" style="min-width: 200px; white-space: normal;">
                         {% if row["Notes"] == None %}
