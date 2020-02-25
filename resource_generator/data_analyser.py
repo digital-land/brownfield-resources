@@ -13,6 +13,9 @@ class DataAnalyser():
         permission_types = [x["PermissionType"] for x in self.data]
         return permission_types.count("permission in principle")
 
+    def countHasLatLng(self):
+        return len([(row['GeoY'], row['GeoX']) for row in self.data if row['GeoX'] and row['GeoY']])
+
     def end_date_count(self):
         return len([x['EndDate'] for x in self.data if x['EndDate'] is not None])
 
@@ -32,6 +35,7 @@ class DataAnalyser():
         return {
             "total": self.row_count(),
             "end_dates": self.end_date_count(),
+            "hasLatLng": self.countHasLatLng(),
             "hectares": self.total_hectares(),
             "max_dwellings": self.sum_max_dwellings(),
             "min_dwellings": self.sum_min_dwellings(),
