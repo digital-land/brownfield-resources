@@ -21,6 +21,10 @@ def url_for_harmonised(resource_hash):
     return f'https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/harmonised/{resource_hash}.csv'
 
 
+def url_for_converted(resource_hash):
+    return f'https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/converted/{resource_hash}.csv'
+
+
 def url_for_issues(resource_hash):
     return f'https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/issue/{resource_hash}.csv'
 
@@ -83,6 +87,14 @@ renderer.register_filter("pluralise", pluralise)
 renderer.register_filter("map_media_type", map_media_type)
 
 
+def formatIssuesData(issues):
+    issues_by_row = {}
+    for issue in issues:
+        issues_by_row.setdefault(issue['row-number'], {"issue": []})
+        issues_by_row[issue['row-number']]['issue'].append(issue)
+    return issues_by_row
+
+
 def print_failed_list(failed):
     print("Resources that failed to build are:")
     for r in failed:
@@ -115,6 +127,11 @@ def generate_playback_data_page(resource_hash):
     # analyse data
     analyser = DataAnalyser(json_data)
 
+    # get the relevant issues for resource
+    issues = pd.read_csv(url_for_issues(resource_hash), sep=",")
+    issues_json = json.loads(issues.to_json(orient='records'))
+    issues_by_row = formatIssuesData(issues_json)
+
     # render the page
     try:
         renderer.render_page(
@@ -125,7 +142,8 @@ def generate_playback_data_page(resource_hash):
             resource_hash=resource_hash,
             key_last_collected_from=key_last_collected_from,
             ind=ind,
-            bbox=increase_bounding_box(bounding_box(data), 1))
+            bbox=increase_bounding_box(bounding_box(data), 1),
+            issues=issues_by_row)
         print(f"SUCCESS: {resource_hash}")
         return True
     except Exception as e:
