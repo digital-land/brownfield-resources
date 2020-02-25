@@ -235,23 +235,8 @@
 {% endblock %}
 
 {% set includeJQuery = "true" %}
-{% block bodyEnd %}
-<!-- google analytics -->
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-    ga('create', 'UA-127566551-1', 'auto');
-    
-    ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
-<!-- end google analytics -->
-
-{{ super() }}
+{% block bodyEndScripts %}
 <script src="{{ static_folder }}/javascripts/vendor/MOJFrontend.SortableTable.js"></script>
-
 <script src="{{ static_folder }}/javascripts/dl-frontend.js"></script>
 <script>
     // Initialise data tables component

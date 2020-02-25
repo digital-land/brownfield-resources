@@ -24,13 +24,32 @@
 
 {% block bodyEnd %}
 
-{% if includeJQuery == "true" %}
-<script src="{{ static_folder }}/javascripts/vendor/jquery-3.4.1.min.js"></script>
-{% endif %}
+	{%- block googleAnalytics -%}
+	<!-- google analytics -->
+	<script type="application/javascript">
+		var doNotTrack = false;
+		if (!doNotTrack) {
+			window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+			ga('create', 'UA-127566551-1', 'auto');
+			
+			ga('send', 'pageview');
+		}
+	</script>
+	<script async src='https://www.google-analytics.com/analytics.js'></script>
+	<!-- end google analytics -->
+	{% endblock googleAnalytics %}
 
-<script src="{{ static_folder }}/javascripts/govuk/govuk-frontend-3.0.0.min.js"></script>
-<script>
-	// initiate all GOVUK components
-	window.GOVUKFrontend.initAll();
-</script>
+	{#- optional jQuery include -#}
+	{%- if includeJQuery == "true" -%}
+	<script src="{{ static_folder }}/javascripts/vendor/jquery-3.4.1.min.js"></script>
+	{%- endif -%}
+	
+	<script src="{{ static_folder }}/javascripts/govuk/govuk-frontend-3.0.0.min.js"></script>
+	<script>
+		// initiate all GOVUK components
+		window.GOVUKFrontend.initAll();
+	</script>
+
+	{% block bodyEndScripts %}{% endblock %}
+
 {% endblock %}
