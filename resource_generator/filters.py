@@ -1,4 +1,5 @@
 import datetime
+import validators
 
 from resource_generator.organisation_mapper import OrganisationMapping
 org_mapping = OrganisationMapping()
@@ -63,3 +64,9 @@ def map_media_type(str):
         return 'Excel pre 2007'
     # for '' or 'inode/x-empty'
     return 'No file type'
+
+
+def is_valid_uri(uri):
+    if validators.url(uri):
+        return True
+    return False

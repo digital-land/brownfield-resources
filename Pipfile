@@ -14,6 +14,7 @@ govuk-jinja-components = {editable = true,git = "https://github.com/colmjude/gov
 markdown = "*"
 python-dateutil = "*"
 pandas = "*"
+validators = "*"
 
 [requires]
 python_version = ">=3.6"

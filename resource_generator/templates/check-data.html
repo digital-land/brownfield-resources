@@ -190,7 +190,13 @@
                     <td>{{ "" if row["LastUpdatedDate"] == None else row["LastUpdatedDate"] }}</td>
                     <td>{{ "" if row["Deliverable"] == None else row["Deliverable"] }}</td>
                     <td>{{ "" if row["HazardousSubstances"] == None else row["HazardousSubstances"] }}</td>
-                    <td>{{ "" if row["OrganisationURI"] == None else row["OrganisationURI"] }}</td>
+                    <td>{% if not row["OrganisationURI"] == None %}
+                     {% if row["OrganisationURI"]|is_valid_uri %}
+                     <a href="{{ row['OrganisationURI'] }}" class="govuk-link">{{ row['OrganisationURI'] }}</a>
+                     {% else %}
+                     {{ row['OrganisationURI'] }}
+                     {% endif %}
+                    {% endif %}</td>
                     <td>{{ "" if row["OwnershipStatus"] == None else row["OwnershipStatus"] }}</td>
                     <td>{{ "" if row["PermissionDate"] == None else row["PermissionDate"] }}</td>
                     <td>{{ "" if row["PermissionType"] == None else row["PermissionType"] }}</td>
