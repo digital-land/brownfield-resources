@@ -11,11 +11,17 @@
         "href": "/"
         },
         {
-        "text": "Resources"
+        "text": "Resources",
+        "href": "/resource"
+        },
+        {
+        "text": "Brownfield collector report"
         }
     ]
     }) -}}
 {%- endblock -%}
+
+{% block pageTitle %}Brownfield collector report | Resources | Digital Land{% endblock %}
 
 {% block content %}
 <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">Brownfield collector report</h1>
@@ -72,8 +78,8 @@
 {% macro heatMap(weeks) %}
 {% set svg_width = (weeks|length * 16) + 32 %}
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="{{svg_width}}" height="128" class="js-calendar-graph-svg" 
-    xmlns="http://www.w3.org/2000/svg" 
+<svg width="{{svg_width}}" height="128" class="js-calendar-graph-svg"
+    xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <g transform="translate(10, 20)">
       {% for w in weeks %}
@@ -112,7 +118,7 @@
 {% set most_changed = ind.keys_by_no_resources()[-1] %}
 
 <p class="govuk-body">
-    
+
     {%- for org in ind.get_orgs_for_key(most_changed[0]) -%}
         <span class="govuk-!-font-size-24 govuk-!-font-weight-bold highlight-text">{{ org }}</span>
         {{ "," if not loop.last }}
