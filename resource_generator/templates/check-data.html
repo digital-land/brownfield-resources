@@ -96,14 +96,14 @@
         <p class="govuk-body">Excluding sites with an end date, there are:</p>
         <ul class="govuk-list govuk-list--bullet">
             <li>
-                <span class="govuk-!-font-weight-bold">{{'%0.2f' % summary.hectares|float}}
+                <span class="govuk-!-font-weight-bold">{{'%0.2f' % summary.hectares_active|float}}
                 hectares</span> of brownfield land.
             </li>
-            <li>between <span class="govuk-!-font-weight-bold">{{ summary.min_dwellings|int }}</span> and
-                <span class="govuk-!-font-weight-bold">{{ summary.max_dwellings|int }}</span> potential dwellings that could be built.
+            <li>between <span class="govuk-!-font-weight-bold">{{ summary.min_dwellings_active|int }}</span> and
+                <span class="govuk-!-font-weight-bold">{{ summary.max_dwellings_active|int }}</span> potential dwellings that could be built.
             </li>
-            <li><span class="govuk-!-font-weight-bold">{{ summary["permission_in_principle"] }}
-                </span> {{"site"|pluralise("","s",summary["permission_in_principle"])}} have <a href="https://wwww.gov.uk/guidance/permission-in-principle">permission in principle</a>.
+            <li><span class="govuk-!-font-weight-bold">{{ summary["permission_in_principle_active"] }}
+                </span> {{"site"|pluralise("","s",summary["permission_in_principle_active"])}} have <a href="https://wwww.gov.uk/guidance/permission-in-principle">permission in principle</a>.
             </li>
 
         </ul>
@@ -129,7 +129,7 @@
     (CSV), <a
         href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/collection/resource/{{ resource_hash }}"
         download="{{resource_hash}}_original">original</a> ({{ original_media_type|replace("csv", "CSV") }}){%- if not original_media_type == 'csv' -%}
-        , <a href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/converted/{{ resource_hash }}"
+        , <a href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/converted/{{ resource_hash }}.csv"
         download="{{resource_hash}}_converted">converted</a> (CSV)
         {%- endif -%}
 </p>
