@@ -90,29 +90,22 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h2 class="govuk-heading-l">Facts from the data</h2>
-        <p class="govuk-body">The following information has been extracted from the file.</p>
+        <p class="govuk-body">The following information has been extracted from the register.</p>
+        <p class="govuk-body">The register references <span class="govuk-!-font-weight-bold">{{ summary.unique_organisation_uris }}</span> {{"organisation"|pluralise("", "s", summary.unique_organisation_uris)}}.</p>
+        <p class="govuk-body">It reports <span class="govuk-!-font-weight-bold">{{ summary.total }} brownfield sites</span>. <span class="govuk-!-font-weight-bold">{{ summary.end_dates }}</span> of these have an end date and are no longer considered brownfield land.</p>
+        <p class="govuk-body">Excluding sites with an end date, there are:</p>
         <ul class="govuk-list govuk-list--bullet">
-            <li>This register has reported a total of <span
-                class="govuk-!-font-weight-bold">{{ summary.total }} brownfield sites</span>.
-            </li>
             <li>
-                <span class="govuk-!-font-weight-bold">{{ summary.end_dates }}</span> of these have an end date and are no longer considered brownfield land.
+                <span class="govuk-!-font-weight-bold">{{'%0.2f' % summary.hectares|float}}
+                hectares</span> of brownfield land.
             </li>
-            <li>Excluding sites with an end date, there are <span
-                class="govuk-!-font-weight-bold">{{'%0.2f' % summary.hectares|float}}
-                hectares</span> of land.
-            </li>
-            <li>This land has the potential to provide between 
-                <span
-                class="govuk-!-font-weight-bold">{{ summary.min_dwellings|int }}</span> and
-                <span class="govuk-!-font-weight-bold">{{ summary.max_dwellings|int }}</span> dwellings.
+            <li>between <span class="govuk-!-font-weight-bold">{{ summary.min_dwellings|int }}</span> and
+                <span class="govuk-!-font-weight-bold">{{ summary.max_dwellings|int }}</span> potential dwellings that could be built.
             </li>
             <li><span class="govuk-!-font-weight-bold">{{ summary["permission_in_principle"] }}
-                </span> of these sites have <a href="https://wwww.gov.uk/guidance/permission-in-principle">permission in principle</a>.
+                </span> {{"site"|pluralise("","s",summary["permission_in_principle"])}} have <a href="https://wwww.gov.uk/guidance/permission-in-principle">permission in principle</a>.
             </li>
-            <li>
-                <span class="govuk-!-font-weight-bold">{{ summary.unique_organisation_uris }}</span> organisations are referenced in this file.
-            </li>
+
         </ul>
     </div>
 </div>
