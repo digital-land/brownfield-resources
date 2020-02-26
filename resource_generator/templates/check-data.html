@@ -247,7 +247,7 @@
 <script src="{{ static_folder }}/javascripts/dl-frontend.js"></script>
 <script>
     // Initialise data tables component
-    var $data_tables = document.querySelectorAll('[data-module="data-table"]')
+    var $data_tables = document.querySelectorAll('[data-module*="data-table"]')
     $data_tables.forEach(data_table => {
         new window.DLFrontend.ScrollableTables(data_table).init()
     })
