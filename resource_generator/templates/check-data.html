@@ -122,7 +122,7 @@
 <div class="map__site-count{{ '' if summary.hasLatLng == data|length else ' map__site-count--warning' }} govuk-!-margin-bottom-9">{% if summary.hasLatLng == data|length %}
     All {{ summary.hasLatLng }} {{ "site"|pluralise("", "s", data|length)}} plotted.
     {%- else -%}
-    {{ summary.hasLatLng }} of {{ data|length }} sites plotted.
+    {{ summary.hasLatLng }} of {{ data|length }} sites plotted. This could be because there are missing coordinates in the data.
     {% endif %}</div>
 
 <h3 class="govuk-heading-m">Records</h3>
@@ -133,11 +133,11 @@
 <p class="govuk-body">Download the data: <a
         href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/harmonised/{{ resource_hash }}.csv"
         download="{{resource_hash}}_harmonised.csv">processed</a>
-    (as below), <a
+    (CSV), <a
         href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/collection/resource/{{ resource_hash }}"
-        download="{{resource_hash}}_original">original</a> ({{ original_media_type }}){%- if not original_media_type == 'csv' -%}
+        download="{{resource_hash}}_original">original</a> ({{ original_media_type|replace("csv", "CSV") }}){%- if not original_media_type == 'csv' -%}
         , <a href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/converted/{{ resource_hash }}"
-        download="{{resource_hash}}_converted">converted</a> (csv)
+        download="{{resource_hash}}_converted">converted</a> (CSV)
         {%- endif -%}
 </p>
 
