@@ -38,37 +38,48 @@ dataset/brownfield-land/organisation/local-authority-eng%3ANNO/check.html
 <span class="govuk-caption-xl">Brownfield land</span>
 <h1 class="govuk-heading-xl">Check your data</h1>
 <p class="govuk-body">Check that the brownfield land data we have collected from {{ organisation|map_org_code_to_name }} is accurate and up to
-    date.</p>
+    date by following the steps on this page.</p>
 
-<h2 class="govuk-heading-m">Latest version</h2>
-<p class="govuk-body">This is the most recent version of your brownfield land register that we have collected.</p>
+<h2 class="govuk-heading-m">1. Make sure we have your most recent register</h2>
+<p class="govuk-body">This is the most recent version of your brownfield land register that we have collected:</p>
 <div class="highlight-box--cta">
-    <a href="/resource/{{ latest_resource['resource'] }}">Version last collected on
+    View the data: <a href="/resource/{{ latest_resource['resource'] }}">version last collected on
         {{ latest_resource['last_collected'] }}</a>
 </div>
+<p class="govuk-body">If you have a more up-to-date register than the above version, it may be linked to at the bottom of this page. If it is not, you can see how the data in your most up-to-date register looks by running it through the View the data page.</p>
 
-<p class="govuk-body">If there is a more recent version that you have published, let us know <a href="https://forms.gle/YoxWZf2tjaRxKHCAA">via this Google Form</a>.</p>
+<h2 class="govuk-heading-m">2. Check your data</h2>
 
-<p class="govuk-body">If you cannot access the form please email us at DigtialLand@communities.gov.uk.</p>
+<p class="govuk-body">By clicking the link to the version above, you can view a breakdown and visualisation of the data. In particular, you should check the:</p>
+<ul class="govuk-list">
+    <li>size of each site</li>
+    <li>number of potential dwellings</li>
+    <li>locations of the brownfield sites on the map</li>
+</ul>
 
-<h2 class="govuk-heading-m">Check your data.</h2>
+<p class="govuk-body">Please also thoroughly check the processed data in the table at the bottom of the page.</p>
 
-<p class="govuk-body">The data we have collected will appear on a national map of brownfield land.</p>
+<h2 class="govuk-heading-m">3. Correct the data</h2>
 
-<p class="govuk-body">Thoroughly check the data in your most recent register. By clicking on the version above, you can view a breakdown and visualisation of the data. In particular, you should check the locations of the sites on the map, and the number of dwellings and size of the sites.</p>
+<p class="govuk-body">If all of the data is accurate, you do not need to take any further action.</p>
 
-<h2 class="govuk-heading-m">What to do if any data is wrong.</h2>
+<p class="govuk-body">If there are any errors or missing data, download the processed CSV file (download link is under the heading “Records”). Correct the data and make sure it meets the <a href="https://www.gov.uk/guidance/publish-your-developer-contributions-data">data standard</a>.</p>
 
-<p class="govuk-body">On the view your data page, download the processed .csv file and correct the data.</p>
+<p class="govuk-body">Once you have fixed any errors, you can see how it looks by running it through the View the data page again.</p>
 
-<p class="govuk-body">Once you have fixed any errors you need to upload the .csv file to your website and let us know the URL.</p>
+<h2 class="govuk-heading-m">4. Publish the updated register</h2>
 
-<p class="govuk-body">We are working on a tool that will help you check your changes before you upload the file to your website.</p>
+<p class="govuk-body">When you are happy that the data is accurate, publish the updated register as a CSV file on your organisation’s web page. This should replace the old version.</p>
+
+<h2 class="govuk-heading-m">5. Send us your most recent register</h2>
+
+<p class="govuk-body">Once you have corrected and published your most up-to-date register, send us the URL to the register (not the URL to the web page the register sits on). You can send the URL <a href="https://forms.gle/YoxWZf2tjaRxKHCAA">using this Google Form</a> or by emailing it to <a href="mailto:DigitalLand@communities.gov.uk">DigitalLand@communities.gov.uk</a>.
+</p>
 
 {% if other_resources|length > 0 %}
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-<h2 class="govuk-heading-m">Other related versions</h2>
+<h2 class="govuk-heading-m">Other versions of your register</h2>
 <ul class="govuk-list govuk-list--bullet">
     {% for r in other_resources %}
     <li>
