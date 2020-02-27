@@ -1,4 +1,5 @@
 {% extends "leaflet-base.html" %}
+{% from "dl-partials/check-data-macros.html" import makeLinkAnAnchor -%}
 
 {%- block beforeContent -%}
 {{ super() }}
@@ -204,14 +205,18 @@
                         {% set urls = row["PlanningHistory"]|check_for_multiple %}
                             {%- if urls is iterable and urls is not string %}
                                 {%- for url in urls %}
-                                    {{ url }}<br />
+                                    {{ makeLinkAnAnchor(url) }}<br />
                                 {%- endfor %}
                             {% else %}
-                                {{ urls }}
+                                {{ makeLinkAnAnchor(urls) }}
                             {% endif %}
                         {% endif %}</td>
                     <td>{{ "" if row["PlanningStatus"] == None else row["PlanningStatus"] }}</td>
-                    <td>{{ "" if row["SiteplanURL"] == None else row["SiteplanURL"] }}</td>
+                    <td>
+                        {%- if not row["SiteplanURL"] == None -%}
+                        {{ makeLinkAnAnchor(row["SiteplanURL"]) }}
+                        {%- endif -%}
+                    </td>
                     <td class="bfs-notes-field" style="min-width: 200px; white-space: normal;">
                         {% if row["Notes"] == None %}
                         {% else %}

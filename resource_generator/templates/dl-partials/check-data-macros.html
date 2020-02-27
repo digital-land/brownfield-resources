@@ -1,0 +1,7 @@
+{% macro makeLinkAnAnchor(uri) %}
+    {%- if uri|is_valid_uri -%}
+        <a href="{{ uri }}" class="govuk-link">{{ uri }}</a>
+    {%- else -%}
+        {{ uri }}
+    {%- endif -%}
+{% endmacro %}
