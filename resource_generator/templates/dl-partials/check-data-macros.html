@@ -5,3 +5,16 @@
         {{ uri }}
     {%- endif -%}
 {% endmacro %}
+
+{% macro renderCellWithIssue(params) %}
+<td tabindex="0" class="data-table__issue">
+    {{ params['value'] }}
+    <span class="data-table__issue__item">
+        <div class="data-table__issue__item__text"><span class="secondary-text">original &rarr;</span>{{ params['original'] }}</div>
+        {%- if params['processed'] %}
+        <div class="data-table__issue__item__text"><span class="secondary-text">processed &rarr;</span>{{ params['processed'] }}</div>
+        {% endif -%}
+        <span class="data-table__issue__info">{{ params['message'] }}</span>
+    </span>
+</td>
+{% endmacro %}

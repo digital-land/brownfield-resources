@@ -1,5 +1,6 @@
 {% extends "leaflet-base.html" %}
 {% from "dl-partials/check-data-macros.html" import makeLinkAnAnchor -%}
+{% from "dl-partials/check-data-macros.html" import renderCellWithIssue -%}
 
 {%- block beforeContent -%}
 {{ super() }}
@@ -188,7 +189,27 @@
                     <td data-sort-value="{{ 0 if row['NetDwellingsRangeFrom'] == None else row['NetDwellingsRangeFrom'] }}">{{ "" if row["NetDwellingsRangeFrom"] == None else row["NetDwellingsRangeFrom"] }}</td>
                     <td data-sort-value="{{ 0 if row['NetDwellingsRangeTo'] == None else row['NetDwellingsRangeTo'] }}">{{ "" if row["NetDwellingsRangeTo"] == None else row["NetDwellingsRangeTo"] }}</td>
                     <td>{{ "" if row["FirstAddedDate"] == None else row["FirstAddedDate"] }}</td>
+                    
+                    {% set row_num = loop.index %}
+                    {% set ns = namespace(has_issue=False) %}  
+                    {% if issues[row_num] %}
+                        {% for iss in issues[row_num]['issue']  %}
+                            {% if iss['field'] == "LastUpdatedDate" %}
+                            {% set ns.has_issue = True %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {% if ns.has_issue %}
+                    {{ renderCellWithIssue({
+                        "value": row["LastUpdatedDate"],
+                        "original": "",
+                        "processed": row["LastUpdatedDate"], 
+                        "message": "No date provided so defaulting to FirstAddedDate."
+                    }) }}
+                    {% else %}
                     <td>{{ "" if row["LastUpdatedDate"] == None else row["LastUpdatedDate"] }}</td>
+                    {% endif %}
+                    
                     <td>{{ "" if row["Deliverable"] == None else row["Deliverable"] }}</td>
                     <td>{{ "" if row["HazardousSubstances"] == None else row["HazardousSubstances"] }}</td>
                     <td>{% if not row["OrganisationURI"] == None %}
