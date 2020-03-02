@@ -166,6 +166,7 @@
             </thead>
             <tbody>
                 {%- for row in data -%}
+                {% set row_num = loop.index %}
                 <tr>
                     <td data-sort-value="{{ '' if row['SiteReference'] == None else row['SiteReference'] }}">{{ "" if row["SiteReference"] == None else row["SiteReference"] }}</td>
                     <td>{{ "" if row["SiteNameAddress"] == None else row["SiteNameAddress"] }}</td>
@@ -190,7 +191,7 @@
                     <td data-sort-value="{{ 0 if row['NetDwellingsRangeTo'] == None else row['NetDwellingsRangeTo'] }}">{{ "" if row["NetDwellingsRangeTo"] == None else row["NetDwellingsRangeTo"] }}</td>
                     <td>{{ "" if row["FirstAddedDate"] == None else row["FirstAddedDate"] }}</td>
                     
-                    {% set row_num = loop.index %}
+                    {# LastUpdatedDate #}
                     {% set ns = namespace(has_issue=False) %}  
                     {% if issues[row_num] %}
                         {% for iss in issues[row_num]['issue']  %}
@@ -233,11 +234,34 @@
                             {% endif %}
                         {% endif %}</td>
                     <td>{{ "" if row["PlanningStatus"] == None else row["PlanningStatus"] }}</td>
+
+                    {# SiteplanURL #}
+                    {% set ns = namespace(sp_has_issue=False) %}
+                    {% set ns = namespace(sp_issue={}) %}  
+                    {% if issues[row_num] %}
+                        {% for iss in issues[row_num]['issue']  %}
+                            {% if iss['field'] == "SiteplanURL" %}
+                            {% set ns.sp_has_issue = True %}
+                            {% set ns.sp_issue = iss %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {% if ns.sp_has_issue %}
+                    {{ renderCellWithIssue({
+                        "value": row["SiteplanURL"],
+                        "original": ns.sp_issue['value'],
+                        "processed": "", 
+                        "message": "Value provided was not a valid URI.",
+                        "classes": "data-table__cell--min-width"
+                    }) }}
+                    {% else %}
                     <td>
                         {%- if not row["SiteplanURL"] == None -%}
                         {{ makeLinkAnAnchor(row["SiteplanURL"]) }}
                         {%- endif -%}
                     </td>
+                    {% endif %}
+
                     <td class="bfs-notes-field" style="min-width: 200px; white-space: normal;">
                         {% if row["Notes"] == None %}
                         {% else %}
