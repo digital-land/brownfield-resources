@@ -5,7 +5,7 @@ import json
 
 from resource_generator.renderer import Renderer
 from resource_generator.collection import CollectionIndex
-from resource_generator.filters import readable_date, map_org_code_to_name
+from resource_generator.filters import readable_date, map_org_code_to_name, pluralise
 
 # need collection
 ind = CollectionIndex()
@@ -14,6 +14,7 @@ ind = CollectionIndex()
 renderer = Renderer("https://digital-land-design.herokuapp.com/static", dist_dir="../dataset/docs")
 #renderer.register_filter("readable_date", readable_date)
 renderer.register_filter("map_org_code_to_name", map_org_code_to_name)
+renderer.register_filter("pluralise", pluralise)
 
 
 def sortResources(resource_list):

@@ -79,7 +79,7 @@ dataset/brownfield-land/organisation/local-authority-eng%3ANNO/check.html
 {% if other_resources|length > 0 %}
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-<h2 class="govuk-heading-m">Other versions of your register</h2>
+<h2 class="govuk-heading-m">{{other_resources|length}} other {{ "version" | pluralise("", "s", other_resources|length)}} of your register</h2>
 <ul class="govuk-list govuk-list--bullet">
     {% for r in other_resources %}
     <li>
@@ -89,4 +89,5 @@ dataset/brownfield-land/organisation/local-authority-eng%3ANNO/check.html
     {% endfor %}
 </ul>
 {% endif %}
+
 {%- endblock -%}
