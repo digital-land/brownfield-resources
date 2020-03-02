@@ -32,7 +32,10 @@ def url_for_issues(resource_hash):
 
 def fetch_csv(url):
     print(f"...... collecting harmonised data from {url}")
-    data = pd.read_csv(url, sep=",")
+    try:
+        data = pd.read_csv(url, sep=",")
+    except Exception as e:
+        print(f'FAILED: {e}')
     # strip spaces introduced to values
     data_frame_trimmed = data.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
     # strip spaces introduced to column headers
@@ -66,13 +69,6 @@ def bounding_box(df):
     min_lat = df.GeoY.min()
     max_lat = df.GeoY.max()
     return (min_lng, max_lng, min_lat, max_lat)
-
-
-def get_data():
-    if data is not None:
-        return data
-    print("No data to return")
-    return None
 
 
 # also need collection
@@ -122,10 +118,11 @@ def generate_all_playback_data_pages():
 
 # generate a page for a given resource
 def generate_playback_data_page(resource_hash):
-    key_last_collected_from = ind.key_resource_last_collected_from(resource_hash)
     # fetch resource we are interested in
     data = fetch_csv(url_for_harmonised(resource_hash))
     json_data = json.loads(data.to_json(orient='records'))
+
+    key_last_collected_from = ind.key_resource_last_collected_from(resource_hash)
     # analyse data
     analyser = DataAnalyser(json_data)
 
