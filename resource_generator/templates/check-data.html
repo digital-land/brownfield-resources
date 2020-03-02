@@ -170,14 +170,40 @@
                 <tr>
                     <td data-sort-value="{{ '' if row['SiteReference'] == None else row['SiteReference'] }}">{{ "" if row["SiteReference"] == None else row["SiteReference"] }}</td>
                     <td>{{ "" if row["SiteNameAddress"] == None else row["SiteNameAddress"] }}</td>
-                    {% if row["GeoX"] == None -%}
-                    <td class="data-table__missing">
-                        <span class="data-table__missing__label">Missing</span>
-                    {%- else %}
-                    <td>
-                        {{ row["GeoX"] }}
-                    {%- endif %}
-                    </td>
+
+                    {# GeoX #}
+                    {% set ns = namespace(gx_has_issue=False) %}  
+                    {% set ns = namespace(gx_issue={}) %} 
+                    {% if issues[row_num] %}
+                        {% for iss in issues[row_num]['issue']  %}
+                            {% if "GeoX" in iss['field'] %}
+                            {% set ns.gx_has_issue = True %}
+                            {% set ns.gx_issue = iss %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {% if ns.gx_has_issue %}
+                        {% if "outside England" in ns.gx_issue['issue-type'] %}
+                            {{ renderCellWithIssue({
+                                "value": row["GeoX"],
+                                "original": ns.gx_issue['value']|extract_coord,
+                                "processed": "",
+                                "tag": "Invalid",
+                                "message": ns.gx_issue['issue-type']
+                            }) }}
+                        {% else %}
+                            {{ renderCellWithIssue({
+                                "value": row["GeoX"],
+                                "original": "",
+                                "processed": "",
+                                "tag": "Missing",
+                                "message": "No GeoX coordinate provided."
+                            }) }}
+                        {% endif %}
+                    {% else %}
+                    <td>{{ "" if row["GeoX"] == None else row["GeoX"] }}</td>
+                    {% endif %}
+
                     {% if row["GeoY"] == None -%}
                     <td class="data-table__missing">
                         <span class="data-table__missing__label">Missing</span>

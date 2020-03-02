@@ -70,3 +70,10 @@ def is_valid_uri(uri):
     if validators.url(uri):
         return True
     return False
+
+
+def extract_coord(str, name="GeoX"):
+    pt = str.split(",")
+    if name is "GeoX":
+        return pt[0]
+    return pt[1]
