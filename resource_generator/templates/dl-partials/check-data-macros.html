@@ -12,7 +12,7 @@
     <span class="data-table__issue__item">
         <div class="data-table__issue__item__text issue__part"><span class="secondary-text issue__part__label">original &rarr;</span><span>{{ params['original'] }}</span></div>
         <div class="data-table__issue__item__text issue__part"><span class="secondary-text issue__part__label">processed &rarr;</span>{{ params['processed'] }}</div>
-        <span class="data-table__issue__info">{{ params['message'] }}</span>
+        <span class="data-table__issue__info">{% if params['tag'] %}<strong class="govuk-tag govuk-!-margin-right-1">{{ params['tag'] }}</strong>{% endif %}{{ params['message'] }}</span>
     </span>
 </td>
 {% endmacro %}

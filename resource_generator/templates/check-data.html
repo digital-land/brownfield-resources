@@ -204,7 +204,8 @@
                     {{ renderCellWithIssue({
                         "value": row["LastUpdatedDate"],
                         "original": "",
-                        "processed": row["LastUpdatedDate"], 
+                        "processed": row["LastUpdatedDate"],
+                        "tag": "Missing",
                         "message": "No date provided so defaulting to FirstAddedDate."
                     }) }}
                     {% else %}
@@ -252,6 +253,7 @@
                         "original": ns.sp_issue['value'],
                         "processed": "", 
                         "message": "Value provided was not a valid URI.",
+                        "tag": "invalid",
                         "classes": "data-table__cell--min-width"
                     }) }}
                     {% else %}
