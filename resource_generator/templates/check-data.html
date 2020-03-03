@@ -204,14 +204,39 @@
                     <td>{{ "" if row["GeoX"] == None else row["GeoX"] }}</td>
                     {% endif %}
 
-                    {% if row["GeoY"] == None -%}
-                    <td class="data-table__missing">
-                        <span class="data-table__missing__label">Missing</span>
-                    {%- else %}
-                    <td>
-                        {{ row["GeoY"] }}
-                    {%- endif %}
-                    </td>
+                    {# GeoY #}
+                    {% set ns = namespace(gy_has_issue=False) %}  
+                    {% set ns = namespace(gy_issue={}) %} 
+                    {% if issues[row_num] %}
+                        {% for iss in issues[row_num]['issue']  %}
+                            {% if "GeoY" in iss['field'] %}
+                            {% set ns.gy_has_issue = True %}
+                            {% set ns.gy_issue = iss %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {% if ns.gy_has_issue %}
+                        {% if "outside England" in ns.gy_issue['issue-type'] %}
+                            {{ renderCellWithIssue({
+                                "value": row["GeoY"],
+                                "original": ns.gy_issue['value']|extract_coord,
+                                "processed": "",
+                                "tag": "Invalid",
+                                "message": ns.gy_issue['issue-type']
+                            }) }}
+                        {% else %}
+                            {{ renderCellWithIssue({
+                                "value": row["GeoY"],
+                                "original": "",
+                                "processed": "",
+                                "tag": "Missing",
+                                "message": "No GeoY coordinate provided."
+                            }) }}
+                        {% endif %}
+                    {% else %}
+                    <td>{{ "" if row["GeoY"] == None else row["GeoY"] }}</td>
+                    {% endif %}
+
                     <td data-sort-value="{{ 0 if row['Hectares'] == None else row['Hectares'] }}">{{ "" if row["Hectares"] == None else row["Hectares"] }}</td>
                     <td data-sort-value="{{ 0 if row['NetDwellingsRangeFrom'] == None else row['NetDwellingsRangeFrom'] }}">{{ "" if row["NetDwellingsRangeFrom"] == None else row["NetDwellingsRangeFrom"] }}</td>
                     <td data-sort-value="{{ 0 if row['NetDwellingsRangeTo'] == None else row['NetDwellingsRangeTo'] }}">{{ "" if row["NetDwellingsRangeTo"] == None else row["NetDwellingsRangeTo"] }}</td>
