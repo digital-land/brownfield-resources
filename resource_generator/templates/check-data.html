@@ -189,7 +189,7 @@
                                 "original": ns.gx_issue['value']|extract_coord,
                                 "processed": "",
                                 "tag": "Invalid",
-                                "message": ns.gx_issue['issue-type']
+                                "message": ns.gx_issue['issue-type'] | issue_type_mapper
                             }) }}
                         {% else %}
                             {{ renderCellWithIssue({
@@ -219,10 +219,10 @@
                         {% if "outside England" in ns.gy_issue['issue-type'] %}
                             {{ renderCellWithIssue({
                                 "value": row["GeoY"],
-                                "original": ns.gy_issue['value']|extract_coord,
+                                "original": ns.gy_issue['value']|extract_coord("GeoY"),
                                 "processed": "",
                                 "tag": "Invalid",
-                                "message": ns.gy_issue['issue-type']
+                                "message": ns.gy_issue['issue-type'] | issue_type_mapper
                             }) }}
                         {% else %}
                             {{ renderCellWithIssue({

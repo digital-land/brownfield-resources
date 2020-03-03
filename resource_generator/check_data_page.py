@@ -16,7 +16,8 @@ from resource_generator.filters import (
     pluralise,
     map_media_type,
     is_valid_uri,
-    extract_coord)
+    extract_coord,
+    issue_type_mapper)
 
 
 def url_for_harmonised(resource_hash):
@@ -85,6 +86,7 @@ renderer.register_filter("pluralise", pluralise)
 renderer.register_filter("map_media_type", map_media_type)
 renderer.register_filter("is_valid_uri", is_valid_uri)
 renderer.register_filter("extract_coord", extract_coord)
+renderer.register_filter("issue_type_mapper", issue_type_mapper)
 
 
 def formatIssuesData(issues):

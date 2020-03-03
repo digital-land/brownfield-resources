@@ -77,3 +77,9 @@ def extract_coord(str, name="GeoX"):
     if name is "GeoX":
         return pt[0]
     return pt[1]
+
+
+def issue_type_mapper(str):
+    if "outside England" in str:
+        return "Coordinate provided is outside England."
+    return str
