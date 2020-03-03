@@ -258,7 +258,27 @@
                     <td>{{ "" if row["GeoY"] == None else row["GeoY"] }}</td>
                     {% endif %}
 
-                    <td data-sort-value="{{ 0 if row['Hectares'] == None else row['Hectares'] }}">{{ "" if row["Hectares"] == None else row["Hectares"] }}</td>
+                    {# Hectares #}
+                    {% set ns = namespace(hec_has_issue=False) %}  
+                    {% if issues[row_num] %}
+                        {% for iss in issues[row_num]['issue']  %}
+                            {% if iss['field'] == "Hectares" %}
+                            {% set ns.hec_has_issue = True %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {% if ns.hec_has_issue %}
+                    {{ renderCellWithIssue({
+                        "value": row["Hectares"],
+                        "original": "",
+                        "processed": "",
+                        "tag": "Missing",
+                        "message": "No Hectares provided.",
+                        "sortValue": 0
+                    }) }}
+                    {% else %}
+                    <td data-sort-value="{{ '' if row['Hectares'] == None else row['Hectares'] }}">{{ "" if row["Hectares"] == None else row["Hectares"] }}</td>
+                    {% endif %}
                     <td data-sort-value="{{ 0 if row['NetDwellingsRangeFrom'] == None else row['NetDwellingsRangeFrom'] }}">{{ "" if row["NetDwellingsRangeFrom"] == None else row["NetDwellingsRangeFrom"] }}</td>
                     <td data-sort-value="{{ 0 if row['NetDwellingsRangeTo'] == None else row['NetDwellingsRangeTo'] }}">{{ "" if row["NetDwellingsRangeTo"] == None else row["NetDwellingsRangeTo"] }}</td>
                     <td>{{ "" if row["FirstAddedDate"] == None else row["FirstAddedDate"] }}</td>
