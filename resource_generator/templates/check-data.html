@@ -168,24 +168,17 @@
                 {%- for row in data -%}
                 {% set row_num = loop.index %}
                 <tr>
+
                     {# SiteReference #}
-                    {% set ns = namespace(sr_has_issue=False) %}  
-                    {% if issues[row_num] %}
-                        {% for iss in issues[row_num]['issue']  %}
-                            {% if iss['field'] == "SiteReference" %}
-                            {% set ns.sr_has_issue = True %}
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                    {% if ns.sr_has_issue %}
-                    {{ renderCellWithIssue({
-                        "value": row["SiteReference"],
-                        "original": "",
-                        "processed": "",
-                        "tag": "Missing",
-                        "message": "No SiteReference provided.",
-                        "sort-value": ""
-                    }) }}
+                    {% if issues[row_num] and issues[row_num]['SiteReference'] %}
+                        {{ renderCellWithIssue({
+                            "value": row["SiteReference"],
+                            "original": issues[row_num]['SiteReference']['original'],
+                            "processed": "",
+                            "tag": issues[row_num]['SiteReference']['tag'],
+                            "message": issues[row_num]['SiteReference']['message'],
+                            "sortValue": ""
+                        }) }}
                     {% else %}
                     <td data-sort-value="{{ '' if row['SiteReference'] == None else row['SiteReference'] }}">{{ "" if row["SiteReference"] == None else row["SiteReference"] }}</td>
                     {% endif %}
@@ -193,126 +186,124 @@
                     <td>{{ "" if row["SiteNameAddress"] == None else row["SiteNameAddress"] }}</td>
 
                     {# GeoX #}
-                    {% set ns = namespace(gx_has_issue=False) %}  
-                    {% set ns = namespace(gx_issue={}) %} 
-                    {% if issues[row_num] %}
-                        {% for iss in issues[row_num]['issue']  %}
-                            {% if "GeoX" in iss['field'] %}
-                            {% set ns.gx_has_issue = True %}
-                            {% set ns.gx_issue = iss %}
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                    {% if ns.gx_has_issue %}
-                        {% if "outside England" in ns.gx_issue['issue-type'] %}
-                            {{ renderCellWithIssue({
-                                "value": row["GeoX"],
-                                "original": ns.gx_issue['value']|extract_coord,
-                                "processed": "",
-                                "tag": "Invalid",
-                                "message": ns.gx_issue['issue-type'] | issue_type_mapper
-                            }) }}
-                        {% else %}
-                            {{ renderCellWithIssue({
-                                "value": row["GeoX"],
-                                "original": "",
-                                "processed": "",
-                                "tag": "Missing",
-                                "message": "No GeoX coordinate provided."
-                            }) }}
-                        {% endif %}
+                    {% if issues[row_num] and issues[row_num]['GeoX'] %}
+                        {{ renderCellWithIssue({
+                            "value": row["GeoX"],
+                            "original": issues[row_num]['GeoX']['original'],
+                            "processed": "",
+                            "tag": issues[row_num]['GeoX']['tag'],
+                            "message": issues[row_num]['GeoX']['message'],
+                            "sortValue": ""
+                        }) }}
                     {% else %}
                     <td>{{ "" if row["GeoX"] == None else row["GeoX"] }}</td>
                     {% endif %}
 
                     {# GeoY #}
-                    {% set ns = namespace(gy_has_issue=False) %}  
-                    {% set ns = namespace(gy_issue={}) %} 
-                    {% if issues[row_num] %}
-                        {% for iss in issues[row_num]['issue']  %}
-                            {% if "GeoY" in iss['field'] %}
-                            {% set ns.gy_has_issue = True %}
-                            {% set ns.gy_issue = iss %}
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                    {% if ns.gy_has_issue %}
-                        {% if "outside England" in ns.gy_issue['issue-type'] %}
-                            {{ renderCellWithIssue({
-                                "value": row["GeoY"],
-                                "original": ns.gy_issue['value']|extract_coord("GeoY"),
-                                "processed": "",
-                                "tag": "Invalid",
-                                "message": ns.gy_issue['issue-type'] | issue_type_mapper
-                            }) }}
-                        {% else %}
-                            {{ renderCellWithIssue({
-                                "value": row["GeoY"],
-                                "original": "",
-                                "processed": "",
-                                "tag": "Missing",
-                                "message": "No GeoY coordinate provided."
-                            }) }}
-                        {% endif %}
+                    {% if issues[row_num] and issues[row_num]['GeoY'] %}
+                        {{ renderCellWithIssue({
+                            "value": row["GeoY"],
+                            "original": issues[row_num]['GeoY']['original'],
+                            "processed": "",
+                            "tag": issues[row_num]['GeoY']['tag'],
+                            "message": issues[row_num]['GeoY']['message'],
+                            "sortValue": ""
+                        }) }}
                     {% else %}
                     <td>{{ "" if row["GeoY"] == None else row["GeoY"] }}</td>
                     {% endif %}
 
                     {# Hectares #}
-                    {% set ns = namespace(hec_has_issue=False) %}  
-                    {% if issues[row_num] %}
-                        {% for iss in issues[row_num]['issue']  %}
-                            {% if iss['field'] == "Hectares" %}
-                            {% set ns.hec_has_issue = True %}
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                    {% if ns.hec_has_issue %}
-                    {{ renderCellWithIssue({
-                        "value": row["Hectares"],
-                        "original": "",
-                        "processed": "",
-                        "tag": "Missing",
-                        "message": "No Hectares provided.",
-                        "sortValue": 0
-                    }) }}
+                    {% if issues[row_num] and issues[row_num]['Hectares'] %}
+                        {{ renderCellWithIssue({
+                            "value": row["Hectares"],
+                            "original": issues[row_num]['Hectares']['original'],
+                            "processed": "",
+                            "tag": issues[row_num]['Hectares']['tag'],
+                            "message": issues[row_num]['Hectares']['message'],
+                            "sortValue": 0
+                        }) }}
                     {% else %}
                     <td data-sort-value="{{ '' if row['Hectares'] == None else row['Hectares'] }}">{{ "" if row["Hectares"] == None else row["Hectares"] }}</td>
                     {% endif %}
-                    <td data-sort-value="{{ 0 if row['NetDwellingsRangeFrom'] == None else row['NetDwellingsRangeFrom'] }}">{{ "" if row["NetDwellingsRangeFrom"] == None else row["NetDwellingsRangeFrom"] }}</td>
-                    <td data-sort-value="{{ 0 if row['NetDwellingsRangeTo'] == None else row['NetDwellingsRangeTo'] }}">{{ "" if row["NetDwellingsRangeTo"] == None else row["NetDwellingsRangeTo"] }}</td>
+
+                    {# NetDwellingsRangeFrom #}
+                    {% if issues[row_num] and issues[row_num]['NetDwellingsRangeFrom'] %}
+                        {{ renderCellWithIssue({
+                            "value": row["NetDwellingsRangeFrom"],
+                            "original": issues[row_num]['NetDwellingsRangeFrom']['original'],
+                            "processed": "",
+                            "tag": issues[row_num]['NetDwellingsRangeFrom']['tag'],
+                            "message": issues[row_num]['NetDwellingsRangeFrom']['message'],
+                            "sortValue": 0
+                        }) }}
+                    {% else %}
+                    <td data-sort-value="{{ '' if row['NetDwellingsRangeFrom'] == None else row['NetDwellingsRangeFrom'] }}">{{ "" if row["NetDwellingsRangeFrom"] == None else row["NetDwellingsRangeFrom"] }}</td>
+                    {% endif %}
+
+                    {# NetDwellingsRangeTo #}
+                    {% if issues[row_num] and issues[row_num]['NetDwellingsRangeTo'] %}
+                        {{ renderCellWithIssue({
+                            "value": row["NetDwellingsRangeTo"],
+                            "original": issues[row_num]['NetDwellingsRangeTo']['original'],
+                            "processed": "",
+                            "tag": issues[row_num]['NetDwellingsRangeTo']['tag'],
+                            "message": issues[row_num]['NetDwellingsRangeTo']['message'],
+                            "sortValue": 0
+                        }) }}
+                    {% else %}
+                    <td data-sort-value="{{ '' if row['NetDwellingsRangeTo'] == None else row['NetDwellingsRangeTo'] }}">{{ "" if row["NetDwellingsRangeTo"] == None else row["NetDwellingsRangeTo"] }}</td>
+                    {% endif %}
+
                     <td>{{ "" if row["FirstAddedDate"] == None else row["FirstAddedDate"] }}</td>
                     
                     {# LastUpdatedDate #}
-                    {% set ns = namespace(has_issue=False) %}  
-                    {% if issues[row_num] %}
-                        {% for iss in issues[row_num]['issue']  %}
-                            {% if iss['field'] == "LastUpdatedDate" %}
-                            {% set ns.has_issue = True %}
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                    {% if ns.has_issue %}
-                    {{ renderCellWithIssue({
-                        "value": row["LastUpdatedDate"],
-                        "original": "",
-                        "processed": row["LastUpdatedDate"],
-                        "tag": "Missing",
-                        "message": "No date provided so defaulting to FirstAddedDate."
-                    }) }}
+                    {% if issues[row_num] and issues[row_num]['LastUpdatedDate'] %}
+                        {% if issues[row_num]['LastUpdatedDate']['tag'] == 'amended' %}
+                            {{ renderCellWithIssue({
+                                "value": row["LastUpdatedDate"],
+                                "original": issues[row_num]['LastUpdatedDate']['original'],
+                                "processed": row["LastUpdatedDate"],
+                                "tag": issues[row_num]['LastUpdatedDate']['tag'],
+                                "message": issues[row_num]['LastUpdatedDate']['message'],
+                                "sortValue": ""
+                            }) }}
+                        {% endif %}
                     {% else %}
                     <td>{{ "" if row["LastUpdatedDate"] == None else row["LastUpdatedDate"] }}</td>
                     {% endif %}
                     
                     <td>{{ "" if row["Deliverable"] == None else row["Deliverable"] }}</td>
                     <td>{{ "" if row["HazardousSubstances"] == None else row["HazardousSubstances"] }}</td>
-                    <td>{% if not row["OrganisationURI"] == None %}
-                     {% if row["OrganisationURI"]|is_valid_uri %}
-                     <a href="{{ row['OrganisationURI'] }}" class="govuk-link">{{ row['OrganisationURI'] }}</a>
-                     {% else %}
-                     {{ row['OrganisationURI'] }}
-                     {% endif %}
-                    {% endif %}</td>
+                    
+                    {# OrganisationURI #}
+                    {% if issues[row_num] and issues[row_num]['OrganisationURI'] %}
+                        {% if issues[row_num]['OrganisationURI']['tag'] == 'amended' %}
+                            {{ renderCellWithIssue({
+                                "value": row["OrganisationURI"],
+                                "original": "",
+                                "processed": issues[row_num]['OrganisationURI']['original'],
+                                "tag": issues[row_num]['OrganisationURI']['tag'],
+                                "message": issues[row_num]['OrganisationURI']['message'],
+                                "sortValue": ""
+                            }) }}
+                        {% else %}
+                            {{ renderCellWithIssue({
+                                "value": row["OrganisationURI"],
+                                "original": issues[row_num]['OrganisationURI']['original'],
+                                "processed": "",
+                                "tag": issues[row_num]['OrganisationURI']['tag'],
+                                "message": issues[row_num]['OrganisationURI']['message'],
+                                "sortValue": ""
+                            }) }}
+                        {% endif %}
+                    {% else %}
+                    <td>
+                        {%- if not row["OrganisationURI"] == None -%}
+                        {{ makeLinkAnAnchor(row["OrganisationURI"]) }}
+                        {%- endif -%}
+                    </td>
+                    {% endif %}
                     <td>{{ "" if row["OwnershipStatus"] == None else row["OwnershipStatus"] }}</td>
                     <td>{{ "" if row["PermissionDate"] == None else row["PermissionDate"] }}</td>
                     <td>{{ "" if row["PermissionType"] == None else row["PermissionType"] }}</td>
@@ -329,25 +320,15 @@
                     <td>{{ "" if row["PlanningStatus"] == None else row["PlanningStatus"] }}</td>
 
                     {# SiteplanURL #}
-                    {% set ns = namespace(sp_has_issue=False) %}
-                    {% set ns = namespace(sp_issue={}) %}  
-                    {% if issues[row_num] %}
-                        {% for iss in issues[row_num]['issue']  %}
-                            {% if iss['field'] == "SiteplanURL" %}
-                            {% set ns.sp_has_issue = True %}
-                            {% set ns.sp_issue = iss %}
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                    {% if ns.sp_has_issue %}
-                    {{ renderCellWithIssue({
-                        "value": row["SiteplanURL"],
-                        "original": ns.sp_issue['value'],
-                        "processed": "", 
-                        "message": "Value provided was not a valid URI.",
-                        "tag": "invalid",
-                        "classes": "data-table__cell--min-width"
-                    }) }}
+                    {% if issues[row_num] and issues[row_num]['SiteplanURL'] %}
+                        {{ renderCellWithIssue({
+                            "value": row["SiteplanURL"],
+                            "original": issues[row_num]['SiteplanURL']['original'],
+                            "processed": "",
+                            "tag": issues[row_num]['SiteplanURL']['tag'],
+                            "message": issues[row_num]['SiteplanURL']['message'],
+                            "sortValue": ""
+                        }) }}
                     {% else %}
                     <td>
                         {%- if not row["SiteplanURL"] == None -%}
