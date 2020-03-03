@@ -168,7 +168,28 @@
                 {%- for row in data -%}
                 {% set row_num = loop.index %}
                 <tr>
+                    {# SiteReference #}
+                    {% set ns = namespace(sr_has_issue=False) %}  
+                    {% if issues[row_num] %}
+                        {% for iss in issues[row_num]['issue']  %}
+                            {% if iss['field'] == "SiteReference" %}
+                            {% set ns.sr_has_issue = True %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {% if ns.sr_has_issue %}
+                    {{ renderCellWithIssue({
+                        "value": row["SiteReference"],
+                        "original": "",
+                        "processed": "",
+                        "tag": "Missing",
+                        "message": "No SiteReference provided.",
+                        "sort-value": ""
+                    }) }}
+                    {% else %}
                     <td data-sort-value="{{ '' if row['SiteReference'] == None else row['SiteReference'] }}">{{ "" if row["SiteReference"] == None else row["SiteReference"] }}</td>
+                    {% endif %}
+
                     <td>{{ "" if row["SiteNameAddress"] == None else row["SiteNameAddress"] }}</td>
 
                     {# GeoX #}

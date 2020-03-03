@@ -7,7 +7,7 @@
 {% endmacro %}
 
 {% macro renderCellWithIssue(params) %}
-<td tabindex="0" class="data-table__issue{% if params.classes %} {{ params.classes }}{% endif %}">
+<td tabindex="0" class="data-table__issue{% if params.classes %} {{ params.classes }}{% endif %}" {% if params['sort-value'] %}data-sort-value="{{ params['sort-value'] }}"{% endif %}>
     {{ "" if params['value'] == None else params['value'] }}
     <span class="data-table__issue__item">
         <div class="data-table__issue__item__text issue__part"><span class="secondary-text issue__part__label">original &rarr;</span><span>{{ params['original'] }}</span></div>
