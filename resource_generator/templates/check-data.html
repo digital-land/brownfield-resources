@@ -250,7 +250,8 @@
                                 "processed": issues[row_num]['NetDwellingsRangeTo']['original'],
                                 "tag": issues[row_num]['NetDwellingsRangeTo']['tag'],
                                 "message": issues[row_num]['NetDwellingsRangeTo']['message'],
-                                "sortValue": issues[row_num]['NetDwellingsRangeTo']['original']
+                                "sortValue": issues[row_num]['NetDwellingsRangeTo']['original'],
+                                "classes": "data-table__issue--wide"
                             }) }}
                         {% else %}
                             {{ renderCellWithIssue({
@@ -259,7 +260,8 @@
                                 "processed": "",
                                 "tag": issues[row_num]['NetDwellingsRangeTo']['tag'],
                                 "message": issues[row_num]['NetDwellingsRangeTo']['message'],
-                                "sortValue": 0
+                                "sortValue": 0,
+                                "classes": "data-table__issue--wide"
                             }) }}
                         {% endif %}
                     {% else %}
@@ -273,7 +275,7 @@
                         {% if issues[row_num]['LastUpdatedDate']['tag'] == 'amended' %}
                             {{ renderCellWithIssue({
                                 "value": row["LastUpdatedDate"],
-                                "original": issues[row_num]['LastUpdatedDate']['original'],
+                                "original": "",
                                 "processed": row["LastUpdatedDate"],
                                 "tag": issues[row_num]['LastUpdatedDate']['tag'],
                                 "message": issues[row_num]['LastUpdatedDate']['message'],
@@ -338,7 +340,8 @@
                             "processed": "",
                             "tag": issues[row_num]['SiteplanURL']['tag'],
                             "message": issues[row_num]['SiteplanURL']['message'],
-                            "sortValue": ""
+                            "sortValue": "",
+                            "classes": "data-table__issue--wide"
                         }) }}
                     {% else %}
                     <td>
