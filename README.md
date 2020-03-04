@@ -57,6 +57,12 @@ To generate check page for an organisation, run
 
 where `<organisation_id>` is replaced with an id for an organisation. Such as `local-authority-eng:CMD`
 
+### Issues mapper
+
+The `issue_mapper.py` script takes an issues csv file as input and returns json that is more easily used by a view (e.g. `check_data.py`).
+
+There is a csv file with a sample of the different issues that can be logged during the pipeline process. This file can be used to test the isse_mapper. To do so import and run the `testIssueMapper()` function and inspect the resulting json.
+
 ### Issues
 
 `daily_summary_page.py` for **2019-12-24**, need to investigate
