@@ -71,7 +71,6 @@ def generateIssueMessage(field, issues):
             original = issues['date']
             tag = "amended"
             message = f"Date provide is not a valid date. Set to default."
-        print("trickier when 2 things have happened")
     else:
         # print(issues.keys())
         original, tag, message = mapSingleIssue(field, issues)
