@@ -243,14 +243,25 @@
 
                     {# NetDwellingsRangeTo #}
                     {% if issues[row_num] and issues[row_num]['NetDwellingsRangeTo'] %}
-                        {{ renderCellWithIssue({
-                            "value": row["NetDwellingsRangeTo"],
-                            "original": issues[row_num]['NetDwellingsRangeTo']['original'],
-                            "processed": "",
-                            "tag": issues[row_num]['NetDwellingsRangeTo']['tag'],
-                            "message": issues[row_num]['NetDwellingsRangeTo']['message'],
-                            "sortValue": 0
-                        }) }}
+                        {% if issues[row_num]['NetDwellingsRangeTo']['tag'] == "amended" %}
+                            {{ renderCellWithIssue({
+                                "value": row["NetDwellingsRangeTo"],
+                                "original": "",
+                                "processed": issues[row_num]['NetDwellingsRangeTo']['original'],
+                                "tag": issues[row_num]['NetDwellingsRangeTo']['tag'],
+                                "message": issues[row_num]['NetDwellingsRangeTo']['message'],
+                                "sortValue": issues[row_num]['NetDwellingsRangeTo']['original']
+                            }) }}
+                        {% else %}
+                            {{ renderCellWithIssue({
+                                "value": row["NetDwellingsRangeTo"],
+                                "original": issues[row_num]['NetDwellingsRangeTo']['original'],
+                                "processed": "",
+                                "tag": issues[row_num]['NetDwellingsRangeTo']['tag'],
+                                "message": issues[row_num]['NetDwellingsRangeTo']['message'],
+                                "sortValue": 0
+                            }) }}
+                        {% endif %}
                     {% else %}
                     <td data-sort-value="{{ '' if row['NetDwellingsRangeTo'] == None else row['NetDwellingsRangeTo'] }}">{{ "" if row["NetDwellingsRangeTo"] == None else row["NetDwellingsRangeTo"] }}</td>
                     {% endif %}
