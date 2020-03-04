@@ -9,6 +9,7 @@ from math import cos, radians
 from resource_generator.renderer import Renderer
 from resource_generator.data_analyser import DataAnalyser
 from resource_generator.collection import CollectionIndex
+from resource_generator.issue_mapper import extractFromIssuesFile
 from resource_generator.filters import (
     readable_date,
     map_org_code_to_name,
@@ -36,13 +37,14 @@ def fetch_csv(url):
     print(f"...... collecting harmonised data from {url}")
     try:
         data = pd.read_csv(url, sep=",")
+        # strip spaces introduced to values
+        data_frame_trimmed = data.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
+        # strip spaces introduced to column headers
+        data_frame_trimmed = data_frame_trimmed.rename(columns=lambda x: x.strip())
+        return data_frame_trimmed
     except Exception as e:
         print(f'FAILED: {e}')
-    # strip spaces introduced to values
-    data_frame_trimmed = data.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
-    # strip spaces introduced to column headers
-    data_frame_trimmed = data_frame_trimmed.rename(columns=lambda x: x.strip())
-    return data_frame_trimmed
+        return {}
 
 
 # roughly increase the size of the bounding box
@@ -131,9 +133,7 @@ def generate_playback_data_page(resource_hash):
     analyser = DataAnalyser(json_data)
 
     # get the relevant issues for resource
-    issues = pd.read_csv(url_for_issues(resource_hash), sep=",")
-    issues_json = json.loads(issues.to_json(orient='records'))
-    issues_by_row = formatIssuesData(issues_json)
+    formatted_issues = extractFromIssuesFile(resource_hash)
 
     # render the page
     try:
@@ -146,7 +146,7 @@ def generate_playback_data_page(resource_hash):
             key_last_collected_from=key_last_collected_from,
             ind=ind,
             bbox=increase_bounding_box(bounding_box(data), 1),
-            issues=issues_by_row)
+            issues=formatted_issues)
         print(f"SUCCESS: {resource_hash}")
         return True
     except Exception as e:
