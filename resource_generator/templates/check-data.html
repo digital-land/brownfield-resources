@@ -167,7 +167,7 @@
             <tbody>
                 {%- for row in data -%}
                 {% set row_num = loop.index %}
-                <tr>
+                <tr{%- if row_num > (data|length - 2) %} class="data-table__row--bottom"{%- endif -%}>
 
                     {# SiteReference #}
                     {% if issues[row_num] and issues[row_num]['SiteReference'] %}
