@@ -25,7 +25,7 @@ def extractIssueData(issues):
 def mapSingleIssue(field, issue):
     keys = list(issue.keys())
     if "missing" in keys:
-        return issue["missing"], "missing", f"No data provided for {field}"
+        return issue["missing"], "missing", f"No data for {field}"
     elif "enum" in keys:
         return issue["enum"], "invalid", f"Unexpected value for {field}"
     elif "outside England" in keys[0]:
