@@ -101,7 +101,10 @@
                 <span class="govuk-!-font-weight-bold">{{'%0.2f' % summary.hectares_active|float}}
                 hectares</span> of brownfield land
             </li>
-            <li>between <span class="govuk-!-font-weight-bold">{{ summary.min_dwellings_active|int }}</span> and
+            {%- set min_dwell = summary.min_dwellings_active|int -%}
+            {%- set max_dwell = summary.max_dwellings_active|int -%}
+            <li>{%- if not min_dwell == max_dwell -%}
+                between <span class="govuk-!-font-weight-bold">{{ summary.min_dwellings_active|int }}</span> and {% endif -%}
                 <span class="govuk-!-font-weight-bold">{{ summary.max_dwellings_active|int }}</span> potential dwellings that could be built
             </li>
             <li><span class="govuk-!-font-weight-bold">{{ summary["permission_in_principle_active"] }}
