@@ -143,7 +143,7 @@
             <thead>
                 <tr>
                     <th scope="col" aria-sort="none">SiteReference</th>
-                    <th scope="col">SiteNameAddress</th>
+                    <th scope="col" aria-sort="none">SiteNameAddress</th>
                     <th scope="col">GeoX</th>
                     <th scope="col">GeoY</th>
                     <th scope="col" aria-sort="none">Hectares</th>
@@ -183,7 +183,7 @@
                     <td data-sort-value="{{ '' if row['SiteReference'] == None else row['SiteReference'] }}">{{ "" if row["SiteReference"] == None else row["SiteReference"] }}</td>
                     {% endif %}
 
-                    <td class="data-table__cell--max-width">{{ "" if row["SiteNameAddress"] == None else row["SiteNameAddress"] }}</td>
+                    <td data-sort-value="{{ '' if row['SiteNameAddress'] == None else row['SiteNameAddress'] }}" class="data-table__cell--max-width">{{ "" if row["SiteNameAddress"] == None else row["SiteNameAddress"] }}</td>
 
                     {# GeoX #}
                     {% if issues[row_num] and issues[row_num]['GeoX'] %}
