@@ -272,7 +272,7 @@
                     {% endif %}
 
                     <td>{{ "" if row["FirstAddedDate"] == None else row["FirstAddedDate"] }}</td>
-                    
+
                     {# LastUpdatedDate #}
                     {% if issues[row_num] and issues[row_num]['LastUpdatedDate'] %}
                         {% if issues[row_num]['LastUpdatedDate']['tag'] == 'amended' %}
@@ -288,10 +288,10 @@
                     {% else %}
                     <td>{{ "" if row["LastUpdatedDate"] == None else row["LastUpdatedDate"] }}</td>
                     {% endif %}
-                    
+
                     <td>{{ "" if row["Deliverable"] == None else row["Deliverable"] }}</td>
                     <td>{{ "" if row["HazardousSubstances"] == None else row["HazardousSubstances"] }}</td>
-                    
+
                     {# OrganisationURI #}
                     {% if issues[row_num] and issues[row_num]['OrganisationURI'] %}
                         {% if issues[row_num]['OrganisationURI']['tag'] == 'amended' %}
@@ -389,7 +389,7 @@
 <script>
     // Initialise data tables component
     var $data_tables = document.querySelectorAll('[data-module*="data-table"]')
-    $data_tables.forEach(data_table => {
+    $data_tables.forEach(function(data_table) {
         new window.DLFrontend.ScrollableTables(data_table).init()
     })
 </script>
@@ -408,9 +408,9 @@
 
 <script>
 var $linkable_tables = document.querySelectorAll('[data-module*="data-linkable-table"]')
-$linkable_tables.forEach(linkable_table => {
+$linkable_tables.forEach(function(linkable_table) {
     new window.DLFrontend.LinkableTable(linkable_table).init()
-});
+})
 </script>
 
 <script>
@@ -465,7 +465,7 @@ $linkable_tables.forEach(linkable_table => {
         }
     }
 
-    bfs_data.forEach(row => {
+    bfs_data.forEach(function(row) {
         if (row['GeoY'] && row['GeoX']) {
             console.log("Row has coords");
             var size = siteSize(row['Hectares']);
