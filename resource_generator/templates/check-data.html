@@ -16,13 +16,13 @@
         "href": "/resource"
         },
         {
-        "text": resource_hash|truncate(11,true)
+        "text": "View the data:" + resource_hash|truncate(11,true)
         }
     ]
     }) -}}
 {%- endblock -%}
 
-{% block pageTitle %}{{ resource_hash }} | Resources | Digital Land{% endblock %}
+{% block pageTitle %}View the data: {{ resource_hash }} | Resources | Digital Land{% endblock %}
 
 {% block content %}
 
@@ -30,7 +30,7 @@
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-xl">Brownfield land</span>
         <h1 class="govuk-heading-xl">View the data</h1>
-        <p class="govuk-body-l">The brownfield land data on this page has been collected and processed by the Digital Land pipeline.</p>
+        <p class="govuk-body-l">Explore the brownfield land data on this page, which has been collected and processed by the Digital Land pipeline.</p>
     </div>
 </div>
 
@@ -65,9 +65,7 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h2 class="govuk-heading-l">How we've processed this data</h2>
-        <p class="govuk-body">The Digital Land pipeline collects the data and fixes common errors that do not align with the <a href="https://www.gov.uk/government/publications/brownfield-land-registers-data-standard/publish-your-brownfield-land-data">data standard</a>.</p>
-        <p class="govuk-body">Find out more about <a href="/guidance/pipeline/">our pipeline process</a>.
-        </p>
+        <p class="govuk-body">The <a href="https://digital-land.github.io/guidance/pipeline/">Digital Land pipeline</a> collects the data and fixes common errors that do not align with the <a href="https://www.gov.uk/government/publications/brownfield-land-registers-data-standard/publish-your-brownfield-land-data">data standard</a>.</p>
         <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
     </div>
     <div class="govuk-grid-column-one-third">
@@ -77,12 +75,8 @@
             </h2>
             <nav role="navigation" aria-labelledby="subsection-title">
                 <ul class="govuk-list govuk-!-font-size-16">
-                    <li><a href="/resource/{{resource_hash}}/validation-result.html">Validation result</a></li>
-                    <li>
-                        <a
-                            href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/collection/resource/{{resource_hash}}">Preprocessed
-                            resource file</a>
-                    </li>
+                    <li><a href="https://www.gov.uk/government/publications/brownfield-land-registers-data-standard/publish-your-brownfield-land-data">Brownfield land data standard</a></li>
+                    <li><a href="http://www.legislation.gov.uk/uksi/2017/403/made">Brownfield land register regulations (2017)</a></li>
                 </ul>
             </nav>
         </aside>
@@ -94,8 +88,8 @@
         <h2 class="govuk-heading-l">Facts from the data</h2>
         <p class="govuk-body">The following information has been extracted from the register.</p>
         <p class="govuk-body">The register references <span class="govuk-!-font-weight-bold">{{ summary.unique_organisation_uris }}</span> {{"organisation"|pluralise("", "s", summary.unique_organisation_uris)}}.</p>
-        <p class="govuk-body">It reports <span class="govuk-!-font-weight-bold">{{ summary.total }} brownfield sites</span>. <span class="govuk-!-font-weight-bold">{{ summary.end_dates }}</span> of these have an end date and are no longer considered brownfield land.</p>
-        <p class="govuk-body">Excluding sites with an end date, there are:</p>
+        <p class="govuk-body">It reports <span class="govuk-!-font-weight-bold">{{ summary.total }} brownfield sites</span>. <span class="govuk-!-font-weight-bold">{{ summary.end_dates }}</span> of these have an <a href="https://digital-land.github.io/guidance/data-principles/#end-dates">end date</a> and are no longer considered brownfield land.</p>
+        <p class="govuk-body">Not including sites with an end date, there are:</p>
         <ul class="govuk-list govuk-list--bullet">
             <li>
                 <span class="govuk-!-font-weight-bold">{{'%0.2f' % summary.hectares_active|float}}
@@ -116,6 +110,8 @@
 </div>
 
 <h3 class="govuk-heading-m govuk-!-margin-top-6">Site locations</h3>
+<p class="govuk-body">Click on each plotted site to see further information.</p>
+
 <div id="map" style="width: 100%; height: 640px;"></div>
 <div class="map__site-count{{ '' if summary.hasLatLng == data|length else ' map__site-count--warning' }} govuk-!-margin-bottom-9">{% if summary.hasLatLng == data|length %}
     All {{ summary.hasLatLng }} {{ "site"|pluralise("", "s", data|length)}} plotted.
@@ -127,6 +123,9 @@
 
 <p class="govuk-body">There are <strong>{{ data|length }}</strong> records after processing this brownfield register.
 </p>
+
+<p class="govuk-body">Explore the processed data in the table below.</p>
+
 {%- set original_media_type = ind.get_resource(resource_hash)['media-type']|map_media_type -%}
 <p class="govuk-body">Download the data: <a
         href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/harmonised/{{ resource_hash }}.csv"
