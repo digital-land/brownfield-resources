@@ -53,7 +53,7 @@
         <dt>From:</dt>
         {%- for org in ind.get_orgs_for_resource(resource_hash) -%}
         <dd>
-            <a href="{{ org }}">{{ org|map_org_code_to_name }}</a>
+            <a href="/organisation/{{ org.replace(':', '/') }}">{{ org|map_org_code_to_name }}</a>
             {%- if not loop.last -%}
             ,
             {%- endif -%}
