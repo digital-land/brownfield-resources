@@ -41,10 +41,6 @@
             <a href="{{ ind.get_key_url(key_last_collected_from) }}">{{ ind.get_key_url(key_last_collected_from) }}</a>
         </dd>
     </dl>
-    {%- set document_urls = ind.get_key_doc_url(key_last_collected_from) -%}
-    {%- if document_urls|length > 0 %}
-    <a href="{{ document_urls[0] }}">See documentation page</a>
-    {% endif -%}
 </div>
 <div class="publishing-metadata govuk-!-margin-bottom-9">
     Published {{ ind.date_resource_first_collected(resource_hash)|readable_date }}
