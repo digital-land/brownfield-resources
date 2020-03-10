@@ -2,6 +2,7 @@
 
 import sys
 import json
+import datetime
 
 import pandas as pd
 from math import cos, radians
@@ -146,7 +147,8 @@ def generate_playback_data_page(resource_hash):
             key_last_collected_from=key_last_collected_from,
             ind=ind,
             bbox=increase_bounding_box(bounding_box(data), 1),
-            issues=formatted_issues)
+            issues=formatted_issues,
+            today=datetime.datetime.today().date().strftime('%Y-%m-%d'))
         print(f"SUCCESS: {resource_hash}")
         return True
     except Exception as e:

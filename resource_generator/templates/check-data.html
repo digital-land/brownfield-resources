@@ -49,6 +49,9 @@
 <div class="publishing-metadata govuk-!-margin-bottom-9">
     Published {{ ind.date_resource_first_collected(resource_hash)|readable_date }}
     <br />
+    {% if not today == ind.date_resource_last_collected(resource_hash)  %}
+    Last collected on {{ ind.date_resource_last_collected(resource_hash)|readable_date }}
+    {% endif %}
     <dl class="def-list--basic">
         <dt>From:</dt>
         {%- for org in ind.get_orgs_for_resource(resource_hash) -%}
