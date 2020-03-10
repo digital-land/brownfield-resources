@@ -231,14 +231,27 @@
 
                     {# NetDwellingsRangeFrom #}
                     {% if issues[row_num] and issues[row_num]['NetDwellingsRangeFrom'] %}
+                        {% if issues[row_num]['NetDwellingsRangeFrom']['tag'] == "amended" %}
+                        {{ renderCellWithIssue({
+                            "value": row["NetDwellingsRangeFrom"],
+                            "original": "",
+                            "processed": issues[row_num]['NetDwellingsRangeFrom']['original'],
+                            "tag": issues[row_num]['NetDwellingsRangeFrom']['tag'],
+                            "message": issues[row_num]['NetDwellingsRangeFrom']['message'],
+                            "sortValue": row["NetDwellingsRangeFrom"],
+                            "classes": "data-table__issue--wide"
+                        }) }}
+                        {% else %}
                         {{ renderCellWithIssue({
                             "value": row["NetDwellingsRangeFrom"],
                             "original": issues[row_num]['NetDwellingsRangeFrom']['original'],
                             "processed": "",
                             "tag": issues[row_num]['NetDwellingsRangeFrom']['tag'],
                             "message": issues[row_num]['NetDwellingsRangeFrom']['message'],
-                            "sortValue": 0
+                            "sortValue": 0,
+                            "classes": "data-table__issue--wide"
                         }) }}
+                        {% endif %}
                     {% else %}
                     <td data-sort-value="{{ '' if row['NetDwellingsRangeFrom'] == None else row['NetDwellingsRangeFrom'] }}">{{ "" if row["NetDwellingsRangeFrom"] == None else row["NetDwellingsRangeFrom"] }}</td>
                     {% endif %}

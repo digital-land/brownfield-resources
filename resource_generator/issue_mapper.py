@@ -47,6 +47,8 @@ def mapSingleIssue(field, issue):
             return issue[keys[0]], "amended", f"No value provided for {field}. Setting to NetDwellingsRangeFrom"
         elif field == 'OrganisationURI':
             return issue[keys[0]], "amended", f"No value provided for {field}. Setting to default for organisation."
+        elif field == 'NetDwellingsRangeFrom':
+            return issue[keys[0]], "amended", f"No value provided for {field}. Using value from deprecated MinNetDwellings column."
         else:
             return issue[keys[0]], "amended", f"No value provided for {field}. Setting to a default"
     else:
