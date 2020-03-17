@@ -441,6 +441,82 @@ $linkable_tables.forEach(function(linkable_table) {
 
     const brownfield = L.layerGroup();
 
+    var tooltipTemplate =
+        '{hasEndDate}' +
+        '<div class="bfs">' +
+        '<span class="govuk-caption-s">{siteRef} sites</span>' +
+        '<h3 class="govuk-heading-s">{address}</h3>' +
+        '</div>' +
+        '<div class="govuk-grid-row">' +
+        '<dl class="govuk-grid-column-one-half">' +
+        '<dt>Hectare</dt>' +
+        '<dd>{hectares}</dd>' +
+        '</dl>' +
+        '<dl class="govuk-grid-column-one-half">' +
+        '<dt>Dwellings</dt>' +
+        '<dd>{isRange}</dd>' +
+        '</dl>' +
+        '</div>' +
+        '<div class="bfs__meta">' +
+        '<dl>' +
+        '<dt>Latitude</dt>' +
+        '<dd>{latitude}</dd>' +
+        '</dl>' +
+        '<dl>' +
+        '<dt>Longitude</dt>' +
+        '<dd>{longitude}</dd>' +
+        '</dl>' +
+        '{differentDates}' +
+        '</div>';
+
+    function hasEndDate(data) {
+        if(data['endDate']) {
+            return '<span class="bfs__end-date">End-date: ' + data['endDate'] + '</span>';
+        }
+        return "";
+    }
+
+    function isRange(data) {
+        var str = data['minDwell'];
+        if(parseInt(data['minDwell']) !== parseInt(data['maxDwell']) || parseInt(data['maxDwell']) === 0 ) {
+            str = data['minDwell'] + "-" + data['maxDwell'];
+        }
+        return str;
+    }
+
+    function differentDates(data) {
+        var str = '<dl>' +
+        '<dt>Date added</dt>' +
+        '<dd>' + data['startDate'] + '</dd>' +
+        '</dl>';
+        if(data['startDate'] != data['updatedDate']) {
+            return str + '<dl>' +
+                '<dt>Last updated</dt>' +
+                '<dd>' + data['updatedDate'] + '</dd>' +
+                '</dl>';
+        }
+        return str;
+    }
+
+    function createPopup2(row) {
+        processed_row_data = {
+            'address': row['SiteNameAddress'],
+            'siteRef': row['SiteReference'],
+            'endDate': row['EndDate'],
+            'hectares': row['Hectares'],
+            'minDwell': row['NetDwellingsRangeFrom'],
+            'maxDwell': row['NetDwellingsRangeTo'],
+            'latitude': row['GeoY'],
+            'longitude': row['GeoX'],
+            'startDate': row['FirstAddedDate'],
+            'updatedDate': row['LastUpdatedDate'],
+            'isRange': isRange,
+            'hasEndDate': hasEndDate,
+            'differentDates': differentDates
+        }
+        return L.Util.template(tooltipTemplate, processed_row_data); 
+    }
+
     function createPopup(data) {
         var datastring = data['SiteNameAddress'].length ? (data['SiteNameAddress'] + '<hr>') : ''
 
@@ -481,7 +557,7 @@ $linkable_tables.forEach(function(linkable_table) {
             console.log("Row has coords");
             var size = siteSize(row['Hectares']);
             brownfieldSiteStyle.radius = size.toFixed(2);
-            L.circle([row['GeoY'], row['GeoX']], brownfieldSiteStyle).addTo(brownfield).bindPopup(createPopup(row));
+            L.circle([row['GeoY'], row['GeoX']], brownfieldSiteStyle).addTo(brownfield).bindPopup(createPopup2(row));
         } else {
             console.log("no coords")
         }
