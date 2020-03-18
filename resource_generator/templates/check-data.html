@@ -442,12 +442,13 @@ $linkable_tables.forEach(function(linkable_table) {
     const brownfield = L.layerGroup();
 
     var tooltipTemplate =
-        '{hasEndDate}' +
         '<div class="bfs">' +
+        '{hasEndDate}' +
+        '<div class="bfs__header">' +
         '<span class="govuk-caption-s">{siteRef} sites</span>' +
-        '<h3 class="govuk-heading-s">{address}</h3>' +
+        '<h3 class="govuk-heading-s bfs__addr">{address}</h3>' +
         '</div>' +
-        '<div class="govuk-grid-row">' +
+        '<div class="govuk-grid-row bfs__key-data">' +
         '<dl class="govuk-grid-column-one-half">' +
         '<dt>Hectare</dt>' +
         '<dd>{hectares}</dd>' +
@@ -467,6 +468,7 @@ $linkable_tables.forEach(function(linkable_table) {
         '<dd>{longitude}</dd>' +
         '</dl>' +
         '{differentDates}' +
+        '</div>' +
         '</div>';
 
     function hasEndDate(data) {
