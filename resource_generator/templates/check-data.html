@@ -559,7 +559,10 @@ $linkable_tables.forEach(function(linkable_table) {
             console.log("Row has coords");
             var size = siteSize(row['Hectares']);
             brownfieldSiteStyle.radius = size.toFixed(2);
-            L.circle([row['GeoY'], row['GeoX']], brownfieldSiteStyle).addTo(brownfield).bindPopup(createPopup2(row));
+            L.circle([row['GeoY'], row['GeoX']], brownfieldSiteStyle).addTo(brownfield).bindPopup(createPopup2(row), {
+                minWidth: "270",
+                maxWidth: "270"
+            });
         } else {
             console.log("no coords")
         }
