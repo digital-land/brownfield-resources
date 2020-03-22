@@ -168,7 +168,7 @@
             <tbody>
                 {%- for row in data -%}
                 {% set row_num = loop.index %}
-                <tr{%- if row_num > (data|length - 2) %} class="data-table__row--bottom"{%- endif -%}>
+                <tr id="row{{row_num}}" {%- if row_num > (data|length - 2) %} class="data-table__row--bottom"{%- endif -%}>
 
                     {# SiteReference #}
                     {% if issues[row_num] and issues[row_num]['SiteReference'] %}
@@ -469,6 +469,9 @@ $linkable_tables.forEach(function(linkable_table) {
         '</dl>' +
         '{differentDates}' +
         '</div>' +
+        '<div class="bfs__footer">' +
+        '<a href="#row{rowNumber}" class="govuk-link">See all site properties</a>' +
+        '</div>' +
         '</div>';
 
     function hasEndDate(data) {
@@ -512,6 +515,7 @@ $linkable_tables.forEach(function(linkable_table) {
             'longitude': row['GeoX'],
             'startDate': row['FirstAddedDate'],
             'updatedDate': row['LastUpdatedDate'],
+            'rowNumber': row['row_number'],
             'isRange': isRange,
             'hasEndDate': hasEndDate,
             'differentDates': differentDates
@@ -554,9 +558,9 @@ $linkable_tables.forEach(function(linkable_table) {
         }
     }
 
-    bfs_data.forEach(function(row) {
+    bfs_data.forEach(function(row, idx) {
         if (row['GeoY'] && row['GeoX']) {
-            console.log("Row has coords");
+            row['row_number'] = idx+1;
             var size = siteSize(row['Hectares']);
             brownfieldSiteStyle.radius = size.toFixed(2);
             L.circle([row['GeoY'], row['GeoX']], brownfieldSiteStyle).addTo(brownfield).bindPopup(createPopup2(row), {
@@ -565,7 +569,7 @@ $linkable_tables.forEach(function(linkable_table) {
                 className: "bfs-popup"
             });
         } else {
-            console.log("no coords")
+            console.log("row " + idx+1 + " no coords");
         }
     })
 
