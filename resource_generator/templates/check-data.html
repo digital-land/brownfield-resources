@@ -473,7 +473,7 @@ $linkable_tables.forEach(function(linkable_table) {
 
     function hasEndDate(data) {
         if(data['endDate']) {
-            return '<span class="bfs__end-date">End-date: ' + data['endDate'] + '</span>';
+            return '<span class="bfs__end-banner">End date: ' + data['endDate'] + '</span>';
         }
         return "";
     }
@@ -561,7 +561,8 @@ $linkable_tables.forEach(function(linkable_table) {
             brownfieldSiteStyle.radius = size.toFixed(2);
             L.circle([row['GeoY'], row['GeoX']], brownfieldSiteStyle).addTo(brownfield).bindPopup(createPopup2(row), {
                 minWidth: "270",
-                maxWidth: "270"
+                maxWidth: "270",
+                className: "bfs-popup"
             });
         } else {
             console.log("no coords")
