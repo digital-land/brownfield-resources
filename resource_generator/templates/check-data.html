@@ -483,10 +483,13 @@ $linkable_tables.forEach(function(linkable_table) {
 
     function isRange(data) {
         var str = data['minDwell'];
-        if(parseInt(data['minDwell']) !== parseInt(data['maxDwell']) || parseInt(data['maxDwell']) === 0 ) {
-            str = data['minDwell'] + "-" + data['maxDwell'];
+        if(data['minDwell'] != null) {
+            if(parseInt(data['minDwell']) !== parseInt(data['maxDwell']) || parseInt(data['maxDwell']) === 0 ) {
+                str = data['minDwell'] + "-" + data['maxDwell'];
+            }
+            return str;
         }
-        return str;
+        return ""
     }
 
     function differentDates(data) {
