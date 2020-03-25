@@ -101,7 +101,7 @@
                 <span class="govuk-!-font-weight-bold">{{ summary.max_dwellings_active|int }}</span> potential dwellings that could be built
             </li>
             <li><span class="govuk-!-font-weight-bold">{{ summary["permission_in_principle_active"] }}
-                </span> {{"site"|pluralise("","s",summary["permission_in_principle_active"])}} have <a href="https://www.gov.uk/guidance/permission-in-principle">permission in principle</a>
+                </span> {{ "site has" if summary["permission_in_principle_active"] == 1 else "sites have" }} <a href="https://www.gov.uk/guidance/permission-in-principle">permission in principle</a>
             </li>
 
         </ul>
