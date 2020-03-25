@@ -245,9 +245,10 @@
 
                     {# NetDwellingsRangeFrom #}
                     {% if issues[row_num] and issues[row_num]['NetDwellingsRangeFrom'] %}
+                        {% set cell_value = row["NetDwellingsRangeFrom"]|float_to_int %}
                         {% if issues[row_num]['NetDwellingsRangeFrom']['tag'] == "amended" %}
                         {{ renderCellWithIssue({
-                            "value": row["NetDwellingsRangeFrom"],
+                            "value": cell_value,
                             "original": "",
                             "processed": issues[row_num]['NetDwellingsRangeFrom']['original'],
                             "tag": issues[row_num]['NetDwellingsRangeFrom']['tag'],
@@ -257,7 +258,7 @@
                         }) }}
                         {% else %}
                         {{ renderCellWithIssue({
-                            "value": row["NetDwellingsRangeFrom"],
+                            "value": cell_value,
                             "original": issues[row_num]['NetDwellingsRangeFrom']['original'],
                             "processed": "",
                             "tag": issues[row_num]['NetDwellingsRangeFrom']['tag'],
@@ -267,14 +268,15 @@
                         }) }}
                         {% endif %}
                     {% else %}
-                    <td data-sort-value="{{ '' if row['NetDwellingsRangeFrom'] == None else row['NetDwellingsRangeFrom'] }}">{{ "" if row["NetDwellingsRangeFrom"] == None else row["NetDwellingsRangeFrom"] }}</td>
+                    <td data-sort-value="{{ '' if row['NetDwellingsRangeFrom'] == None else row['NetDwellingsRangeFrom'] }}">{{ "" if row["NetDwellingsRangeFrom"] == None else row["NetDwellingsRangeFrom"]|float_to_int }}</td>
                     {% endif %}
 
                     {# NetDwellingsRangeTo #}
                     {% if issues[row_num] and issues[row_num]['NetDwellingsRangeTo'] %}
+                        {% set cell_value = row["NetDwellingsRangeTo"]|float_to_int %}
                         {% if issues[row_num]['NetDwellingsRangeTo']['tag'] == "amended" %}
                             {{ renderCellWithIssue({
-                                "value": row["NetDwellingsRangeTo"],
+                                "value": cell_value,
                                 "original": "",
                                 "processed": issues[row_num]['NetDwellingsRangeTo']['original'],
                                 "tag": issues[row_num]['NetDwellingsRangeTo']['tag'],
@@ -284,7 +286,7 @@
                             }) }}
                         {% else %}
                             {{ renderCellWithIssue({
-                                "value": row["NetDwellingsRangeTo"],
+                                "value": cell_value,
                                 "original": issues[row_num]['NetDwellingsRangeTo']['original'],
                                 "processed": "",
                                 "tag": issues[row_num]['NetDwellingsRangeTo']['tag'],
@@ -294,7 +296,7 @@
                             }) }}
                         {% endif %}
                     {% else %}
-                    <td data-sort-value="{{ '' if row['NetDwellingsRangeTo'] == None else row['NetDwellingsRangeTo'] }}">{{ "" if row["NetDwellingsRangeTo"] == None else row["NetDwellingsRangeTo"] }}</td>
+                    <td data-sort-value="{{ '' if row['NetDwellingsRangeTo'] == None else row['NetDwellingsRangeTo'] }}">{{ "" if row["NetDwellingsRangeTo"] == None else row["NetDwellingsRangeTo"]|float_to_int }}</td>
                     {% endif %}
 
                     <td>{{ "" if row["FirstAddedDate"] == None else row["FirstAddedDate"] }}</td>

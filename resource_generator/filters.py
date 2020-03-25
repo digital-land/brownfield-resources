@@ -83,3 +83,9 @@ def issue_type_mapper(str):
     if "outside England" in str:
         return "Coordinate provided is outside England."
     return str
+
+
+def float_to_int(v):
+    if v:
+        return int(float(v))
+    return ""
