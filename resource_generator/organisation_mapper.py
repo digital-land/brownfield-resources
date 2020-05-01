@@ -2,7 +2,7 @@ import os
 import csv
 
 # needs to be where you have the organisation collection checked out
-data_dir = "../organisation-collection/collection/"
+data_dir = "../organisation-dataset/collection/"
 organisation_csv = 'organisation.csv'
 cvs_file_path = os.path.join(data_dir, organisation_csv)
 
