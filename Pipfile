@@ -10,7 +10,7 @@ pytest-flake8 = "*"
 [packages]
 setuptools = "*"
 brownfield-resource-generator = {editable = true,path = "."}
-govuk-jinja-components = {editable = true,git = "https://github.com/colmjude/govuk-jinja-components.git"}
+govuk_jinja_components = {editable = true,git = "https://github.com/digital-land/govuk-jinja-components.git"}
 markdown = "*"
 python-dateutil = "*"
 pandas = "*"
