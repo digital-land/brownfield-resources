@@ -1,5 +1,5 @@
 autopep8==1.5
--e git+https://github.com:digital-land/brownfield-resources.git@d8af70ca067fe8e4fc7dde7c8978110b67d85b43#egg=Brownfield_resource_generator
+-e git+https://github.com/digital-land/brownfield-resources.git@d8af70ca067fe8e4fc7dde7c8978110b67d85b43#egg=Brownfield_resource_generator
 click==7.1.2
 decorator==4.4.2
 -e git+https://github.com/digital-land/govuk-jinja-components.git@8ace92ae7c78004fd70b0a4f7d8ea53886127e40#egg=govuk_jinja_components
