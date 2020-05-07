@@ -9,7 +9,7 @@ def register_templates():
     multi_loader = jinja2.ChoiceLoader([
         jinja2.FileSystemLoader(searchpath="./resource_generator/templates"),
         jinja2.PrefixLoader({
-            'govuk-jinja-components': jinja2.PackageLoader('govuk-jinja-components')
+            'govuk-jinja-components': jinja2.PackageLoader('govuk_jinja_components')
         })
     ])
     return jinja2.Environment(loader=multi_loader)
