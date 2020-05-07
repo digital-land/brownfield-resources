@@ -74,7 +74,7 @@ def is_valid_uri(uri):
 
 def extract_coord(str, name="GeoX"):
     pt = str.split(",")
-    if name is "GeoX":
+    if name == "GeoX":
         return pt[0]
     return pt[1]
 
