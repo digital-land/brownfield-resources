@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="Brownfield resource generator",
-    version="0.0.1",
+    version="0.0.2",
     description="Generates HTML resource pages from result json input",
     url="https://github.com/digital-land/brownfield-resources",
     license="MIT",
