@@ -5,7 +5,7 @@ import jinja2
 from collection import CollectionIndex
 from render import register_templates
 
-static_folder = "https://brownfield-sites-validator.herokuapp.com/static"
+static_folder = "https://digital-land-design.herokuapp.com/static"
 
 # set up mappings
 ind = CollectionIndex()
