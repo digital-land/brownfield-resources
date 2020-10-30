@@ -18,7 +18,8 @@ class Renderer:
         multi_loader = jinja2.ChoiceLoader([
             jinja2.FileSystemLoader(searchpath="./resource_generator/templates"),
             jinja2.PrefixLoader({
-                'govuk-jinja-components': jinja2.PackageLoader('govuk_jinja_components')
+                'govuk-jinja-components': jinja2.PackageLoader('govuk_jinja_components'),
+                'digital-land-frontend': jinja2.PackageLoader('digital_land_frontend')
             })
         ])
         return jinja2.Environment(loader=multi_loader)
@@ -28,6 +29,9 @@ class Renderer:
 
     def get_template(self, template_name):
         return self.env.get_template(template_name)
+
+    def get_env(self):
+        return self.env
 
     def render_page(self, template, output_file, **kwargs):
         page_template = self.get_template(template)
