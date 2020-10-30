@@ -6,16 +6,11 @@ import datetime
 
 from resource_generator.collection import CollectionIndex, heat_map_data, previous_day
 from resource_generator.render import register_templates
+from resource_generator.renderer import Renderer
 
 from resource_generator.filters import pluralise, curie_org_url
 
-static_folder = "https://digital-land-design.herokuapp.com/static"
-
-# register filters with jinja context
-def register_filters(env):
-    env.filters["pluralise"] = pluralise
-    env.filters["curie_url"] = curie_org_url
-
+static_folder = "https://digital-land.github.io/static"
 
 # set up mappings
 ind = CollectionIndex()
@@ -23,23 +18,21 @@ ind = CollectionIndex()
 orgs_by_links = ind.orgs_by_no_links()
 
 # jinja setup
-env = register_templates()
-register_filters(env)
-
-summary_template = env.get_template("daily-summary.html")
+renderer = Renderer(static_folder)
+renderer.register_filter("pluralise", pluralise)
+renderer.register_filter("curie_url", curie_org_url)
 
 def generate_daily_summary_page(daystr):
     summary =  ind.generate_day_summary(daystr)
     new_resources = ind.new_resources(daystr)
-    with open(f"tmp/log/{daystr}.html", "w") as f:
-        f.write(summary_template.render(
-            static_folder=static_folder,
-            daystr=daystr,
-            ind=ind,
-            summary=summary,
-            new_resources=new_resources)
-        )
-
+    renderer.render_page(
+        "daily-summary.html",
+        f"tmp/log/{daystr}.html",
+        daystr=daystr,
+        ind=ind,
+        summary=summary,
+        new_resources=new_resources
+    )
 
 if __name__ == '__main__':
     #daystr = datetime.datetime.today().date().strftime('%Y-%m-%d')
