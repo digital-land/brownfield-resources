@@ -141,7 +141,7 @@ def generate_playback_data_page(resource_hash):
     # render the page
     try:
         renderer.render_page(
-            "check-data.html",
+            "view-data.html",
             f"{resource_hash}/index.html",
             data=json_data,
             summary=analyser.summary(),
