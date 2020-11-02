@@ -6,7 +6,7 @@ Takes report json from the brownfield validator as input and generates an HTML p
 
 Install dependencies (we'd recommend working in a **virtualenv**)
 
-    pipenv install
+    pip install -r requirements.txt
 
 Generate HTML with
 
@@ -76,3 +76,9 @@ There is a csv file with a sample of the different issues that can be logged dur
 - generate any outstanding daily log pages e.g. `python resource_generator/daily_summary_page.py 2020-01-2`
 - copy generated files into **/docs** directory of [resource repo](https://github.com/digital-land/resource)
 - commit **resource repo**
+
+## Working locally
+
+If you are working on the package you will want to install the local version, this will ensure any changes you make will be picked up when you run any of the commands above. To install you can run
+
+    pip install -e .
