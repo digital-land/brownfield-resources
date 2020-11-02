@@ -8,10 +8,12 @@ from resource_generator.utils import mkdir_p
 
 class Renderer:
 
-    def __init__(self, static_folder, dist_dir="tmp/resource/"):
-        self.static_folder = static_folder
+    def __init__(self, static_folder=None, dist_dir="tmp/resource/"):
         self.env = self.register_templates()
-        # TO DO: make this configurable
+        self.static_folder = "https://digital-land.github.io"
+        if static_folder is not None:
+            self.static_folder = static_folder
+        self.set_global({"staticPath": self.static_folder})
         self.dist_dir = dist_dir
 
     def register_templates(self):
@@ -32,6 +34,10 @@ class Renderer:
 
     def get_env(self):
         return self.env
+
+    def set_global(self, globals):
+        for k, v in globals.items():
+            self.env.globals[k] = v
 
     def render_page(self, template, output_file, **kwargs):
         page_template = self.get_template(template)

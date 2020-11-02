@@ -82,7 +82,7 @@ ind = CollectionIndex()
 
 # jinja setup
 # dist_dir="../resource/docs/"
-renderer = Renderer("https://digital-land-design.herokuapp.com/static")
+renderer = Renderer()
 renderer.register_filter("readable_date", readable_date)
 renderer.register_filter("map_org_code_to_name", map_org_code_to_name)
 renderer.register_filter("check_for_multiple", check_for_multiple)

@@ -11,7 +11,7 @@ from resource_generator.filters import readable_date, map_org_code_to_name, plur
 ind = CollectionIndex()
 
 # jinja setup
-renderer = Renderer("https://digital-land-design.herokuapp.com/static", dist_dir="../dataset/docs")
+renderer = Renderer(dist_dir="../dataset/docs")
 #renderer.register_filter("readable_date", readable_date)
 renderer.register_filter("map_org_code_to_name", map_org_code_to_name)
 renderer.register_filter("pluralise", pluralise)

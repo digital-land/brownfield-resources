@@ -10,15 +10,13 @@ from resource_generator.renderer import Renderer
 
 from resource_generator.filters import pluralise, curie_org_url
 
-static_folder = "https://digital-land.github.io/static"
-
 # set up mappings
 ind = CollectionIndex()
 
 orgs_by_links = ind.orgs_by_no_links()
 
 # jinja setup
-renderer = Renderer(static_folder)
+renderer = Renderer()
 renderer.register_filter("pluralise", pluralise)
 renderer.register_filter("curie_url", curie_org_url)
 
