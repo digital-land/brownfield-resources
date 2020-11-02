@@ -2,6 +2,7 @@
 
 import os
 import jinja2
+import datetime
 
 from resource_generator.utils import mkdir_p
 
@@ -13,7 +14,10 @@ class Renderer:
         self.static_folder = "https://digital-land.github.io"
         if static_folder is not None:
             self.static_folder = static_folder
-        self.set_global({"staticPath": self.static_folder})
+        self.set_global({
+            "staticPath": self.static_folder,
+            "now": datetime.datetime.utcnow()
+            })
         self.dist_dir = dist_dir
 
     def register_templates(self):
