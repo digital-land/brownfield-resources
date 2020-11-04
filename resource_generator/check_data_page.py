@@ -124,6 +124,9 @@ def generate_all_playback_data_pages():
     print("===================================")
     print_failed_list(failed)
 
+    # generate the index page for /resource
+    renderer.render_page("index.html", "index.html", resources=ind.mappings['resource'].keys(), ind=ind)
+
 
 # generate a page for a given resource
 def generate_playback_data_page(resource_hash):
