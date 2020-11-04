@@ -2,6 +2,11 @@
 {% from "dl-partials/check-data-macros.html" import makeLinkAnAnchor -%}
 {% from "dl-partials/check-data-macros.html" import renderCellWithIssue -%}
 
+{% block head %}
+{{ super() }}
+<meta name="generated-date" content="{{ now }}" />
+{% endblock head %}
+
 {%- block beforeContent -%}
 {{ super() }}
 

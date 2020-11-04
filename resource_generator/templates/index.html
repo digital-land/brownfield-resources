@@ -1,5 +1,10 @@
 {% extends "digital-land-frontend/dlf-base.html" %}
 
+{% block head %}
+{{ super() }}
+<meta name="generated-date" content="{{ now }}" />
+{% endblock head %}
+
 {%- block beforeContent -%}
     {{ super() }}
 
