@@ -30,10 +30,6 @@ To generate all the brownfield resource pages found at [digital-land/resource](h
 
 Scripts in this repo can be used to generate other pages.
 
-To generate an `index.html` page for the resource pages, run
-
-    python resource_generator/index.py
-
 To generate a `report.html` page (contains stats on what the collector does), run
 
     python resource_generator/report_page.py
@@ -46,10 +42,16 @@ where `day_str` is the day you wish the log page to cover, e.g. `2020-01-21`. Th
 
 To generate view data pages, run
 
-    python resource_generator/check_data_page.py <resource_hash>
+    python resource_generator/view_data_page.py <resource_hash>
 
 where `resource_hash` is the id of a collected resource. E.g. `77da1087f91eafee42797dbaa9bebef573d2eb759b39d9db130c99d34cbe4ec4`
-This will put the generated page in `/tmp/checker/` directory. This needs to exist.
+This will put the generated page in `/tmp/resource/` directory. This needs to exist.
+
+To generate a view the data page for all the resources add the `--all` flag
+
+    python resource_generator/view_data_page.py --all
+
+This will also generate the `index.html` page which lists all the resources.
 
 To generate check page for an organisation, run
 
@@ -71,7 +73,6 @@ There is a csv file with a sample of the different issues that can be logged dur
 
 - checkout latest from [the collector](https://github.com/digital-land/brownfield-land-collection)
 - generate resource pages with `brownfield-resource-gen`
-- generate index pages with `python resource_generator/index.py`
 - generate latest report page with `python resource_generator/report.py`
 - generate any outstanding daily log pages e.g. `python resource_generator/daily_summary_page.py 2020-01-2`
 - copy generated files into **/docs** directory of [resource repo](https://github.com/digital-land/resource)
