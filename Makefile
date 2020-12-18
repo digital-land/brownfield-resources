@@ -12,3 +12,6 @@ render:
 	python3 resource_generator/report_page.py && \
 	python3 resource_generator/daily_summary_page.py && \
 	python3 resource_generator/cli.py --input-dir ../brownfield-land-collection/validation
+
+collect::
+	wget -O data/resource.csv https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/collection/resource.csv

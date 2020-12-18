@@ -21,13 +21,13 @@
         "href": "/resource"
         },
         {
-        "text": "View the data: " + resource_hash|truncate(11,true)
+        "text": "View the data: " + resource['resource']|truncate(11,true)
         }
     ]
     }) -}}
 {%- endblock -%}
 
-{% block pageTitle %}View the data: {{ resource_hash }} | Resources | Digital Land{% endblock %}
+{% block pageTitle %}View the data: {{ resource['resource'] }} | Resources | Digital Land{% endblock %}
 
 {% block content %}
 
@@ -43,19 +43,19 @@
     <dl class="def-list--basic">
         <dt>URL of the register:</dt>
         <dd>
-            <a class="long-link" href="{{ ind.get_key_url(key_last_collected_from) }}">{{ ind.get_key_url(key_last_collected_from) }}</a>
+            <a class="long-link" href="{{ from_endpoint }}">{{ from_endpoint }}</a>
         </dd>
     </dl>
 </div>
 <div class="publishing-metadata govuk-!-margin-bottom-9">
-    Published {{ ind.date_resource_first_collected(resource_hash)|readable_date }}
+    Published {{ resource['start-date']|readable_date }}
     <br />
-    {% if not today == ind.date_resource_last_collected(resource_hash)  %}
-    Last collected on {{ ind.date_resource_last_collected(resource_hash)|readable_date }}
+    {% if not today == resource['end-date'] %}
+    Last collected on {{ resource['end-date']|readable_date }}
     {% endif %}
     <dl class="def-list--basic">
         <dt>From:</dt>
-        {%- for org in ind.get_orgs_for_resource(resource_hash) -%}
+        {%- for org in resource['organisations']|split_to_list -%}
         <dd>
             <a href="/organisation/{{ org.replace(':', '/') }}">{{ org|map_org_code_to_name }}</a>
             {%- if not loop.last -%}
@@ -145,7 +145,7 @@
 
 <p class="govuk-body">Explore the processed data in the table below.</p>
 
-{%- set original_media_type = ind.get_resource(resource_hash)['media-type']|map_media_type -%}
+{%- set original_media_type = log['response-headers']['Content-Type']|map_media_type -%}
 <p class="govuk-body">Download the data: <a
         href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/harmonised/{{ resource_hash }}.csv"
         download="{{resource_hash}}_harmonised.csv">processed</a>

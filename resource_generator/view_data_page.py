@@ -2,6 +2,7 @@
 
 import sys
 import json
+import urllib
 import datetime
 
 import pandas as pd
@@ -11,6 +12,7 @@ from resource_generator.renderer import Renderer
 from resource_generator.data_analyser import DataAnalyser
 from resource_generator.collection import CollectionIndex
 from resource_generator.issue_mapper import extractFromIssuesFile
+from resource_generator.utils import read_csv
 from resource_generator.filters import (
     readable_date,
     map_org_code_to_name,
@@ -21,19 +23,20 @@ from resource_generator.filters import (
     extract_coord,
     issue_type_mapper,
     float_to_int,
+    split_to_list,
 )
 
 
 def url_for_harmonised(resource_hash):
-    return f"https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/harmonised/{resource_hash}.csv"
-
-
-def url_for_converted(resource_hash):
-    return f"https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/converted/{resource_hash}.csv"
+    return f"https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/harmonised/brownfield-land/{resource_hash}.csv"
 
 
 def url_for_issues(resource_hash):
-    return f"https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/issue/{resource_hash}.csv"
+    return f"https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/issue/brownfield-land/{resource_hash}.csv"
+
+
+def url_for_original(resource_hash):
+    return f"https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/collection/resource/{resource_hash}"
 
 
 def fetch_csv(url):
@@ -80,8 +83,8 @@ def bounding_box(df):
     return (min_lng, max_lng, min_lat, max_lat)
 
 
-# also need collection
-ind = CollectionIndex()
+# get list of all resources
+all_resources = read_csv("data/resource.csv")
 
 # jinja setup
 # dist_dir="../resource/docs/"
@@ -95,6 +98,7 @@ renderer.register_filter("is_valid_uri", is_valid_uri)
 renderer.register_filter("extract_coord", extract_coord)
 renderer.register_filter("issue_type_mapper", issue_type_mapper)
 renderer.register_filter("float_to_int", float_to_int)
+renderer.register_filter("split_to_list", split_to_list)
 
 
 def formatIssuesData(issues):
@@ -111,12 +115,20 @@ def print_failed_list(failed):
         print(r)
 
 
+def get_resource_log(endpoint_hash, date):
+    url_root = "https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/collection/log/"
+    url = f"{url_root}{date}/{endpoint_hash}.json"
+    response = urllib.request.urlopen(url)
+    return json.loads(response.read())
+
+
 # generates a page for all the resources in the index
 def generate_all_playback_data_pages():
     created_successfully = []
     failed = []
-    for resource_hash in ind.mappings["resource"]:
-        if generate_playback_data_page(resource_hash):
+    for resource in all_resources:
+        resource_hash = resource["resource"]
+        if generate_playback_data_page(resource):
             created_successfully.append(resource_hash)
         else:
             failed.append(resource_hash)
@@ -129,17 +141,28 @@ def generate_all_playback_data_pages():
 
     # generate the index page for /resource
     renderer.render_page(
-        "index.html", "index.html", resources=ind.mappings["resource"].keys(), ind=ind
+        "index.html",
+        "index.html",
+        resources=all_resources,
+        resource_count=len(all_resources),
     )
 
 
 # generate a page for a given resource
-def generate_playback_data_page(resource_hash):
+def generate_playback_data_page(resource):
+    resource_hash = resource["resource"]
     # fetch resource we are interested in
     data = fetch_csv(url_for_harmonised(resource_hash))
     json_data = json.loads(data.to_json(orient="records"))
 
-    key_last_collected_from = ind.key_resource_last_collected_from(resource_hash)
+    # to do - if resource is from multiple endpoint....
+    endpoints = resource["endpoints"].split(";")
+    try:
+        log = get_resource_log(endpoints[0], resource["end-date"])
+    except Exception as e:
+        print(f"fetching log for {endpoints[0]} failed")
+        log = {"endpoint-url": "-"}
+    from_endpoint = log["endpoint-url"]
     # analyse data
     analyser = DataAnalyser(json_data)
 
@@ -153,9 +176,9 @@ def generate_playback_data_page(resource_hash):
             f"{resource_hash}/index.html",
             data=json_data,
             summary=analyser.summary(),
-            resource_hash=resource_hash,
-            key_last_collected_from=key_last_collected_from,
-            ind=ind,
+            resource=resource,
+            from_endpoint=from_endpoint,
+            log=log,
             bbox=increase_bounding_box(bounding_box(data), 1),
             issues=formatted_issues,
             today=datetime.datetime.today().date().strftime("%Y-%m-%d"),
@@ -170,7 +193,13 @@ def generate_playback_data_page(resource_hash):
 
 if __name__ == "__main__":
     # default resource hash
-    resource_hash = "060e59f0475aa7d6fc8404bd325939d41442117775feed63fbd7ad1de5af8ac5"
+    resource = {
+        "resource": "060e59f0475aa7d6fc8404bd325939d41442117775feed63fbd7ad1de5af8ac5",
+        "organisations": "local-authority-eng:RIC",
+        "endpoints": "2f3a523d8b835409f6215b9a73855f793eceb19af595171be73cad9692c2bcb0",
+        "start-date": "2019-12-15",
+        "end-date": "2019-12-19",
+    }
     if len(sys.argv) > 1:
         if sys.argv[1] == "--all":
             generate_all_playback_data_pages()
@@ -179,5 +208,5 @@ if __name__ == "__main__":
             resource_hash = sys.argv[1]
             print(f"Generate check data page for resource: {sys.argv[1]}")
     else:
-        print(f"Generate check data page for default resource: {resource_hash}")
-    generate_playback_data_page(resource_hash)
+        print(f"Generate check data page for default resource: {resource}")
+    generate_playback_data_page(resource)

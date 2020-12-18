@@ -1,4 +1,5 @@
 import os
+import csv
 
 from resource_generator.collection import previous_day
 
@@ -26,3 +27,10 @@ def mkdir_p(filename, dist_dir=""):
     dir_path = os.path.dirname(path)
     os.makedirs(dir_path, exist_ok=True)
     return path
+
+
+def read_csv(filename):
+    d = []
+    with open(filename, "r") as data:
+        d = [line for line in csv.DictReader(data)]
+    return d

@@ -2,6 +2,7 @@ import datetime
 import validators
 
 from resource_generator.organisation_mapper import OrganisationMapping
+
 org_mapping = OrganisationMapping()
 
 
@@ -13,9 +14,9 @@ def map_org_code_to_name(id):
 
 # takes a string, chars to strip off, chars to add, the count
 def pluralise(str, str_off, str_on, count):
-    strip_count = -1*len(str_off) if len(str_off) > 0 else len(str)
+    strip_count = -1 * len(str_off) if len(str_off) > 0 else len(str)
     if count > 1 or count == 0:
-        return str[:strip_count]+str_on
+        return str[:strip_count] + str_on
     else:
         return str
 
@@ -41,8 +42,8 @@ def curie_org_url(org_id):
 
 
 def readable_date(date_str):
-    d = datetime.datetime.strptime(date_str, '%Y-%m-%d')
-    return d.strftime('%d %B %Y')
+    d = datetime.datetime.strptime(date_str, "%Y-%m-%d")
+    return d.strftime("%d %B %Y")
 
 
 def check_for_multiple(str):
@@ -54,16 +55,16 @@ def check_for_multiple(str):
 
 
 def map_media_type(str):
-    if str == 'text/csv':
-        return 'csv'
-    if str == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-        return 'Excel'
-    if str == 'application/pdf':
-        return 'pdf'
-    if str == 'application/vnd.ms-excel':
-        return 'Excel pre 2007'
+    if str == "text/csv":
+        return "csv"
+    if str == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+        return "Excel"
+    if str == "application/pdf":
+        return "pdf"
+    if str == "application/vnd.ms-excel":
+        return "Excel pre 2007"
     # for '' or 'inode/x-empty'
-    return 'No file type'
+    return "No file type"
 
 
 def is_valid_uri(uri):
@@ -89,3 +90,7 @@ def float_to_int(v):
     if v:
         return int(float(v))
     return ""
+
+
+def split_to_list(s):
+    return s.split(";")
