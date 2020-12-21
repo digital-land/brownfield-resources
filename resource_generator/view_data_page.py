@@ -118,8 +118,11 @@ def print_failed_list(failed):
 def get_resource_log(endpoint_hash, date):
     url_root = "https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/collection/log/"
     url = f"{url_root}{date}/{endpoint_hash}.json"
-    response = urllib.request.urlopen(url)
-    return json.loads(response.read())
+    try:
+        response = urllib.request.urlopen(url)
+        return json.loads(response.read())
+    except urllib.error.HTTPError as e:
+        return None
 
 
 # generates a page for all the resources in the index
@@ -128,6 +131,7 @@ def generate_all_playback_data_pages():
     failed = []
     for resource in all_resources:
         resource_hash = resource["resource"]
+        print("----------------")
         if generate_playback_data_page(resource):
             created_successfully.append(resource_hash)
         else:
@@ -158,11 +162,14 @@ def generate_playback_data_page(resource):
     # to do - if resource is from multiple endpoint....
     endpoints = resource["endpoints"].split(";")
     try:
-        log = get_resource_log(endpoints[0], resource["end-date"])
+        logs = [
+            get_resource_log(endpoint, resource["end-date"])
+            for endpoint in endpoints
+            if get_resource_log(endpoint, resource["end-date"]) is not None
+        ]
     except Exception as e:
-        print(f"fetching log for {endpoints[0]} failed")
-        log = {"endpoint-url": "-"}
-    from_endpoint = log["endpoint-url"]
+        logs = [{"endpoint-url": "-"}]
+    from_endpoint = logs[0]["endpoint-url"]
     # analyse data
     analyser = DataAnalyser(json_data)
 
@@ -178,7 +185,7 @@ def generate_playback_data_page(resource):
             summary=analyser.summary(),
             resource=resource,
             from_endpoint=from_endpoint,
-            log=log,
+            log=logs[0],
             bbox=increase_bounding_box(bounding_box(data), 1),
             issues=formatted_issues,
             today=datetime.datetime.today().date().strftime("%Y-%m-%d"),

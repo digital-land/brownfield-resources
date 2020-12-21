@@ -145,17 +145,30 @@
 
 <p class="govuk-body">Explore the processed data in the table below.</p>
 
+{# some old logs don't have the response-headers #}
+{% if log['response-headers'] %}
 {%- set original_media_type = log['response-headers']['Content-Type']|map_media_type -%}
 <p class="govuk-body">Download the data: <a
         href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/harmonised/{{ resource_hash }}.csv"
         download="{{resource_hash}}_harmonised.csv">processed</a>
     (CSV), <a
         href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/collection/resource/{{ resource_hash }}"
-        download="{{resource_hash}}_original">original</a> ({{ original_media_type|replace("csv", "CSV") }}){%- if not original_media_type == 'csv' -%}
+        download="{{resource_hash}}_original">original</a>{% if log['response-headers'] %}
+         ({{ original_media_type|replace("csv", "CSV") }}){%- if not original_media_type == 'csv' -%}
         , <a href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/converted/{{ resource_hash }}.csv"
         download="{{resource_hash}}_converted">converted</a> (CSV)
-        {%- endif -%}
+            {%- endif -%}
+        {% endif %}
 </p>
+{% else %}
+<p class="govuk-body">Download the data: <a
+        href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/harmonised/{{ resource_hash }}.csv"
+        download="{{resource_hash}}_harmonised.csv">processed</a>
+    (CSV), <a
+        href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/collection/resource/{{ resource_hash }}"
+        download="{{resource_hash}}_original">original</a>
+</p>
+{% endif %}
 
 <div class="data-table__wrapper" data-module="data-table data-linkable-table">
     <div class="data-table-left-shadow"></div>
