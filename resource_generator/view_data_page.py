@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
+import csv
 import json
 import urllib
 import datetime
@@ -26,6 +27,8 @@ from resource_generator.filters import (
     split_to_list,
 )
 
+from digital_land_frontend.caching import get
+
 
 def url_for_harmonised(resource_hash):
     return f"https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/harmonised/brownfield-land/{resource_hash}.csv"
@@ -39,7 +42,7 @@ def url_for_original(resource_hash):
     return f"https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/collection/resource/{resource_hash}"
 
 
-def fetch_csv(url):
+def fetch_harmonised_csv(url):
     print(f"...... collecting harmonised data from {url}")
     try:
         data = pd.read_csv(url, sep=",")
@@ -53,6 +56,11 @@ def fetch_csv(url):
     except Exception as e:
         print(f"FAILED: {e}")
         return {}
+
+
+def get_resource_collection(url):
+    resources = get(url)
+    return [line for line in csv.DictReader(resources.splitlines())]
 
 
 # roughly increase the size of the bounding box
@@ -156,7 +164,7 @@ def generate_all_playback_data_pages():
 def generate_playback_data_page(resource):
     resource_hash = resource["resource"]
     # fetch resource we are interested in
-    data = fetch_csv(url_for_harmonised(resource_hash))
+    data = fetch_harmonised_csv(url_for_harmonised(resource_hash))
     json_data = json.loads(data.to_json(orient="records"))
 
     # to do - if resource is from multiple endpoint....
