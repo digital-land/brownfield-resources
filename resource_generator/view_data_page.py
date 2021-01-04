@@ -91,9 +91,6 @@ def bounding_box(df):
     return (min_lng, max_lng, min_lat, max_lat)
 
 
-# get list of all resources
-all_resources = read_csv("data/resource.csv")
-
 # jinja setup
 # dist_dir="../resource/docs/"
 renderer = Renderer()
@@ -137,6 +134,12 @@ def get_resource_log(endpoint_hash, date):
 def generate_all_playback_data_pages():
     created_successfully = []
     failed = []
+
+    # get list of all resources
+    all_resources = get_resource_collection(
+        "https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/collection/resource.csv"
+    )
+
     for resource in all_resources:
         resource_hash = resource["resource"]
         print("----------------")
