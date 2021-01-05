@@ -21,7 +21,7 @@
         "href": "/resource"
         },
         {
-        "text": "View the data: " + resource['resource']|truncate(11,true)
+        "text": resource['resource']
         }
     ]
     }) -}}
@@ -50,9 +50,7 @@
 <div class="publishing-metadata govuk-!-margin-bottom-9">
     Published {{ resource['start-date']|readable_date }}
     <br />
-    {% if not today == resource['end-date'] %}
     Last collected on {{ resource['end-date']|readable_date }}
-    {% endif %}
     <dl class="def-list--basic">
         <dt>From:</dt>
         {%- for org in resource['organisations']|split_to_list -%}
