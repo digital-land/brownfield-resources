@@ -200,6 +200,8 @@ def generate_playback_data_page(resource):
             bbox=increase_bounding_box(bounding_box(data), 1),
             issues=formatted_issues,
             today=datetime.datetime.today().date().strftime("%Y-%m-%d"),
+            hash=resource_hash,
+            resource_hash=resource_hash,
         )
         print(f"SUCCESS: {resource_hash}")
         return True
