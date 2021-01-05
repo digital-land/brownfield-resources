@@ -27,7 +27,7 @@
     }) -}}
 {%- endblock -%}
 
-{% block pageTitle %}View the data: {{ resource['resource'] }} | Resources | Digital Land{% endblock %}
+{% block pageTitle %}{{ resource['resource'] }} | Resources | Digital Land{% endblock %}
 
 {% block content %}
 
@@ -138,32 +138,16 @@
 <p class="govuk-body">There are <strong>{{ data|length }}</strong> records after processing this brownfield register.
 </p>
 
-<p class="govuk-body">Explore the processed data in the table below.</p>
+<p class="govuk-body">Download the data:
+    <a href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/collection/resource/{{ resource_hash }}"
+    download="{{resource_hash}}_collected">collected</a>,
+    <a href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/harmonised/brownfield-land/{{ resource_hash }}.csv"
+    download="{{resource_hash}}_harmonised.csv">harmonised</a> (CSV),
+    <a href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/transformed/brownfield-land/{{ resource_hash }}.csv"
+    download="{{resource_hash}}_transformed">transformed</a> (CSV)
+</p>
 
-{# some old logs don't have the response-headers #}
-{% if log['response-headers'] %}
-{%- set original_media_type = log['response-headers']['Content-Type']|map_media_type -%}
-<p class="govuk-body">Download the data: <a
-        href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/harmonised/{{ resource_hash }}.csv"
-        download="{{resource_hash}}_harmonised.csv">processed</a>
-    (CSV), <a
-        href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/collection/resource/{{ resource_hash }}"
-        download="{{resource_hash}}_original">original</a>{% if log['response-headers'] %}
-         ({{ original_media_type|replace("csv", "CSV") }}){%- if not original_media_type == 'csv' -%}
-        , <a href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/converted/{{ resource_hash }}.csv"
-        download="{{resource_hash}}_converted">converted</a> (CSV)
-            {%- endif -%}
-        {% endif %}
-</p>
-{% else %}
-<p class="govuk-body">Download the data: <a
-        href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/harmonised/{{ resource_hash }}.csv"
-        download="{{resource_hash}}_harmonised.csv">processed</a>
-    (CSV), <a
-        href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/collection/resource/{{ resource_hash }}"
-        download="{{resource_hash}}_original">original</a>
-</p>
-{% endif %}
+<p class="govuk-body">Explore the harmonised data in the table below.</p>
 
 <div class="data-table__wrapper" data-module="data-table data-linkable-table">
     <div class="data-table-left-shadow"></div>
