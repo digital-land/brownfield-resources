@@ -138,13 +138,17 @@
 <p class="govuk-body">There are <strong>{{ data|length }}</strong> records after processing this brownfield register.
 </p>
 
-<p class="govuk-body">Download the data:
+<p class="govuk-body">Download the data as it was
     <a href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/collection/resource/{{ resource_hash }}"
     download="{{resource_hash}}_collected">collected</a>,
-    <a href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/harmonised/brownfield-land/{{ resource_hash }}.csv"
-    download="{{resource_hash}}_harmonised.csv">harmonised</a> (CSV),
-    <a href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/transformed/brownfield-land/{{ resource_hash }}.csv"
-    download="{{resource_hash}}_transformed">transformed</a> (CSV)
+    after it has been
+    <a href="https://github.com/digital-land/brownfield-land-collection/blob/main/harmonised/brownfield-land/{{ resource_hash }}.csv">harmonised</a>
+    (<a href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/harmonised/brownfield-land/{{ resource_hash }}.csv"
+    download="{{resource_hash}}_harmonised.csv">CSV</a>),
+    to meet the standard, and 
+    <a href="https://github.com/digital-land/brownfield-land-collection/blob/main/transformed/brownfield-land/{{ resource_hash }}.csv">transformed</a>
+    (<a href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/transformed/brownfield-land/{{ resource_hash }}.csv"
+    download="{{resource_hash}}_transformed.csv">CSV</a>) into the <a href="https://digital-land.github.io/specification/schema/brownfield-land/">Digital Land data model</a>.
 </p>
 
 <p class="govuk-body">Explore the harmonised data in the table below.</p>
