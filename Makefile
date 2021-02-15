@@ -15,4 +15,4 @@ render:
 
 collect::
 	mkdir -p data
-	curl -qsL 'https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/collection/resource.csv' > data/brownfield/resource.csv
+	curl -qsL 'https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/collection/resource.csv' > data/resource.csv
