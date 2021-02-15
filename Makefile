@@ -14,4 +14,5 @@ render:
 	python3 resource_generator/cli.py --input-dir ../brownfield-land-collection/validation
 
 collect::
-	wget -O data/resource.csv https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/collection/resource.csv
+	mkdir -p data
+	curl -qsL 'https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/collection/resource.csv' > data/brownfield/resource.csv
