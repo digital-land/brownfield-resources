@@ -21,13 +21,13 @@
         "href": "/resource"
         },
         {
-        "text": "View the data: " + resource['resource']|truncate(11,true)
+        "text": resource['resource']
         }
     ]
     }) -}}
 {%- endblock -%}
 
-{% block pageTitle %}View the data: {{ resource['resource'] }} | Resources | Digital Land{% endblock %}
+{% block pageTitle %}{{ resource['resource'] }} | Resources | Digital Land{% endblock %}
 
 {% block content %}
 
@@ -50,9 +50,7 @@
 <div class="publishing-metadata govuk-!-margin-bottom-9">
     Published {{ resource['start-date']|readable_date }}
     <br />
-    {% if not today == resource['end-date'] %}
     Last collected on {{ resource['end-date']|readable_date }}
-    {% endif %}
     <dl class="def-list--basic">
         <dt>From:</dt>
         {%- for org in resource['organisations']|split_to_list -%}
@@ -70,6 +68,19 @@
     <div class="govuk-grid-column-two-thirds">
         <h2 class="govuk-heading-l">How we've processed this data</h2>
         <p class="govuk-body">The <a href="https://digital-land.github.io/guidance/pipeline/">Digital Land pipeline</a> collects the data and fixes common errors that do not align with the <a href="https://www.gov.uk/government/publications/brownfield-land-registers-data-standard/publish-your-brownfield-land-data">data standard</a>.</p>
+<p class="govuk-body">You can download the data as it was
+    <a href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/collection/resource/{{ resource_hash }}"
+    download="{{resource_hash}}_collected">collected</a>,
+    after it has been
+    <a href="https://github.com/digital-land/brownfield-land-collection/blob/main/harmonised/brownfield-land/{{ resource_hash }}.csv">harmonised</a>
+    (<a href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/harmonised/brownfield-land/{{ resource_hash }}.csv"
+    download="{{resource_hash}}_harmonised.csv">CSV</a>)
+    to meet the data standard, and 
+    <a href="https://github.com/digital-land/brownfield-land-collection/blob/main/transformed/brownfield-land/{{ resource_hash }}.csv">transformed</a>
+    (<a href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/transformed/brownfield-land/{{ resource_hash }}.csv"
+    download="{{resource_hash}}_transformed.csv">CSV</a>) into the <a href="https://digital-land.github.io/specification/schema/brownfield-land/">Digital Land data model</a>.
+</p>
+
         <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
     </div>
     <div class="govuk-grid-column-one-third">
@@ -135,35 +146,7 @@
 
 <h3 class="govuk-heading-m">Records</h3>
 
-<p class="govuk-body">There are <strong>{{ data|length }}</strong> records after processing this brownfield register.
-</p>
-
-<p class="govuk-body">Explore the processed data in the table below.</p>
-
-{# some old logs don't have the response-headers #}
-{% if log['response-headers'] %}
-{%- set original_media_type = log['response-headers']['Content-Type']|map_media_type -%}
-<p class="govuk-body">Download the data: <a
-        href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/harmonised/{{ resource_hash }}.csv"
-        download="{{resource_hash}}_harmonised.csv">processed</a>
-    (CSV), <a
-        href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/collection/resource/{{ resource_hash }}"
-        download="{{resource_hash}}_original">original</a>{% if log['response-headers'] %}
-         ({{ original_media_type|replace("csv", "CSV") }}){%- if not original_media_type == 'csv' -%}
-        , <a href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/converted/{{ resource_hash }}.csv"
-        download="{{resource_hash}}_converted">converted</a> (CSV)
-            {%- endif -%}
-        {% endif %}
-</p>
-{% else %}
-<p class="govuk-body">Download the data: <a
-        href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/var/harmonised/{{ resource_hash }}.csv"
-        download="{{resource_hash}}_harmonised.csv">processed</a>
-    (CSV), <a
-        href="https://raw.githubusercontent.com/digital-land/brownfield-land-collection/master/collection/resource/{{ resource_hash }}"
-        download="{{resource_hash}}_original">original</a>
-</p>
-{% endif %}
+<p class="govuk-body">There are <strong>{{ data|length }}</strong> records after harmonising this brownfield register.</p>
 
 <div class="data-table__wrapper" data-module="data-table data-linkable-table">
     <div class="data-table-left-shadow"></div>
