@@ -28,6 +28,10 @@ from resource_generator.filters import (
 )
 
 from digital_land_frontend.caching import get
+from digital_land_frontend.filters import (
+    organisation_id_to_name_filter,
+    organisation_id_to_url_filter,
+)
 
 
 def url_for_harmonised(resource_hash):
@@ -116,6 +120,8 @@ renderer.register_filter("extract_coord", extract_coord)
 renderer.register_filter("issue_type_mapper", issue_type_mapper)
 renderer.register_filter("float_to_int", float_to_int)
 renderer.register_filter("split_to_list", split_to_list)
+renderer.register_filter("organisation_id_to_name", organisation_id_to_name_filter)
+renderer.register_filter("organisation_id_to_url", organisation_id_to_url_filter)
 
 
 def formatIssuesData(issues):

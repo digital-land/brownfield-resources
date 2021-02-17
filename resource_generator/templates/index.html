@@ -39,7 +39,9 @@
         <li>
             <h3 class="govuk-heading-s" style="word-break: break-all;"><a href="{{ r['resource'] }}">{{ r['resource'] }}</a></h3>
             <ul class="govuk-list">
-                <li><span>Organisation(s):</span>{{ r['organisations'] }}</li>
+                <li><span>Organisation(s):</span>{% for organisation in r['organisations']|split_to_list %}
+                    <a href="{{ organisation|orgainsation_id_to_url }}" class="govuk-link">{{ organisation|orgainsation_id_to_name }</a>
+                {% endfor %}{{  }}</li>
                 <li><span>First collected on</span> {{ r['start-date'] }}</li>
                 <li><span>Last collected on</span> {{ r['end-date'] }}</li>
                 <li><span>Endpoints</span> {{ r['endpoints']|split_to_list|length }}</li>
