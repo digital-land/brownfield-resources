@@ -16,7 +16,6 @@ from resource_generator.issue_mapper import extractFromIssuesFile
 from resource_generator.utils import read_csv
 from resource_generator.filters import (
     readable_date,
-    map_org_code_to_name,
     check_for_multiple,
     pluralise,
     map_media_type,
@@ -111,7 +110,6 @@ def bounding_box(df):
 # dist_dir="../resource/docs/"
 renderer = Renderer()
 renderer.register_filter("readable_date", readable_date)
-renderer.register_filter("map_org_code_to_name", map_org_code_to_name)
 renderer.register_filter("check_for_multiple", check_for_multiple)
 renderer.register_filter("pluralise", pluralise)
 renderer.register_filter("map_media_type", map_media_type)

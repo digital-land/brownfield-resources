@@ -55,7 +55,7 @@
         <dt>From:</dt>
         {%- for org in resource['organisations']|split_to_list -%}
         <dd>
-            <a href="/organisation/{{ org.replace(':', '/') }}">{{ org|map_org_code_to_name }}</a>
+            <a href="/organisation/{{ org.replace(':', '/') }}">{{ org|organisation_id_to_name }}</a>
             {%- if not loop.last -%}
             ,
             {%- endif -%}
