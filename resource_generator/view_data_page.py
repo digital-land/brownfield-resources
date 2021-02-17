@@ -58,6 +58,18 @@ def fetch_harmonised_csv(url):
         return {}
 
 
+def map_endpoint_data():
+    endpoint_url = "https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/collection/endpoint.csv"
+    endpoints = get(endpoint_url)
+    return {
+        row["endpoint"]: row["endpoint-url"]
+        for row in csv.DictReader(endpoints.splitlines())
+    }
+
+
+endpoint_map = map_endpoint_data()
+
+
 def get_resource_collection(url):
     resources = get(url)
     return [line for line in csv.DictReader(resources.splitlines())]
@@ -120,14 +132,8 @@ def print_failed_list(failed):
         print(r)
 
 
-def get_resource_log(endpoint_hash, date):
-    url_root = "https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/collection/log/"
-    url = f"{url_root}{date}/{endpoint_hash}.json"
-    try:
-        response = urllib.request.urlopen(url)
-        return json.loads(response.read())
-    except urllib.error.HTTPError as e:
-        return None
+def get_resource_log_url(endpoint_hash, date):
+    return f"https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/collection/log/{date}/{endpoint_hash}.json"
 
 
 # generates a page for all the resources in the index
@@ -170,17 +176,12 @@ def generate_playback_data_page(resource):
     data = fetch_harmonised_csv(url_for_harmonised(resource_hash))
     json_data = json.loads(data.to_json(orient="records"))
 
-    # to do - if resource is from multiple endpoint....
-    endpoints = resource["endpoints"].split(";")
-    try:
-        logs = [
-            get_resource_log(endpoint, resource["end-date"])
-            for endpoint in endpoints
-            if get_resource_log(endpoint, resource["end-date"]) is not None
-        ]
-    except Exception as e:
-        logs = [{"endpoint-url": "-"}]
-    from_endpoint = logs[0]["endpoint-url"]
+    # Get urls for the endpoints the resource is from
+    # To do: get the latest endpoint (url the resource was last collected from)
+    endpoints_urls = [
+        endpoint_map[endpoint] for endpoint in resource["endpoints"].split(";")
+    ]
+    from_endpoint = endpoints_urls[0]
     # analyse data
     analyser = DataAnalyser(json_data)
 
@@ -196,7 +197,6 @@ def generate_playback_data_page(resource):
             summary=analyser.summary(),
             resource=resource,
             from_endpoint=from_endpoint,
-            log=logs[0],
             bbox=increase_bounding_box(bounding_box(data), 1),
             issues=formatted_issues,
             today=datetime.datetime.today().date().strftime("%Y-%m-%d"),
