@@ -4,12 +4,11 @@ import sys
 import json
 
 from resource_generator.renderer import Renderer
-from resource_generator.filters import map_org_code_to_name, pluralise
+from resource_generator.filters import pluralise
 from resource_generator.utils import read_csv
 
 # jinja setup
 renderer = Renderer(dist_dir="../dataset/docs")
-renderer.register_filter("map_org_code_to_name", map_org_code_to_name)
 renderer.register_filter("pluralise", pluralise)
 
 

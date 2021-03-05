@@ -27,7 +27,7 @@
         "href": "/dataset/brownfield-land/organisation"
         },
         {
-        "text": organisation|map_org_code_to_name,
+        "text": organisation|organisation_id_to_name,
         "href": "/dataset/brownfield-land/organisation/" + organisation.replace(':', '/')
         },
         {
@@ -37,7 +37,7 @@
     }) -}}
 {%- endblock -%}
 
-{% block pageTitle %}How to check your brownfield land data | {{organisation|map_org_code_to_name}} | Organisation | Brownfield Land | Dataset | Digital Land{% endblock %}
+{% block pageTitle %}How to check your brownfield land data | {{organisation|organisation_id_to_name}} | Organisation | Brownfield Land | Dataset | Digital Land{% endblock %}
 
 {% block content %}
 <span class="govuk-caption-xl">Brownfield land</span>
@@ -56,7 +56,7 @@
   </div>
 </div>
 
-<p class="govuk-body">Check that the brownfield land data we have collected from {{ organisation|map_org_code_to_name }} is accurate and up to date by following the steps on this page.</p>
+<p class="govuk-body">Check that the brownfield land data we have collected from {{ organisation|organisation_id_to_name }} is accurate and up to date by following the steps on this page.</p>
 
 
 <h2 id="recent-register" class="govuk-heading-m">1. Make sure we have your most recent register</h2>
