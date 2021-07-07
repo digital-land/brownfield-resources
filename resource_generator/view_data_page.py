@@ -35,11 +35,11 @@ def url_for_harmonised(resource_hash):
 
 
 def url_for_issues(resource_hash):
-    return f"https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/issue/brownfield-land/{resource_hash}.csv"
+    return f"https://collection-dataset.s3.eu-west-2.amazonaws.com/brownfield-land-collection/issue/brownfield-land/{resource_hash}.csv"
 
 
 def url_for_original(resource_hash):
-    return f"https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/collection/resource/{resource_hash}"
+    return f"https://collection-dataset.s3.eu-west-2.amazonaws.com/brownfield-land-collection/collection/resource/{resource_hash}"
 
 
 def fetch_harmonised_csv(url):
@@ -59,7 +59,7 @@ def fetch_harmonised_csv(url):
 
 
 def map_endpoint_data():
-    endpoint_url = "https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/collection/endpoint.csv"
+    endpoint_url = "https://collection-dataset.s3.eu-west-2.amazonaws.com/brownfield-land-collection/collection/endpoint.csv"
     endpoints = get(endpoint_url)
     return {
         row["endpoint"]: row["endpoint-url"]
@@ -135,7 +135,7 @@ def print_failed_list(failed):
 
 
 def get_resource_log_url(endpoint_hash, date):
-    return f"https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/collection/log/{date}/{endpoint_hash}.json"
+    return f"https://collection-dataset.s3.eu-west-2.amazonaws.com/brownfield-land-collection/collection/log/{date}/{endpoint_hash}.json"
 
 
 # generates a page for all the resources in the index
@@ -145,7 +145,7 @@ def generate_all_playback_data_pages():
 
     # get list of all resources
     all_resources = get_resource_collection(
-        "https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/collection/resource.csv"
+        "https://collection-dataset.s3.eu-west-2.amazonaws.com/brownfield-land-collection/collection/resource.csv"
     )
 
     for resource in all_resources:
