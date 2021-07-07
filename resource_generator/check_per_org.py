@@ -7,14 +7,14 @@ from resource_generator.renderer import Renderer
 from resource_generator.filters import pluralise
 from resource_generator.utils import read_csv
 
-from digital_land_frontend.filters import (
-    organisation_id_to_name_filter,
+from digital_land_frontend.jinja_filters.mappers import (
+    GeneralOrganisationMapper,
 )
 
 # jinja setup
 renderer = Renderer(dist_dir="../dataset/docs")
 renderer.register_filter("pluralise", pluralise)
-renderer.register_filter("organisation_id_to_name", organisation_id_to_name_filter)
+renderer.register_filter("organisation_id_to_name", GeneralOrganisationMapper.get_name)
 
 
 def index_by_org(resources):
