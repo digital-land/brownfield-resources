@@ -141,7 +141,7 @@ def formatIssuesForView(issues):
 
 
 def urlForIssues(resource_hash):
-    return f"https://raw.githubusercontent.com/digital-land/brownfield-land-collection/main/issue/brownfield-land/{resource_hash}.csv"
+    return f"https://collection-dataset.s3.eu-west-2.amazonaws.com/brownfield-land-collection/issue/brownfield-land/{resource_hash}.csv"
 
 
 def extractFromIssuesFile(resource_hash):
