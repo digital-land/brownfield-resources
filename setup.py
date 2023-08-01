@@ -21,4 +21,5 @@ setup(
         ]
     },
     python_requires=">=3.6",
+    packages=["data", "resource_generator"],
 )
